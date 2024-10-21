@@ -1,8 +1,5 @@
 package javax.servlet;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
-
 /**
  * @deprecated Use {@link jakarta.servlet.ServletException} instead.
  */
@@ -14,10 +11,6 @@ public class ServletException extends jakarta.servlet.ServletException implement
     // Constructors
     //==================================================================================================================
 
-    ServletException(@Nonnull jakarta.servlet.ServletException exception) {
-        this(exception.getMessage(), exception.getRootCause());
-    }
-
     /**
      * @see jakarta.servlet.ServletException#ServletException()
      */
@@ -28,31 +21,25 @@ public class ServletException extends jakarta.servlet.ServletException implement
     /**
      * @see jakarta.servlet.ServletException#ServletException(String)
      */
-    public ServletException(@Nullable String message) {
+    public ServletException(String message) {
         super(message);
     }
 
     /**
      * @see jakarta.servlet.ServletException#ServletException(String, Throwable)
      */
-    public ServletException(@Nullable String message, @Nullable Throwable rootCause) {
+    public ServletException(String message, Throwable rootCause) {
         super(message, rootCause);
     }
 
     /**
      * @see jakarta.servlet.ServletException#ServletException(Throwable)
      */
-    public ServletException(@Nullable Throwable rootCause) {
+    public ServletException(Throwable rootCause) {
         super(rootCause);
     }
 
-    //==================================================================================================================
-    // ServletException Implementation Methods
-    //==================================================================================================================
-
-    @Nullable
-    @Override
-    public Throwable getRootCause() {
-        return super.getRootCause();
+    ServletException(jakarta.servlet.ServletException exception) {
+        this(exception.getMessage(), exception.getRootCause());
     }
 }

@@ -1,8 +1,5 @@
 package javax.servlet;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
-
 /**
  * @deprecated Use {@link jakarta.servlet.UnavailableException} instead.
  */
@@ -17,24 +14,24 @@ public class UnavailableException extends ServletException {
     // Constructors
     //==================================================================================================================
 
-    UnavailableException(@Nonnull jakarta.servlet.UnavailableException exception) {
-        this(exception.getMessage(), exception.getUnavailableSeconds());
-    }
-
     /**
      * @see jakarta.servlet.UnavailableException#UnavailableException(String)
      */
-    public UnavailableException(@Nullable String message) {
+    public UnavailableException(String message) {
         this(message, INDETERMINATE);
     }
 
     /**
      * @see jakarta.servlet.UnavailableException#UnavailableException(String, int)
      */
-    public UnavailableException(@Nullable String message, int seconds) {
+    public UnavailableException(String message, int seconds) {
         super(message);
 
         this.seconds = seconds != 0 ? Math.max(seconds, INDETERMINATE) : INDETERMINATE;
+    }
+
+    UnavailableException(jakarta.servlet.UnavailableException exception) {
+        this(exception.getMessage(), exception.getUnavailableSeconds());
     }
 
     //==================================================================================================================
@@ -45,7 +42,7 @@ public class UnavailableException extends ServletException {
      * @see jakarta.servlet.UnavailableException#isPermanent()
      */
     public boolean isPermanent() {
-        return seconds == INDETERMINATE;
+        return getUnavailableSeconds() == INDETERMINATE;
     }
 
     /**

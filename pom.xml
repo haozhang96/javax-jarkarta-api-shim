@@ -227,18 +227,18 @@
             <artifactId>jakarta.security.jacc-api</artifactId>
             <optional>true</optional>
         </dependency>-->
-        <dependency>
-            <groupId>org.owasp.esapi</groupId>
-            <artifactId>esapi</artifactId>
-            <version>2.5.5.0</version>
-            <optional>true</optional>
-        </dependency>
 
         <!-- Testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>${version.junit.jupiter}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.owasp.esapi</groupId>
+            <artifactId>esapi</artifactId>
+            <version>2.5.5.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

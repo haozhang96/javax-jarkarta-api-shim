@@ -1,7 +1,5 @@
 package javax.servlet;
 
-import jakarta.annotation.Nonnull;
-
 import java.io.IOException;
 
 /**
@@ -16,18 +14,12 @@ public interface RequestDispatcher extends jakarta.servlet.RequestDispatcher, Se
     /**
      * @see #forward(jakarta.servlet.ServletRequest, jakarta.servlet.ServletResponse)
      */
-    void forward(
-        @Nonnull ServletRequest request,
-        @Nonnull ServletResponse response
-    ) throws ServletException, IOException;
+    void forward(ServletRequest request, ServletResponse response) throws ServletException, IOException;
 
     /**
      * @see #include(jakarta.servlet.ServletRequest, jakarta.servlet.ServletResponse)
      */
-    void include(
-        @Nonnull ServletRequest request,
-        @Nonnull ServletResponse response
-    ) throws ServletException, IOException;
+    void include(ServletRequest request, ServletResponse response) throws ServletException, IOException;
 
     //==================================================================================================================
     // RequestDispatcher Implementation Methods
@@ -35,16 +27,16 @@ public interface RequestDispatcher extends jakarta.servlet.RequestDispatcher, Se
 
     @Override
     default void forward(
-        @Nonnull jakarta.servlet.ServletRequest request,
-        @Nonnull jakarta.servlet.ServletResponse response
+        jakarta.servlet.ServletRequest request,
+        jakarta.servlet.ServletResponse response
     ) throws jakarta.servlet.ServletException, IOException {
         forward(ServletShim.of(request), ServletShim.of(response));
     }
 
     @Override
     default void include(
-        @Nonnull jakarta.servlet.ServletRequest request,
-        @Nonnull jakarta.servlet.ServletResponse response
+        jakarta.servlet.ServletRequest request,
+        jakarta.servlet.ServletResponse response
     ) throws jakarta.servlet.ServletException, IOException {
         include(ServletShim.of(request), ServletShim.of(response));
     }

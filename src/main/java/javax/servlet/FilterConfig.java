@@ -1,12 +1,12 @@
 package javax.servlet;
 
 /**
- * @deprecated Use {@link jakarta.servlet.ServletConfig} instead.
+ * @deprecated Use {@link jakarta.servlet.FilterConfig} instead.
  */
-@Deprecated(since = "jakarta.servlet.ServletConfig")
-public interface ServletConfig extends jakarta.servlet.ServletConfig, ServletShim {
+@Deprecated(since = "jakarta.servlet.FilterConfig")
+public interface FilterConfig extends jakarta.servlet.FilterConfig, ServletShim {
     //==================================================================================================================
-    // ServletConfig Implementation Methods
+    // FilterConfig Implementation Methods
     //==================================================================================================================
 
     @Override
