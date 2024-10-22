@@ -9,15 +9,6 @@ public class AsyncEvent extends jakarta.servlet.AsyncEvent implements ServletShi
     // Constructors
     //==================================================================================================================
 
-    AsyncEvent(jakarta.servlet.AsyncEvent event) {
-        this(
-            ServletShim.of(event.getAsyncContext()),
-            ServletShim.of(event.getSuppliedRequest()),
-            ServletShim.of(event.getSuppliedResponse()),
-            event.getThrowable()
-        );
-    }
-
     /**
      * @see jakarta.servlet.AsyncEvent#AsyncEvent(jakarta.servlet.AsyncContext)
      */

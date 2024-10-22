@@ -1,5 +1,6 @@
 package javax.shim;
 
+import javax.servlet.ServletShim;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -9,6 +10,20 @@ import java.util.Objects;
  */
 @Deprecated(since = "jakarta")
 public interface Shim {
+    //==================================================================================================================
+    // Factory Methods
+    //==================================================================================================================
+
+    @SuppressWarnings("unchecked")
+    static <T, S extends Shim> S of(T object) {
+        final var packageName = object.getClass().getPackageName();
+        if (packageName.startsWith(jakarta.servlet.Servlet.class.getPackageName())) {
+            return ServletShim.of(object);
+        }
+
+        throw new UnsupportedOperationException("Unknown type: " + object.getClass().getName());
+    }
+
     //==================================================================================================================
     // Object Implementation Methods
     //==================================================================================================================
@@ -61,29 +76,30 @@ public interface Shim {
         public final String toString() {
             return delegate.toString();
         }
+
+        /**
+         * @deprecated Use {@link jakarta} instead.
+         * @since Jakarta EE Platform 8
+         */
+        @Deprecated(since = "jakarta")
+        public abstract static class Annotation<A extends java.lang.annotation.Annotation> extends Delegate<A> implements java.lang.annotation.Annotation {
+            //==========================================================================================================
+            // Constructors
+            //==========================================================================================================
+
+            protected Annotation(A delegate) {
+                super(delegate);
+            }
+
+            //==========================================================================================================
+            // Annotation Implementation Methods
+            //==========================================================================================================
+
+            @Override
+            public final Class<? extends java.lang.annotation.Annotation> annotationType() {
+                return delegate.annotationType();
+            }
+        }
     }
 
-    /**
-     * @deprecated Use {@link jakarta} instead.
-     * @since Jakarta EE Platform 8
-     */
-    @Deprecated(since = "jakarta")
-    abstract class Annotation<A extends java.lang.annotation.Annotation> extends Delegate<A> implements java.lang.annotation.Annotation {
-        //==============================================================================================================
-        // Constructors
-        //==============================================================================================================
-
-        protected Annotation(A delegate) {
-            super(delegate);
-        }
-
-        //==============================================================================================================
-        // Annotation Implementation Methods
-        //==============================================================================================================
-
-        @Override
-        public final Class<? extends java.lang.annotation.Annotation> annotationType() {
-            return delegate.annotationType();
-        }
-    }
 }

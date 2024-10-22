@@ -11,6 +11,9 @@ public interface ServletRequest extends jakarta.servlet.ServletRequest, ServletS
     // Shim Methods
     //==================================================================================================================
 
+    /**
+     * @see #startAsync(jakarta.servlet.ServletRequest, jakarta.servlet.ServletResponse)
+     */
     AsyncContext startAsync(ServletRequest request, ServletResponse response) throws IllegalStateException;
 
     //==================================================================================================================
@@ -39,11 +42,6 @@ public interface ServletRequest extends jakarta.servlet.ServletRequest, ServletS
 
     @Override
     AsyncContext getAsyncContext();
-
-    @Override
-    default jakarta.servlet.DispatcherType getDispatcherType() {
-        return jakarta.servlet.DispatcherType.valueOf();
-    }
 
     @Override
     ServletConnection getServletConnection();

@@ -59,10 +59,9 @@ public interface AsyncContext extends jakarta.servlet.AsyncContext, ServletShim 
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     default <T extends jakarta.servlet.AsyncListener> T createListener(
         Class<T> clazz
     ) throws jakarta.servlet.ServletException {
-        return clazz.cast(createListener((Class<? extends AsyncListener>) clazz, (Void) null));
+        return clazz.cast(createListener(clazz.asSubclass(AsyncListener.class), (Void) null));
     }
 }

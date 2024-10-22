@@ -26,7 +26,6 @@ public class UnavailableException extends ServletException {
      */
     public UnavailableException(String message, int seconds) {
         super(message);
-
         this.seconds = seconds != 0 ? Math.max(seconds, INDETERMINATE) : INDETERMINATE;
     }
 

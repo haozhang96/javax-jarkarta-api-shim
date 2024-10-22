@@ -6,7 +6,7 @@ import java.util.EnumSet;
  * @deprecated Use {@link jakarta.servlet.FilterRegistration} instead.
  */
 @Deprecated(since = "jakarta.servlet.FilterRegistration")
-public interface FilterRegistration extends jakarta.servlet.FilterRegistration, ServletShim {
+public interface FilterRegistration extends jakarta.servlet.FilterRegistration, Registration {
     //==================================================================================================================
     // FilterRegistration Implementation Methods
     //==================================================================================================================

@@ -4,13 +4,17 @@ import javax.shim.Shim;
 import java.io.IOException;
 import java.util.Enumeration;
 
-@SuppressWarnings({"deprecation", "ClassExplicitlyAnnotation"})
+/**
+ * @deprecated Use {@link jakarta.servlet} instead.
+ */
+@Deprecated(since = "jakarta.servlet")
+@SuppressWarnings("ClassExplicitlyAnnotation")
 interface Facades {
     //==================================================================================================================
     // Annotations
     //==================================================================================================================
 
-    class HandlesTypes extends Shim.Annotation<jakarta.servlet.annotation.HandlesTypes> implements javax.servlet.annotation.HandlesTypes {
+    class HandlesTypes extends Shim.Delegate.Annotation<jakarta.servlet.annotation.HandlesTypes> implements javax.servlet.annotation.HandlesTypes {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -29,7 +33,7 @@ interface Facades {
         }
     }
 
-    class HttpConstraint extends Shim.Annotation<jakarta.servlet.annotation.HttpConstraint> implements javax.servlet.annotation.HttpConstraint {
+    class HttpConstraint extends Shim.Delegate.Annotation<jakarta.servlet.annotation.HttpConstraint> implements javax.servlet.annotation.HttpConstraint {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -58,7 +62,7 @@ interface Facades {
         }
     }
 
-    class HttpMethodConstraint extends Shim.Annotation<jakarta.servlet.annotation.HttpMethodConstraint> implements javax.servlet.annotation.HttpMethodConstraint {
+    class HttpMethodConstraint extends Shim.Delegate.Annotation<jakarta.servlet.annotation.HttpMethodConstraint> implements javax.servlet.annotation.HttpMethodConstraint {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -92,7 +96,7 @@ interface Facades {
         }
     }
 
-    class MultipartConfig extends Shim.Annotation<jakarta.servlet.annotation.MultipartConfig> implements javax.servlet.annotation.MultipartConfig {
+    class MultipartConfig extends Shim.Delegate.Annotation<jakarta.servlet.annotation.MultipartConfig> implements javax.servlet.annotation.MultipartConfig {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -126,7 +130,7 @@ interface Facades {
         }
     }
 
-    class ServletSecurity extends Shim.Annotation<jakarta.servlet.annotation.ServletSecurity> implements javax.servlet.annotation.ServletSecurity {
+    class ServletSecurity extends Shim.Delegate.Annotation<jakarta.servlet.annotation.ServletSecurity> implements javax.servlet.annotation.ServletSecurity {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -150,7 +154,7 @@ interface Facades {
         }
     }
 
-    class WebFilter extends Shim.Annotation<jakarta.servlet.annotation.WebFilter> implements javax.servlet.annotation.WebFilter {
+    class WebFilter extends Shim.Delegate.Annotation<jakarta.servlet.annotation.WebFilter> implements javax.servlet.annotation.WebFilter {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -219,7 +223,7 @@ interface Facades {
         }
     }
 
-    class WebInitParam extends Shim.Annotation<jakarta.servlet.annotation.WebInitParam> implements javax.servlet.annotation.WebInitParam {
+    class WebInitParam extends Shim.Delegate.Annotation<jakarta.servlet.annotation.WebInitParam> implements javax.servlet.annotation.WebInitParam {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -248,7 +252,7 @@ interface Facades {
         }
     }
 
-    class WebListener extends Shim.Annotation<jakarta.servlet.annotation.WebListener> implements javax.servlet.annotation.WebListener {
+    class WebListener extends Shim.Delegate.Annotation<jakarta.servlet.annotation.WebListener> implements javax.servlet.annotation.WebListener {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -267,7 +271,7 @@ interface Facades {
         }
     }
 
-    class WebServlet extends Shim.Annotation<jakarta.servlet.annotation.WebServlet> implements javax.servlet.annotation.WebServlet {
+    class WebServlet extends Shim.Delegate.Annotation<jakarta.servlet.annotation.WebServlet> implements javax.servlet.annotation.WebServlet {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================

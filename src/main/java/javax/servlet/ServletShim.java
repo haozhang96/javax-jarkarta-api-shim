@@ -1,6 +1,7 @@
 package javax.servlet;
 
 import javax.servlet.annotation.ServletSecurity;
+import javax.servlet.http.MappingMatch;
 import javax.shim.Shim;
 import java.util.function.IntFunction;
 import java.util.stream.Stream;
@@ -34,15 +35,15 @@ public interface ServletShim extends Shim {
         throw new UnsupportedOperationException("Unknown type: " + object.getClass().getName());
     }
 
+    @SafeVarargs
     static <T, S> S[] of(IntFunction<S[]> generator, T... objects) {
-        // Mostly used for annotation arrays
         return Stream
             .of(objects)
             .<S>map(ServletShim::of)
             .toArray(generator);
     }
 
-    static <T extends jakarta.servlet.ServletException, S extends javax.servlet.ServletException> S of(T exception) {
+    static <T extends jakarta.servlet.ServletException, S extends ServletException & ServletShim> S of(T exception) {
         if (exception instanceof ServletShim) {
             return (S) exception;
         } else if (exception.getClass() == jakarta.servlet.UnavailableException.class) {
@@ -61,6 +62,8 @@ public interface ServletShim extends Shim {
             return (S) DispatcherType.valueOf(enumeration.name());
         } else if (enumeration instanceof jakarta.servlet.SessionTrackingMode) {
             return (S) SessionTrackingMode.valueOf(enumeration.name());
+        } else if (enumeration instanceof jakarta.servlet.http.MappingMatch) {
+            return (S) MappingMatch.valueOf(enumeration.name());
         } else if (enumeration instanceof jakarta.servlet.annotation.ServletSecurity.EmptyRoleSemantic) {
             return (S) ServletSecurity.EmptyRoleSemantic.valueOf(enumeration.name());
         } else if (enumeration instanceof jakarta.servlet.annotation.ServletSecurity.TransportGuarantee) {
