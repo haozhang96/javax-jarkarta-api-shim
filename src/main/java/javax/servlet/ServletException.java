@@ -38,8 +38,4 @@ public class ServletException extends jakarta.servlet.ServletException implement
     public ServletException(Throwable rootCause) {
         super(rootCause);
     }
-
-    ServletException(jakarta.servlet.ServletException exception) {
-        this(exception.getMessage(), exception.getRootCause());
-    }
 }

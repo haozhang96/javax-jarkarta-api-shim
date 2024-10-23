@@ -29,10 +29,6 @@ public class UnavailableException extends ServletException {
         this.seconds = seconds != 0 ? Math.max(seconds, INDETERMINATE) : INDETERMINATE;
     }
 
-    UnavailableException(jakarta.servlet.UnavailableException exception) {
-        this(exception.getMessage(), exception.getUnavailableSeconds());
-    }
-
     //==================================================================================================================
     // UnavailableException Implementation Methods
     //==================================================================================================================

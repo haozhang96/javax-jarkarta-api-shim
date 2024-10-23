@@ -20,9 +20,15 @@ public interface ServletRegistration extends jakarta.servlet.ServletRegistration
         // Shim Methods
         //==============================================================================================================
 
-        Set<String> setServletSecurity();
+        /**
+         * @see #setServletSecurity(jakarta.servlet.ServletSecurityElement)
+         */
+        Set<String> setServletSecurity(ServletSecurityElement constraint);
 
-        void setMultipartConfig();
+        /**
+         * @see #setMultipartConfig(jakarta.servlet.MultipartConfigElement)
+         */
+        void setMultipartConfig(MultipartConfigElement multipartConfig);
 
         //==============================================================================================================
         // ServletRegistration.Dynamic Implementation Methods
@@ -30,12 +36,12 @@ public interface ServletRegistration extends jakarta.servlet.ServletRegistration
 
         @Override
         default Set<String> setServletSecurity(jakarta.servlet.ServletSecurityElement constraint) {
-            return Set.of();
+            return setServletSecurity(ServletShim.<jakarta.servlet.ServletSecurityElement, ServletSecurityElement>of(constraint));
         }
 
         @Override
         default void setMultipartConfig(jakarta.servlet.MultipartConfigElement multipartConfig) {
-
+            setMultipartConfig(ServletShim.of(multipartConfig));
         }
     }
 }

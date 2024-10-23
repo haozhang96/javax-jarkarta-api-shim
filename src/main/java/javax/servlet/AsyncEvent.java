@@ -36,4 +36,23 @@ public class AsyncEvent extends jakarta.servlet.AsyncEvent implements ServletShi
     public AsyncEvent(AsyncContext context, ServletRequest request, ServletResponse response, Throwable cause) {
         super(context, request, response, cause);
     }
+
+    //==================================================================================================================
+    // AsyncEvent Implementation Methods
+    //==================================================================================================================
+
+    @Override
+    public AsyncContext getAsyncContext() {
+        return ServletShim.of(super.getAsyncContext());
+    }
+
+    @Override
+    public ServletRequest getSuppliedRequest() {
+        return ServletShim.of(super.getSuppliedRequest());
+    }
+
+    @Override
+    public ServletResponse getSuppliedResponse() {
+        return ServletShim.of(super.getSuppliedResponse());
+    }
 }
