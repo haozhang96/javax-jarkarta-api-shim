@@ -73,6 +73,8 @@ public interface ServletShim extends Shim {
 
         } else if (object instanceof jakarta.servlet.AsyncContext) {
             return T(new Facades.AsyncContext(T(object)));
+        } else if (object instanceof jakarta.servlet.AsyncEvent) {
+            return T(new Facades.AsyncEvent(T(object)));
         } else if (object instanceof jakarta.servlet.Filter) {
             return T(new Facades.Filter(T(object)));
         } else if (object instanceof jakarta.servlet.FilterChain) {
@@ -124,8 +126,6 @@ public interface ServletShim extends Shim {
         // Others
         //==============================================================================================================
 
-        } else if (object instanceof jakarta.servlet.AsyncEvent) {
-            return T(new Facades.AsyncEvent(T(object)));
         } else if (object instanceof jakarta.servlet.ServletSecurityElement) {
             return T(new Facades.ServletSecurityElement(T(object)));
         } else if (object instanceof jakarta.servlet.HttpMethodConstraintElement) {
@@ -235,17 +235,17 @@ public interface ServletShim extends Shim {
         if (event instanceof ServletShim) {
             return T(event);
         } else if (event instanceof jakarta.servlet.http.HttpSessionBindingEvent) {
-            return T(new Facades.HttpSessionBindingEvent((jakarta.servlet.http.HttpSessionBindingEvent) event));
+            return T(new Facades.HttpSessionBindingEvent(T(event)));
         } else if (event instanceof jakarta.servlet.http.HttpSessionEvent) {
-            return T(new Facades.HttpSessionEvent((jakarta.servlet.http.HttpSessionEvent) event));
+            return T(new Facades.HttpSessionEvent(T(event)));
         } else if (event instanceof jakarta.servlet.ServletContextAttributeEvent) {
-            return T(new Facades.ServletContextAttributeEvent((jakarta.servlet.ServletContextAttributeEvent) event));
+            return T(new Facades.ServletContextAttributeEvent(T(event)));
         } else if (event instanceof jakarta.servlet.ServletContextEvent) {
-            return T(new Facades.ServletContextEvent((jakarta.servlet.ServletContextEvent) event));
+            return T(new Facades.ServletContextEvent(T(event)));
         } else if (event instanceof jakarta.servlet.ServletRequestAttributeEvent) {
-            return T(new Facades.ServletRequestAttributeEvent((jakarta.servlet.ServletRequestAttributeEvent) event));
+            return T(new Facades.ServletRequestAttributeEvent(T(event)));
         } else if (event instanceof jakarta.servlet.ServletRequestEvent) {
-            return T(new Facades.ServletRequestEvent((jakarta.servlet.ServletRequestEvent) event));
+            return T(new Facades.ServletRequestEvent(T(event)));
         }
 
         throw new UnsupportedOperationException("Unknown event type: " + event.getClass().getName());
