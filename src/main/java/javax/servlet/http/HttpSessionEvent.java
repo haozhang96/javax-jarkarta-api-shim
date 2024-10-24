@@ -20,10 +20,6 @@ public class HttpSessionEvent extends jakarta.servlet.http.HttpSessionEvent impl
         super(source);
     }
 
-    HttpSessionEvent(jakarta.servlet.http.HttpSession source) {
-        super(source);
-    }
-
     //==================================================================================================================
     // HttpSessionEvent Implementation Methods
     //==================================================================================================================
