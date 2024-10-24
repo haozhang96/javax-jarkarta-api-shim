@@ -95,6 +95,10 @@ public interface ServletShim extends Shim {
             return T(new Facades.HttpSession(T(object)));
         } else if (object instanceof jakarta.servlet.http.HttpUpgradeHandler) {
             return T(new Facades.HttpUpgradeHandler(T(object)));
+        } else if (object instanceof jakarta.servlet.http.Part) {
+            return T(new Facades.Part(T(object)));
+        } else if (object instanceof jakarta.servlet.http.PushBuilder) {
+            return T(new Facades.PushBuilder(T(object)));
         } else if (object instanceof jakarta.servlet.RequestDispatcher) {
             return T(new Facades.RequestDispatcher(T(object)));
         } else if (object instanceof jakarta.servlet.Servlet) {
@@ -117,6 +121,8 @@ public interface ServletShim extends Shim {
             return T(new Facades.ServletResponse(T(object)));
         } else if (object instanceof jakarta.servlet.SessionCookieConfig) {
             return T(new Facades.SessionCookieConfig(T(object)));
+        } else if (object instanceof jakarta.servlet.http.WebConnection) {
+            return T(new Facades.WebConnection(T(object)));
         } else if (object instanceof jakarta.servlet.Registration.Dynamic) {
             return T(new Facades.Registration$Dynamic(T(object)));
         } else if (object instanceof jakarta.servlet.Registration) {

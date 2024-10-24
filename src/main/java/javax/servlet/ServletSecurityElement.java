@@ -34,6 +34,12 @@ public class ServletSecurityElement extends HttpConstraintElement {
         this(constraint, Collections.emptySet());
     }
 
+    ServletSecurityElement(jakarta.servlet.HttpConstraintElement constraint) {
+        super(constraint.getEmptyRoleSemantic(), constraint.getTransportGuarantee(), constraint.getRolesAllowed());
+        methodConstraints = Set.of();
+        methodNames = Set.of();
+    }
+
     /**
      * @see jakarta.servlet.ServletSecurityElement#ServletSecurityElement(Collection)
      */

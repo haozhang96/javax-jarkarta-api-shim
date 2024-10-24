@@ -17,6 +17,9 @@ public class HttpServletRequestWrapper extends ServletRequestWrapper implements 
     // Constructors
     //==================================================================================================================
 
+    /**
+     * @see jakarta.servlet.http.HttpServletRequestWrapper#HttpServletRequestWrapper(jakarta.servlet.http.HttpServletRequest)
+     */
     public HttpServletRequestWrapper(HttpServletRequest request) {
         super(request);
     }
@@ -177,7 +180,7 @@ public class HttpServletRequestWrapper extends ServletRequestWrapper implements 
     @Override
     public boolean authenticate(
         jakarta.servlet.http.HttpServletResponse response
-    ) throws ServletException, IOException {
+    ) throws jakarta.servlet.ServletException, IOException {
         return getRequest().authenticate(response);
     }
 

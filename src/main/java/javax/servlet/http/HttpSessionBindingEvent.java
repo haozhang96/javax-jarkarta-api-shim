@@ -1,7 +1,7 @@
 package javax.servlet.http;
 
 /**
- * @deprecated Use {@link jakarta.servlet.http.HttpSessionEvent} instead.
+ * @deprecated Use {@link jakarta.servlet.http.HttpSessionBindingEvent} instead.
  */
 @Deprecated(since = "jakarta.servlet.http.HttpSessionBindingEvent")
 public class HttpSessionBindingEvent extends HttpSessionEvent {

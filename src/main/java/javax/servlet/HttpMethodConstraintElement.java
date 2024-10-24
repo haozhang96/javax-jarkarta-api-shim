@@ -28,6 +28,11 @@ public class HttpMethodConstraintElement extends HttpConstraintElement {
         this.methodName = validateMethodName(methodName);
     }
 
+    HttpMethodConstraintElement(String methodName, jakarta.servlet.HttpConstraintElement constraint) {
+        super(constraint.getEmptyRoleSemantic(), constraint.getTransportGuarantee(), constraint.getRolesAllowed());
+        this.methodName = validateMethodName(methodName);
+    }
+
     HttpMethodConstraintElement(HttpMethodConstraint annotation) {
         this(
             annotation.value(),

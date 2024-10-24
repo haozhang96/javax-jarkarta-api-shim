@@ -12,26 +12,26 @@ public interface HttpSessionActivationListener extends jakarta.servlet.http.Http
     //==================================================================================================================
 
     /**
-     * @see #sessionWillPassivate(jakarta.servlet.http.HttpSessionEvent)
-     */
-    void sessionWillPassivate(HttpSessionEvent event);
-
-    /**
      * @see #sessionDidActivate(jakarta.servlet.http.HttpSessionEvent)
      */
     void sessionDidActivate(HttpSessionEvent event);
+
+    /**
+     * @see #sessionWillPassivate(jakarta.servlet.http.HttpSessionEvent)
+     */
+    void sessionWillPassivate(HttpSessionEvent event);
 
     //==================================================================================================================
     // HttpSessionActivationListener Implementation Methods
     //==================================================================================================================
 
     @Override
-    default void sessionWillPassivate(jakarta.servlet.http.HttpSessionEvent event) {
-        sessionWillPassivate(ServletShim.of(event));
+    default void sessionDidActivate(jakarta.servlet.http.HttpSessionEvent event) {
+        sessionDidActivate(ServletShim.of(event));
     }
 
     @Override
-    default void sessionDidActivate(jakarta.servlet.http.HttpSessionEvent event) {
-        sessionDidActivate(ServletShim.of(event));
+    default void sessionWillPassivate(jakarta.servlet.http.HttpSessionEvent event) {
+        sessionWillPassivate(ServletShim.of(event));
     }
 }
