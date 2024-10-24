@@ -2245,6 +2245,50 @@ interface Facades {
         }
     }
 
+    final class HttpSessionBindingEvent extends javax.servlet.http.HttpSessionBindingEvent {
+        private static final long serialVersionUID = 7308000419984825907L; // Use the ID from jakarta.servlet.
+
+        private final jakarta.servlet.http.HttpSessionBindingEvent delegate;
+
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        HttpSessionBindingEvent(jakarta.servlet.http.HttpSessionBindingEvent delegate) {
+            super(ServletShim.of(delegate.getSession()), delegate.getName(), delegate.getValue());
+            this.delegate = delegate;
+        }
+
+        //==============================================================================================================
+        // Delegated Methods
+        //==============================================================================================================
+
+        @Override
+        public String getName() {
+            return delegate.getName();
+        }
+
+        @Override
+        public Object getValue() {
+            return delegate.getValue();
+        }
+
+        @Override
+        public javax.servlet.http.HttpSession getSession() {
+            return ServletShim.of(delegate.getSession());
+        }
+
+        @Override
+        public Object getSource() {
+            return super.getSource();
+        }
+
+        @Override
+        public String toString() {
+            return super.toString();
+        }
+    }
+
     final class HttpSessionBindingListener extends Shim.Delegate<jakarta.servlet.http.HttpSessionBindingListener> implements javax.servlet.http.HttpSessionBindingListener {
         //==============================================================================================================
         // Constructors
@@ -2308,12 +2352,12 @@ interface Facades {
 
         @Override
         public Object getSource() {
-            return super.getSource();
+            return delegate.getSource();
         }
 
         @Override
         public String toString() {
-            return super.toString();
+            return delegate.toString();
         }
     }
 
@@ -3252,6 +3296,50 @@ interface Facades {
         }
     }
 
+    final class ServletContextAttributeEvent extends javax.servlet.ServletContextAttributeEvent {
+        private static final long serialVersionUID = -5804680734245618303L; // Use the ID from jakarta.servlet.
+
+        private final jakarta.servlet.ServletContextAttributeEvent delegate;
+
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        ServletContextAttributeEvent(jakarta.servlet.ServletContextAttributeEvent delegate) {
+            super(ServletShim.of(delegate.getServletContext()), delegate.getName(), delegate.getValue());
+            this.delegate = delegate;
+        }
+
+        //==============================================================================================================
+        // Delegated Methods
+        //==============================================================================================================
+
+        @Override
+        public String getName() {
+            return delegate.getName();
+        }
+
+        @Override
+        public Object getValue() {
+            return delegate.getValue();
+        }
+
+        @Override
+        public javax.servlet.ServletContext getServletContext() {
+            return ServletShim.of(delegate.getServletContext());
+        }
+
+        @Override
+        public Object getSource() {
+            return delegate.getSource();
+        }
+
+        @Override
+        public String toString() {
+            return delegate.toString();
+        }
+    }
+
     final class ServletContextAttributeListener extends Shim.Delegate<jakarta.servlet.ServletContextAttributeListener> implements javax.servlet.ServletContextAttributeListener {
         //==============================================================================================================
         // Constructors
@@ -3363,7 +3451,7 @@ interface Facades {
 
         @Override
         public void contextInitialized(javax.servlet.ServletContextEvent event) {
-            javax.servlet.ServletContextListener.super.contextInitialized(event);
+            delegate.contextInitialized(event);
         }
 
         @Override
@@ -3373,12 +3461,61 @@ interface Facades {
 
         @Override
         public void contextDestroyed(javax.servlet.ServletContextEvent event) {
-            javax.servlet.ServletContextListener.super.contextDestroyed(event);
+            delegate.contextDestroyed(event);
         }
 
         @Override
         public void contextDestroyed(jakarta.servlet.ServletContextEvent event) {
             delegate.contextDestroyed(event);
+        }
+    }
+
+    final class ServletRequestAttributeEvent extends javax.servlet.ServletRequestAttributeEvent {
+        private static final long serialVersionUID = -1466635426192317793L; // Use the ID from jakarta.servlet.
+
+        private final jakarta.servlet.ServletRequestAttributeEvent delegate;
+
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        ServletRequestAttributeEvent(jakarta.servlet.ServletRequestAttributeEvent delegate) {
+            super(ServletShim.of(delegate.getServletContext()), delegate.getName(), delegate.getValue());
+            this.delegate = delegate;
+        }
+
+        //==============================================================================================================
+        // Delegated Methods
+        //==============================================================================================================
+
+        @Override
+        public String getName() {
+            return delegate.getName();
+        }
+
+        @Override
+        public Object getValue() {
+            return delegate.getValue();
+        }
+
+        @Override
+        public javax.servlet.ServletContext getServletContext() {
+            return ServletShim.of(delegate.getServletContext());
+        }
+
+        @Override
+        public javax.servlet.ServletRequest getServletRequest() {
+            return ServletShim.of(delegate.getServletRequest());
+        }
+
+        @Override
+        public Object getSource() {
+            return delegate.getSource();
+        }
+
+        @Override
+        public String toString() {
+            return delegate.toString();
         }
     }
 
@@ -4365,7 +4502,7 @@ interface Facades {
 
         @Override
         public javax.servlet.ServletResponse getResponse() {
-            return super.getResponse();
+            return ServletShim.of(delegate.getResponse());
         }
     }
 
