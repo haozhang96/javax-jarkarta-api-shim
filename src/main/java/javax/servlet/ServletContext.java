@@ -1,9 +1,7 @@
 package javax.servlet;
 
 import javax.servlet.descriptor.JspConfigDescriptor;
-import java.util.EventListener;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @deprecated Use {@link jakarta.servlet.ServletContext} instead.
@@ -24,6 +22,38 @@ public interface ServletContext extends jakarta.servlet.ServletContext, ServletS
      * @see #addFilter(String, jakarta.servlet.Filter)
      */
     FilterRegistration.Dynamic addFilter(String filterName, Filter filter);
+
+    /**
+     * @deprecated This method is no longer available since Servlet 2.1.
+     */
+    @Deprecated(since = "Servlet 2.1", forRemoval = true)
+    default Servlet getServlet(String name) throws ServletException {
+        return null;
+    }
+
+    /**
+     * @deprecated This method is no longer available since Servlet 2.1.
+     */
+    @Deprecated(since = "Servlet 2.1", forRemoval = true)
+    default Enumeration<String> getServletNames() {
+        return Collections.emptyEnumeration();
+    }
+
+    /**
+     * @deprecated This method is no longer available since Servlet 2.1.
+     */
+    @Deprecated(since = "Servlet 2.1", forRemoval = true)
+    default Enumeration<Servlet> getServlets() {
+        return Collections.emptyEnumeration();
+    }
+
+    /**
+     * @deprecated This method is no longer available since Servlet 2.1.
+     */
+    @Deprecated(since = "Servlet 2.1", forRemoval = true)
+    default void log(Exception exception, String message) {
+        log(message, exception);
+    }
 
     //==================================================================================================================
     // ServletContext Implementation Methods
@@ -92,12 +122,6 @@ public interface ServletContext extends jakarta.servlet.ServletContext, ServletS
 
     @Override
     Set getEffectiveSessionTrackingModes();
-
-    @Override
-    <T extends EventListener> void addListener(T listener);
-
-    @Override
-    void addListener(Class<? extends EventListener> listenerClass);
 
     @Override
     <T extends EventListener> T createListener(Class<T> clazz) throws ServletException;

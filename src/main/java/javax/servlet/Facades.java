@@ -10,6 +10,9 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
+ * This interface contains jakarta-to-javax facades used for wrapping Jakarta Servlet objects into their Java Servlet
+ *   counterparts.
+ *
  * @deprecated Use {@link jakarta.servlet} instead.
  */
 @Deprecated(since = "jakarta.servlet")
@@ -2210,9 +2213,11 @@ interface Facades {
 
         @Override
         public void attributeAdded(javax.servlet.http.HttpSessionBindingEvent event) {
-            final var event$ =
-                new jakarta.servlet.http.HttpSessionBindingEvent(event.getSession(), event.getName(), event.getValue());
-            delegate.attributeAdded(event$);
+            delegate.attributeAdded(new jakarta.servlet.http.HttpSessionBindingEvent(
+                event.getSession(),
+                event.getName(),
+                event.getValue()
+            ));
         }
 
         @Override
@@ -2222,9 +2227,11 @@ interface Facades {
 
         @Override
         public void attributeRemoved(javax.servlet.http.HttpSessionBindingEvent event) {
-            final var event$ =
-                new jakarta.servlet.http.HttpSessionBindingEvent(event.getSession(), event.getName(), event.getValue());
-            delegate.attributeRemoved(event$);
+            delegate.attributeRemoved(new jakarta.servlet.http.HttpSessionBindingEvent(
+                event.getSession(),
+                event.getName(),
+                event.getValue()
+            ));
         }
 
         @Override
@@ -2234,9 +2241,11 @@ interface Facades {
 
         @Override
         public void attributeReplaced(javax.servlet.http.HttpSessionBindingEvent event) {
-            final var event$ =
-                new jakarta.servlet.http.HttpSessionBindingEvent(event.getSession(), event.getName(), event.getValue());
-            delegate.attributeReplaced(event$);
+            delegate.attributeReplaced(new jakarta.servlet.http.HttpSessionBindingEvent(
+                event.getSession(),
+                event.getName(),
+                event.getValue()
+            ));
         }
 
         @Override
@@ -2304,9 +2313,11 @@ interface Facades {
 
         @Override
         public void valueBound(javax.servlet.http.HttpSessionBindingEvent event) {
-            final var event$ =
-                new jakarta.servlet.http.HttpSessionBindingEvent(event.getSession(), event.getName(), event.getValue());
-            delegate.valueBound(event$);
+            delegate.valueBound(new jakarta.servlet.http.HttpSessionBindingEvent(
+                event.getSession(),
+                event.getName(),
+                event.getValue()
+            ));
         }
 
         @Override
@@ -2316,9 +2327,11 @@ interface Facades {
 
         @Override
         public void valueUnbound(javax.servlet.http.HttpSessionBindingEvent event) {
-            final var event$ =
-                new jakarta.servlet.http.HttpSessionBindingEvent(event.getSession(), event.getName(), event.getValue());
-            delegate.valueUnbound(event$);
+            delegate.valueUnbound(new jakarta.servlet.http.HttpSessionBindingEvent(
+                event.getSession(),
+                event.getName(),
+                event.getValue()
+            ));
         }
 
         @Override
@@ -2456,7 +2469,12 @@ interface Facades {
         //==============================================================================================================
 
         MultipartConfigElement(jakarta.servlet.MultipartConfigElement delegate) {
-            super(delegate.getLocation(), delegate.getMaxFileSize(), delegate.getMaxRequestSize(), delegate.getFileSizeThreshold());
+            super(
+                delegate.getLocation(),
+                delegate.getMaxFileSize(),
+                delegate.getMaxRequestSize(),
+                delegate.getFileSizeThreshold()
+            );
             this.delegate = delegate;
         }
 
@@ -3355,13 +3373,11 @@ interface Facades {
 
         @Override
         public void attributeAdded(javax.servlet.ServletContextAttributeEvent event) {
-            final var event$ =
-                new jakarta.servlet.ServletContextAttributeEvent(
-                    event.getServletContext(),
-                    event.getName(),
-                    event.getValue()
-                );
-            delegate.attributeAdded(event$);
+            delegate.attributeAdded(new jakarta.servlet.ServletContextAttributeEvent(
+                event.getServletContext(),
+                event.getName(),
+                event.getValue()
+            ));
         }
 
         @Override
@@ -3371,13 +3387,11 @@ interface Facades {
 
         @Override
         public void attributeRemoved(javax.servlet.ServletContextAttributeEvent event) {
-            final var event$ =
-                new jakarta.servlet.ServletContextAttributeEvent(
-                    event.getServletContext(),
-                    event.getName(),
-                    event.getValue()
-                );
-            delegate.attributeRemoved(event$);
+            delegate.attributeRemoved(new jakarta.servlet.ServletContextAttributeEvent(
+                event.getServletContext(),
+                event.getName(),
+                event.getValue()
+            ));
         }
 
         @Override
@@ -3387,13 +3401,11 @@ interface Facades {
 
         @Override
         public void attributeReplaced(javax.servlet.ServletContextAttributeEvent event) {
-            final var event$ =
-                new jakarta.servlet.ServletContextAttributeEvent(
-                    event.getServletContext(),
-                    event.getName(),
-                    event.getValue()
-                );
-            delegate.attributeReplaced(event$);
+            delegate.attributeReplaced(new jakarta.servlet.ServletContextAttributeEvent(
+                event.getServletContext(),
+                event.getName(),
+                event.getValue()
+            ));
         }
 
         @Override
@@ -3534,14 +3546,12 @@ interface Facades {
 
         @Override
         public void attributeAdded(javax.servlet.ServletRequestAttributeEvent event) {
-            final var event$ =
-                new jakarta.servlet.ServletRequestAttributeEvent(
-                    event.getServletContext(),
-                    event.getServletRequest(),
-                    event.getName(),
-                    event.getValue()
-                );
-            delegate.attributeAdded(event$);
+            delegate.attributeAdded(new jakarta.servlet.ServletRequestAttributeEvent(
+                event.getServletContext(),
+                event.getServletRequest(),
+                event.getName(),
+                event.getValue()
+            ));
         }
 
         @Override
@@ -3551,14 +3561,12 @@ interface Facades {
 
         @Override
         public void attributeRemoved(javax.servlet.ServletRequestAttributeEvent event) {
-            final var event$ =
-                new jakarta.servlet.ServletRequestAttributeEvent(
-                    event.getServletContext(),
-                    event.getServletRequest(),
-                    event.getName(),
-                    event.getValue()
-                );
-            delegate.attributeRemoved(event$);
+            delegate.attributeRemoved(new jakarta.servlet.ServletRequestAttributeEvent(
+                event.getServletContext(),
+                event.getServletRequest(),
+                event.getName(),
+                event.getValue()
+            ));
         }
 
         @Override
@@ -3568,14 +3576,12 @@ interface Facades {
 
         @Override
         public void attributeReplaced(javax.servlet.ServletRequestAttributeEvent event) {
-            final var event$ =
-                new jakarta.servlet.ServletRequestAttributeEvent(
-                    event.getServletContext(),
-                    event.getServletRequest(),
-                    event.getName(),
-                    event.getValue()
-                );
-            delegate.attributeReplaced(event$);
+            delegate.attributeReplaced(new jakarta.servlet.ServletRequestAttributeEvent(
+                event.getServletContext(),
+                event.getServletRequest(),
+                event.getName(),
+                event.getValue()
+            ));
         }
 
         @Override
@@ -4069,17 +4075,18 @@ interface Facades {
         }
 
         @Override
-        public Set<String> setServletSecurity(javax.servlet.ServletSecurityElement root) {
+        public Set<String> setServletSecurity(javax.servlet.ServletSecurityElement constraint) {
             // This is a little more involved since the shim's hierarchy diverged.
-            final var constraint =
-                new jakarta.servlet.HttpConstraintElement(
-                    root.getEmptyRoleSemantic(),
-                    root.getTransportGuarantee(),
-                    root.getRolesAllowed()
-                );
-            final var servletSecurity =
-                new jakarta.servlet.ServletSecurityElement(constraint, (Collection) root.getHttpMethodConstraints());
-            return delegate.setServletSecurity(servletSecurity);
+            final var methodConstraints =
+                constraint
+                    .getHttpMethodConstraints()
+                    .stream()
+                    .map(methodConstraint -> new jakarta.servlet.HttpMethodConstraintElement(
+                        methodConstraint.getMethodName(),
+                        methodConstraint
+                    ))
+                    .collect(Collectors.toList());
+            return delegate.setServletSecurity(new jakarta.servlet.ServletSecurityElement(constraint, methodConstraints));
         }
 
         @Override

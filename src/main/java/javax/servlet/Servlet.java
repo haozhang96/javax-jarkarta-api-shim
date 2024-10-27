@@ -31,6 +31,9 @@ public interface Servlet extends jakarta.servlet.Servlet, ServletShim {
     }
 
     @Override
+    ServletConfig getServletConfig();
+
+    @Override
     default void service(
         jakarta.servlet.ServletRequest request,
         jakarta.servlet.ServletResponse response

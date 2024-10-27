@@ -46,38 +46,32 @@
 
     <dependencies>
         <!-- Jakarta -->
-        <dependency><!-- Jakarta Activation: https://jakarta.ee/specifications/activation/2.1/ -->
+        <dependency><!-- Jakarta Activation: https://jakarta.ee/specifications/activation/ -->
             <groupId>jakarta.activation</groupId>
             <artifactId>jakarta.activation-api</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency><!-- Jakarta Concurrency: https://jakarta.ee/specifications/concurrency/3.0/ -->
+        <dependency><!-- Jakarta Concurrency: https://jakarta.ee/specifications/concurrency/ -->
             <groupId>jakarta.enterprise.concurrent</groupId>
             <artifactId>jakarta.enterprise.concurrent-api</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency><!-- Jakarta Contexts and Dependency Injection: https://jakarta.ee/specifications/cdi/4.0/ -->
+        <dependency><!-- Jakarta Contexts and Dependency Injection: https://jakarta.ee/specifications/cdi/ -->
             <groupId>jakarta.enterprise</groupId>
             <artifactId>jakarta.enterprise.cdi-api</artifactId>
             <optional>true</optional>
         </dependency>
-        <!--<dependency>&lt;!&ndash; Jakarta Web Services Metadata: https://jakarta.ee/specifications/web-services-metadata/3.0/ &ndash;&gt;
-            <groupId>jakarta.jws</groupId>
-            <artifactId>jakarta.jws-api</artifactId>
-            <version>${version.jakarta.jws}</version>
-            <optional>true</optional>
-        </dependency>-->
-        <dependency><!-- Jakarta Dependency Injection: https://jakarta.ee/specifications/dependency-injection/2.0/ -->
+        <dependency><!-- Jakarta Dependency Injection: https://jakarta.ee/specifications/dependency-injection/ -->
             <groupId>jakarta.inject</groupId>
             <artifactId>jakarta.inject-api</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
+        <dependency><!-- Jakarta Authentication: https://jakarta.ee/specifications/authentication/ -->
             <groupId>jakarta.authentication</groupId>
             <artifactId>jakarta.authentication-api</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
+        <dependency><!-- Jakarta Authorization: https://jakarta.ee/specifications/authorization/ -->
             <groupId>jakarta.authorization</groupId>
             <artifactId>jakarta.authorization-api</artifactId>
             <optional>true</optional>
