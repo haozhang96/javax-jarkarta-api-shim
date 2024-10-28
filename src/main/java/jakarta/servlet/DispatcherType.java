@@ -17,11 +17,13 @@
 
 package jakarta.servlet;
 
+import javax.shim.Shim;
+
 /**
  * @deprecated Use {@link jakarta.servlet.DispatcherType} instead.
  */
 @Deprecated(since = "jakarta.servlet.DispatcherType")
-public interface DispatcherType {
+public interface DispatcherType extends Shim {
     enum $ implements DispatcherType { FORWARD, INCLUDE, REQUEST, ASYNC, ERROR }
     $ FORWARD = $.FORWARD;
     $ INCLUDE = $.INCLUDE;
