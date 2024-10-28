@@ -10,7 +10,7 @@ import java.util.Enumeration;
 @Deprecated(since = "Servlet 2.1", forRemoval = true)
 public interface HttpSessionContext extends ServletShim {
     /**
-     * @deprecated This method is no longer available since Servlet 2.1.
+     * @deprecated This method has been deprecated and/or removed since Servlet 2.1.
      */
     @Deprecated(since = "Servlet 2.1", forRemoval = true)
     default Enumeration<String> getIds() {
@@ -18,7 +18,7 @@ public interface HttpSessionContext extends ServletShim {
     }
 
     /**
-     * @deprecated This method is no longer available since Servlet 2.1.
+     * @deprecated This method has been deprecated and/or removed since Servlet 2.1.
      */
     @Deprecated(since = "Servlet 2.1", forRemoval = true)
     default HttpSession getSession(String sessionId) {

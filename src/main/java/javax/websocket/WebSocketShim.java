@@ -20,7 +20,7 @@ public interface WebSocketShim extends Shim {
         // Specializations
         //==============================================================================================================
 
-        if (object instanceof WebSocketShim) {
+        if (object == null || object instanceof WebSocketShim) {
             return S(object);
         } else if (object instanceof Exception) {
             return S(of((Exception) object));
@@ -53,7 +53,7 @@ public interface WebSocketShim extends Shim {
     }
 
     static <T extends Exception, S extends Exception> S of(T exception) {
-        if (exception instanceof WebSocketShim) {
+        if (exception == null || exception instanceof WebSocketShim) {
             return S(exception);
         } else if (exception instanceof jakarta.websocket.DecodeException) {
             return S(new Facades.DecodeException(S(exception)));
@@ -69,7 +69,7 @@ public interface WebSocketShim extends Shim {
     }
 
     static <T extends Annotation, S extends Annotation> S of(T annotation) {
-        if (annotation instanceof ServletShim) {
+        if (annotation == null || annotation instanceof ServletShim) {
             return S(annotation);
         } else if (annotation instanceof jakarta.websocket.ClientEndpoint) {
             return S(new Facades.ClientEndpoint(S(annotation)));

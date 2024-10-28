@@ -22,11 +22,31 @@ public class UnavailableException extends ServletException {
     }
 
     /**
+     * @deprecated This constructor has been deprecated and/or removed since Servlet 2.2.
+     */
+    @Deprecated(since = "Servlet 2.2", forRemoval = true)
+    public UnavailableException(Servlet servlet, String message) {
+        this(message);
+    }
+
+    /**
      * @see jakarta.servlet.UnavailableException#UnavailableException(String, int)
      */
     public UnavailableException(String message, int seconds) {
         super(message);
         this.seconds = seconds != 0 ? Math.max(seconds, INDETERMINATE) : INDETERMINATE;
+    }
+
+    //==================================================================================================================
+    // Shim Methods
+    //==================================================================================================================
+
+    /**
+     * @deprecated This method has been deprecated and/or removed since Servlet 2.2.
+     */
+    @Deprecated(since = "Servlet 2.2", forRemoval = true)
+    public Servlet getServlet() {
+        return null;
     }
 
     //==================================================================================================================

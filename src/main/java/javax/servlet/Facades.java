@@ -1476,8 +1476,8 @@ interface Facades {
         }
 
         @Override
-        public jakarta.servlet.http.MappingMatch getMappingMatch() {
-            return delegate.getMappingMatch();
+        public javax.servlet.http.MappingMatch getMappingMatch() {
+            return ServletShim.of(delegate.getMappingMatch());
         }
     }
 
@@ -1911,8 +1911,8 @@ interface Facades {
         }
 
         @Override
-        public jakarta.servlet.DispatcherType getDispatcherType() {
-            return delegate.getDispatcherType();
+        public javax.servlet.DispatcherType getDispatcherType() {
+            return ServletShim.of(delegate.getDispatcherType());
         }
 
         @Override
@@ -3293,7 +3293,7 @@ interface Facades {
             delegate.setSessionTrackingModes(
                 ((Set<javax.servlet.SessionTrackingMode>) sessionTrackingModes)
                     .stream()
-                    .map(Enum::name)
+                    .map(Object::toString)
                     .map(jakarta.servlet.SessionTrackingMode::valueOf)
                     .collect(Collectors.toCollection(LinkedHashSet::new))
             );
@@ -3304,7 +3304,7 @@ interface Facades {
             return delegate
                 .getDefaultSessionTrackingModes()
                 .stream()
-                .map(Enum::name)
+                .map(Object::toString)
                 .map(javax.servlet.SessionTrackingMode::valueOf)
                 .collect(Collectors.toCollection(LinkedHashSet::new));
         }
@@ -3314,7 +3314,7 @@ interface Facades {
             return delegate
                 .getEffectiveSessionTrackingModes()
                 .stream()
-                .map(Enum::name)
+                .map(Object::toString)
                 .map(javax.servlet.SessionTrackingMode::valueOf)
                 .collect(Collectors.toCollection(LinkedHashSet::new));
         }
@@ -4420,8 +4420,8 @@ interface Facades {
         }
 
         @Override
-        public jakarta.servlet.DispatcherType getDispatcherType() {
-            return delegate.getDispatcherType();
+        public javax.servlet.DispatcherType getDispatcherType() {
+            return ServletShim.of(delegate.getDispatcherType());
         }
 
         @Override

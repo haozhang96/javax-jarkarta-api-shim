@@ -65,6 +65,11 @@ public class ServletRequestWrapper extends jakarta.servlet.ServletRequestWrapper
     }
 
     @Override
+    public DispatcherType getDispatcherType() {
+        return ServletShim.of(super.getDispatcherType());
+    }
+
+    @Override
     public AsyncContext getAsyncContext() {
         return ServletShim.of(super.getAsyncContext());
     }

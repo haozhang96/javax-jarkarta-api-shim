@@ -25,6 +25,14 @@ public interface HttpServletRequest extends jakarta.servlet.http.HttpServletRequ
      */
     <T extends HttpUpgradeHandler> T upgrade(Class<T> clazz, Void... ignored) throws ServletException, IOException;
 
+    /**
+     * @deprecated This method has been deprecated and/or removed since Servlet 4.0.
+     */
+    @Deprecated(since = "Servlet 4.0", forRemoval = true)
+    default boolean isRequestedSessionIdFromUrl() {
+        return isRequestedSessionIdFromURL();
+    }
+
     //==================================================================================================================
     // HttpServletRequest Implementation Methods
     //==================================================================================================================

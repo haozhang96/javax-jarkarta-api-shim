@@ -16,6 +16,14 @@ public interface ServletRequest extends jakarta.servlet.ServletRequest, ServletS
      */
     AsyncContext startAsync(ServletRequest request, ServletResponse response) throws IllegalStateException;
 
+    /**
+     * @deprecated This method has been deprecated and/or removed since Servlet 2.1.
+     */
+    @Deprecated(since = "Servlet 2.1", forRemoval = true)
+    default String getRealPath(String path) {
+        return getServletContext().getRealPath(path);
+    }
+
     //==================================================================================================================
     // ServletRequest Implementation Methods
     //==================================================================================================================
@@ -39,6 +47,9 @@ public interface ServletRequest extends jakarta.servlet.ServletRequest, ServletS
     ) throws IllegalStateException {
         return startAsync(ServletShim.of(request), ServletShim.of(response));
     }
+
+    @Override
+    DispatcherType getDispatcherType();
 
     @Override
     AsyncContext getAsyncContext();

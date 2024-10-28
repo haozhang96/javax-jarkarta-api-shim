@@ -24,7 +24,7 @@ public interface ServletShim extends Shim {
         // Specializations
         //==============================================================================================================
 
-        if (object instanceof ServletShim) {
+        if (object == null || object instanceof ServletShim) {
             return S(object);
         } else if (object instanceof jakarta.servlet.ServletException) {
             return S(of((jakarta.servlet.ServletException) object));
@@ -155,7 +155,7 @@ public interface ServletShim extends Shim {
     }
 
     static <T extends jakarta.servlet.ServletException, S extends ServletException> S of(T exception) {
-        if (exception instanceof ServletShim) {
+        if (exception == null || exception instanceof ServletShim) {
             return S(exception);
         } else if (exception instanceof jakarta.servlet.UnavailableException) {
             return S(new Facades.UnavailableException(S(exception)));
@@ -165,7 +165,7 @@ public interface ServletShim extends Shim {
     }
 
     static <T extends Enum<T>, S extends Enum<S>> S of(T enumeration) {
-        if (enumeration instanceof ServletShim) {
+        if (enumeration == null || enumeration instanceof ServletShim) {
             return S(enumeration);
         } else if (enumeration instanceof jakarta.servlet.DispatcherType) {
             return S(DispatcherType.valueOf(enumeration.name()));
@@ -183,7 +183,7 @@ public interface ServletShim extends Shim {
     }
 
     static <T extends Annotation, S extends Annotation> S of(T annotation) {
-        if (annotation instanceof ServletShim) {
+        if (annotation == null || annotation instanceof ServletShim) {
             return S(annotation);
         } else if (annotation instanceof jakarta.servlet.annotation.HandlesTypes) {
             return S(new Facades.HandlesTypes(S(annotation)));
@@ -209,7 +209,7 @@ public interface ServletShim extends Shim {
     }
 
     static <T extends EventListener, S extends EventListener> S of(T listener) {
-        if (listener instanceof ServletShim) {
+        if (listener == null || listener instanceof ServletShim) {
             return S(listener);
         } else if (listener instanceof jakarta.servlet.AsyncListener) {
             return S(new Facades.AsyncListener(S(listener)));
@@ -241,7 +241,7 @@ public interface ServletShim extends Shim {
     }
 
     static <T extends EventObject, S extends EventObject> S of(T event) {
-        if (event instanceof ServletShim) {
+        if (event == null || event instanceof ServletShim) {
             return S(event);
         } else if (event instanceof jakarta.servlet.http.HttpSessionBindingEvent) {
             return S(new Facades.HttpSessionBindingEvent(S(event)));

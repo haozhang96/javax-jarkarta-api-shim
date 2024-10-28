@@ -24,7 +24,7 @@ public interface ServletContext extends jakarta.servlet.ServletContext, ServletS
     FilterRegistration.Dynamic addFilter(String filterName, Filter filter);
 
     /**
-     * @deprecated This method is no longer available since Servlet 2.1.
+     * @deprecated This method has been deprecated and/or removed since Servlet 2.1.
      */
     @Deprecated(since = "Servlet 2.1", forRemoval = true)
     default Servlet getServlet(String name) throws ServletException {
@@ -32,7 +32,7 @@ public interface ServletContext extends jakarta.servlet.ServletContext, ServletS
     }
 
     /**
-     * @deprecated This method is no longer available since Servlet 2.1.
+     * @deprecated This method has been deprecated and/or removed since Servlet 2.1.
      */
     @Deprecated(since = "Servlet 2.1", forRemoval = true)
     default Enumeration<String> getServletNames() {
@@ -40,7 +40,7 @@ public interface ServletContext extends jakarta.servlet.ServletContext, ServletS
     }
 
     /**
-     * @deprecated This method is no longer available since Servlet 2.1.
+     * @deprecated This method has been deprecated and/or removed since Servlet 2.1.
      */
     @Deprecated(since = "Servlet 2.1", forRemoval = true)
     default Enumeration<Servlet> getServlets() {
@@ -48,7 +48,7 @@ public interface ServletContext extends jakarta.servlet.ServletContext, ServletS
     }
 
     /**
-     * @deprecated This method is no longer available since Servlet 2.1.
+     * @deprecated This method has been deprecated and/or removed since Servlet 2.1.
      */
     @Deprecated(since = "Servlet 2.1", forRemoval = true)
     default void log(Exception exception, String message) {
