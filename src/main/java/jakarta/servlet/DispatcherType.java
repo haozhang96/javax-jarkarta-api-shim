@@ -24,14 +24,13 @@ import javax.shim.Shim;
  */
 @Deprecated(since = "jakarta.servlet.DispatcherType")
 public interface DispatcherType extends Shim {
-    enum $ implements DispatcherType { FORWARD, INCLUDE, REQUEST, ASYNC, ERROR }
-    $ FORWARD = $.FORWARD;
-    $ INCLUDE = $.INCLUDE;
-    $ REQUEST = $.REQUEST;
-    $ ASYNC = $.ASYNC;
-    $ ERROR = $.ERROR;
+    javax.servlet.DispatcherType FORWARD = javax.servlet.DispatcherType.FORWARD;
+    javax.servlet.DispatcherType INCLUDE = javax.servlet.DispatcherType.INCLUDE;
+    javax.servlet.DispatcherType REQUEST = javax.servlet.DispatcherType.REQUEST;
+    javax.servlet.DispatcherType ASYNC = javax.servlet.DispatcherType.ASYNC;
+    javax.servlet.DispatcherType ERROR = javax.servlet.DispatcherType.ERROR;
 
-    static $ valueOf(String name) {
-        return $.valueOf(name);
+    static javax.servlet.DispatcherType valueOf(String name) {
+        return javax.servlet.DispatcherType.valueOf(name);
     }
 }

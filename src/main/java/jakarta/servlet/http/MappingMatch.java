@@ -7,14 +7,13 @@ import javax.shim.Shim;
  */
 @Deprecated(since = "jakarta.servlet.http.MappingMatch")
 public interface MappingMatch extends Shim {
-    enum $ implements MappingMatch { CONTEXT_ROOT, DEFAULT, EXACT, EXTENSION, PATH }
-    $ CONTEXT_ROOT = $.CONTEXT_ROOT;
-    $ DEFAULT = $.DEFAULT;
-    $ EXACT = $.EXACT;
-    $ EXTENSION = $.EXTENSION;
-    $ PATH = $.PATH;
+    javax.servlet.http.MappingMatch CONTEXT_ROOT = javax.servlet.http.MappingMatch.CONTEXT_ROOT;
+    javax.servlet.http.MappingMatch DEFAULT = javax.servlet.http.MappingMatch.DEFAULT;
+    javax.servlet.http.MappingMatch EXACT = javax.servlet.http.MappingMatch.EXACT;
+    javax.servlet.http.MappingMatch EXTENSION = javax.servlet.http.MappingMatch.EXTENSION;
+    javax.servlet.http.MappingMatch PATH = javax.servlet.http.MappingMatch.PATH;
 
-    static $ valueOf(String name) {
-        return $.valueOf(name);
+    static javax.servlet.http.MappingMatch valueOf(String name) {
+        return javax.servlet.http.MappingMatch.valueOf(name);
     }
 }
