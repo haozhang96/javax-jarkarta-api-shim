@@ -30,7 +30,7 @@ public interface Filter extends jakarta.servlet.Filter, ServletShim {
     //==================================================================================================================
 
     @Override
-    default void init(jakarta.servlet.FilterConfig config) throws jakarta.servlet.ServletException {
+    default void init(jakarta.servlet.FilterConfig config) throws ServletException {
         init(ServletShim.of(config));
     }
 
@@ -39,7 +39,7 @@ public interface Filter extends jakarta.servlet.Filter, ServletShim {
         jakarta.servlet.ServletRequest request,
         jakarta.servlet.ServletResponse response,
         jakarta.servlet.FilterChain chain
-    ) throws jakarta.servlet.ServletException, IOException {
+    ) throws ServletException, IOException {
         doFilter(ServletShim.of(request), ServletShim.of(response), ServletShim.of(chain));
     }
 }

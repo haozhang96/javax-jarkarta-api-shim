@@ -15,7 +15,7 @@ public interface ServletRegistration extends jakarta.servlet.ServletRegistration
      * @deprecated Use {@link jakarta.servlet.ServletRegistration.Dynamic} instead.
      */
     @Deprecated(since = "jakarta.servlet.ServletRegistration.Dynamic")
-    interface Dynamic extends jakarta.servlet.ServletRegistration.Dynamic, ServletRegistration {
+    interface Dynamic extends jakarta.servlet.ServletRegistration.Dynamic, ServletRegistration, Registration.Dynamic {
         //==============================================================================================================
         // Shim Methods
         //==============================================================================================================

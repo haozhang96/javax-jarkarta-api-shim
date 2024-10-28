@@ -26,7 +26,7 @@ public interface Servlet extends jakarta.servlet.Servlet, ServletShim {
     //==================================================================================================================
 
     @Override
-    default void init(jakarta.servlet.ServletConfig config) throws jakarta.servlet.ServletException {
+    default void init(jakarta.servlet.ServletConfig config) throws ServletException {
         init(ServletShim.of(config));
     }
 
@@ -37,7 +37,7 @@ public interface Servlet extends jakarta.servlet.Servlet, ServletShim {
     default void service(
         jakarta.servlet.ServletRequest request,
         jakarta.servlet.ServletResponse response
-    ) throws jakarta.servlet.ServletException, IOException {
+    ) throws ServletException, IOException {
         service(ServletShim.of(request), ServletShim.of(response));
     }
 }

@@ -10,8 +10,8 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
- * This interface contains jakarta-to-javax facades used for wrapping Jakarta Servlet objects into their Java Servlet
- *   counterparts.
+ * This interface contains {@link jakarta.servlet}-to-{@link javax.servlet} facades used for wrapping Jakarta Servlet
+ *   objects into their Java Servlet counterparts.
  *
  * @deprecated Use {@link jakarta.servlet} instead.
  */
@@ -723,8 +723,12 @@ interface Facades {
         }
 
         @Override
-        public void init(jakarta.servlet.FilterConfig config) throws jakarta.servlet.ServletException {
-            delegate.init(config);
+        public void init(jakarta.servlet.FilterConfig config) throws javax.servlet.ServletException {
+            try {
+                delegate.init(config);
+            } catch (jakarta.servlet.ServletException exception) {
+                throw ServletShim.of(exception);
+            }
         }
 
         @Override
@@ -745,8 +749,12 @@ interface Facades {
             jakarta.servlet.ServletRequest request,
             jakarta.servlet.ServletResponse response,
             jakarta.servlet.FilterChain chain
-        ) throws jakarta.servlet.ServletException, IOException {
-            delegate.doFilter(request, response, chain);
+        ) throws javax.servlet.ServletException, IOException {
+            try {
+                delegate.doFilter(request, response, chain);
+            } catch (jakarta.servlet.ServletException exception) {
+                throw ServletShim.of(exception);
+            }
         }
 
         @Override
@@ -784,8 +792,12 @@ interface Facades {
         public void doFilter(
             jakarta.servlet.ServletRequest request,
             jakarta.servlet.ServletResponse response
-        ) throws jakarta.servlet.ServletException, IOException {
-            delegate.doFilter(request, response);
+        ) throws javax.servlet.ServletException, IOException {
+            try {
+                delegate.doFilter(request, response);
+            } catch (jakarta.servlet.ServletException exception) {
+                throw ServletShim.of(exception);
+            }
         }
     }
 
@@ -994,13 +1006,21 @@ interface Facades {
         }
 
         @Override
-        public void init(jakarta.servlet.FilterConfig config) throws jakarta.servlet.ServletException {
-            delegate.init(config);
+        public void init(jakarta.servlet.FilterConfig config) throws javax.servlet.ServletException {
+            try {
+                delegate.init(config);
+            } catch (jakarta.servlet.ServletException exception) {
+                throw ServletShim.of(exception);
+            }
         }
 
         @Override
-        public void init() throws jakarta.servlet.ServletException {
-            delegate.init();
+        public void init() throws javax.servlet.ServletException {
+            try {
+                delegate.init();
+            } catch (jakarta.servlet.ServletException exception) {
+                throw ServletShim.of(exception);
+            }
         }
 
         @Override
@@ -1026,8 +1046,12 @@ interface Facades {
             jakarta.servlet.ServletRequest request,
             jakarta.servlet.ServletResponse response,
             jakarta.servlet.FilterChain chain
-        ) throws jakarta.servlet.ServletException, IOException {
-            delegate.doFilter(request, response, chain);
+        ) throws javax.servlet.ServletException, IOException {
+            try {
+                delegate.doFilter(request, response, chain);
+            } catch (jakarta.servlet.ServletException exception) {
+                throw ServletShim.of(exception);
+            }
         }
 
         @Override
@@ -1082,13 +1106,21 @@ interface Facades {
         }
 
         @Override
-        public void init(jakarta.servlet.ServletConfig config) throws jakarta.servlet.ServletException {
-            delegate.init(config);
+        public void init(jakarta.servlet.ServletConfig config) throws javax.servlet.ServletException {
+            try {
+                delegate.init(config);
+            } catch (jakarta.servlet.ServletException exception) {
+                throw ServletShim.of(exception);
+            }
         }
 
         @Override
-        public void init() throws jakarta.servlet.ServletException {
-            delegate.init();
+        public void init() throws javax.servlet.ServletException {
+            try {
+                delegate.init();
+            } catch (jakarta.servlet.ServletException exception) {
+                throw ServletShim.of(exception);
+            }
         }
 
         @Override
@@ -1117,8 +1149,12 @@ interface Facades {
         public void service(
             jakarta.servlet.ServletRequest request,
             jakarta.servlet.ServletResponse response
-        ) throws jakarta.servlet.ServletException, IOException {
-            delegate.service(request, response);
+        ) throws javax.servlet.ServletException, IOException {
+            try {
+                delegate.service(request, response);
+            } catch (jakarta.servlet.ServletException exception) {
+                throw ServletShim.of(exception);
+            }
         }
 
         @Override
@@ -1194,8 +1230,12 @@ interface Facades {
             jakarta.servlet.ServletRequest request,
             jakarta.servlet.ServletResponse response,
             jakarta.servlet.FilterChain chain
-        ) throws jakarta.servlet.ServletException, IOException {
-            delegate.doFilter(request, response, chain);
+        ) throws javax.servlet.ServletException, IOException {
+            try {
+                delegate.doFilter(request, response, chain);
+            } catch (jakarta.servlet.ServletException exception) {
+                throw ServletShim.of(exception);
+            }
         }
 
         @Override
@@ -1228,13 +1268,21 @@ interface Facades {
         }
 
         @Override
-        public void init(jakarta.servlet.FilterConfig config) throws jakarta.servlet.ServletException {
-            delegate.init(config);
+        public void init(jakarta.servlet.FilterConfig config) throws javax.servlet.ServletException {
+            try {
+                delegate.init(config);
+            } catch (jakarta.servlet.ServletException exception) {
+                throw ServletShim.of(exception);
+            }
         }
 
         @Override
-        public void init() throws jakarta.servlet.ServletException {
-            delegate.init();
+        public void init() throws javax.servlet.ServletException {
+            try {
+                delegate.init();
+            } catch (jakarta.servlet.ServletException exception) {
+                throw ServletShim.of(exception);
+            }
         }
 
         @Override
@@ -1312,8 +1360,12 @@ interface Facades {
         }
 
         @Override
-        public void init(jakarta.servlet.ServletConfig config) throws jakarta.servlet.ServletException {
-            delegate.init(config);
+        public void init(jakarta.servlet.ServletConfig config) throws javax.servlet.ServletException {
+            try {
+                delegate.init(config);
+            } catch (jakarta.servlet.ServletException exception) {
+                throw ServletShim.of(exception);
+            }
         }
 
         @Override
@@ -1332,8 +1384,12 @@ interface Facades {
         public void service(
             jakarta.servlet.ServletRequest request,
             jakarta.servlet.ServletResponse response
-        ) throws jakarta.servlet.ServletException, IOException {
-            delegate.service(request, response);
+        ) throws javax.servlet.ServletException, IOException {
+            try {
+                delegate.service(request, response);
+            } catch (jakarta.servlet.ServletException exception) {
+                throw ServletShim.of(exception);
+            }
         }
 
         @Override
@@ -1367,8 +1423,12 @@ interface Facades {
         }
 
         @Override
-        public void init() throws jakarta.servlet.ServletException {
-            delegate.init();
+        public void init() throws javax.servlet.ServletException {
+            try {
+                delegate.init();
+            } catch (jakarta.servlet.ServletException exception) {
+                throw ServletShim.of(exception);
+            }
         }
 
         @Override
@@ -2802,8 +2862,12 @@ interface Facades {
         public void forward(
             jakarta.servlet.ServletRequest request,
             jakarta.servlet.ServletResponse response
-        ) throws jakarta.servlet.ServletException, IOException {
-            delegate.forward(request, response);
+        ) throws javax.servlet.ServletException, IOException {
+            try {
+                delegate.forward(request, response);
+            } catch (jakarta.servlet.ServletException exception) {
+                throw ServletShim.of(exception);
+            }
         }
 
         @Override
@@ -2822,8 +2886,12 @@ interface Facades {
         public void include(
             jakarta.servlet.ServletRequest request,
             jakarta.servlet.ServletResponse response
-        ) throws jakarta.servlet.ServletException, IOException {
-            delegate.include(request, response);
+        ) throws javax.servlet.ServletException, IOException {
+            try {
+                delegate.include(request, response);
+            } catch (jakarta.servlet.ServletException exception) {
+                throw ServletShim.of(exception);
+            }
         }
     }
 
@@ -2850,8 +2918,12 @@ interface Facades {
         }
 
         @Override
-        public void init(jakarta.servlet.ServletConfig config) throws jakarta.servlet.ServletException {
-            delegate.init(config);
+        public void init(jakarta.servlet.ServletConfig config) throws javax.servlet.ServletException {
+            try {
+                delegate.init(config);
+            } catch (jakarta.servlet.ServletException exception) {
+                throw ServletShim.of(exception);
+            }
         }
 
         @Override
@@ -2870,8 +2942,12 @@ interface Facades {
         public void service(
             jakarta.servlet.ServletRequest request,
             jakarta.servlet.ServletResponse response
-        ) throws jakarta.servlet.ServletException, IOException {
-            delegate.service(request, response);
+        ) throws javax.servlet.ServletException, IOException {
+            try {
+                delegate.service(request, response);
+            } catch (jakarta.servlet.ServletException exception) {
+                throw ServletShim.of(exception);
+            }
         }
 
         @Override
@@ -2982,8 +3058,12 @@ interface Facades {
         public void onStartup(
             Set<Class<?>> classes,
             jakarta.servlet.ServletContext context
-        ) throws jakarta.servlet.ServletException {
-            delegate.onStartup(classes, context);
+        ) throws javax.servlet.ServletException {
+            try {
+                delegate.onStartup(classes, context);
+            } catch (jakarta.servlet.ServletException exception) {
+                throw ServletShim.of(exception);
+            }
         }
     }
 

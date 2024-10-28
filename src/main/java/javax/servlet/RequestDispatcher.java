@@ -29,7 +29,7 @@ public interface RequestDispatcher extends jakarta.servlet.RequestDispatcher, Se
     default void forward(
         jakarta.servlet.ServletRequest request,
         jakarta.servlet.ServletResponse response
-    ) throws jakarta.servlet.ServletException, IOException {
+    ) throws ServletException, IOException {
         forward(ServletShim.of(request), ServletShim.of(response));
     }
 
@@ -37,7 +37,7 @@ public interface RequestDispatcher extends jakarta.servlet.RequestDispatcher, Se
     default void include(
         jakarta.servlet.ServletRequest request,
         jakarta.servlet.ServletResponse response
-    ) throws jakarta.servlet.ServletException, IOException {
+    ) throws ServletException, IOException {
         include(ServletShim.of(request), ServletShim.of(response));
     }
 }

@@ -180,7 +180,7 @@ public class HttpServletRequestWrapper extends ServletRequestWrapper implements 
     @Override
     public boolean authenticate(
         jakarta.servlet.http.HttpServletResponse response
-    ) throws jakarta.servlet.ServletException, IOException {
+    ) throws ServletException, IOException {
         return getRequest().authenticate(response);
     }
 

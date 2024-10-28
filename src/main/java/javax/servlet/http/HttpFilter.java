@@ -48,11 +48,15 @@ public abstract class HttpFilter extends GenericFilter {
         jakarta.servlet.ServletRequest request,
         jakarta.servlet.ServletResponse response,
         jakarta.servlet.FilterChain chain
-    ) throws jakarta.servlet.ServletException, IOException {
+    ) throws ServletException, IOException {
         if (!(request instanceof jakarta.servlet.http.HttpServletRequest && response instanceof jakarta.servlet.http.HttpServletResponse)) {
             throw new ServletException("non-HTTP request or response");
         }
 
-        super.doFilter(request, response, chain);
+        try {
+            super.doFilter(request, response, chain);
+        } catch (jakarta.servlet.ServletException exception) {
+            throw ServletShim.of(exception);
+        }
     }
 }

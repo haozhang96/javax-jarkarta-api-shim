@@ -24,7 +24,7 @@ public interface FilterChain extends jakarta.servlet.FilterChain, ServletShim {
     default void doFilter(
         jakarta.servlet.ServletRequest request,
         jakarta.servlet.ServletResponse response
-    ) throws jakarta.servlet.ServletException, IOException {
+    ) throws ServletException, IOException {
         doFilter(ServletShim.of(request), ServletShim.of(response));
     }
 }

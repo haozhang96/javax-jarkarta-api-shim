@@ -24,7 +24,7 @@ public interface ServletContainerInitializer extends jakarta.servlet.ServletCont
     default void onStartup(
         Set<Class<?>> classes,
         jakarta.servlet.ServletContext context
-    ) throws jakarta.servlet.ServletException {
+    ) throws ServletException {
         onStartup(classes, ServletShim.of(context));
     }
 }

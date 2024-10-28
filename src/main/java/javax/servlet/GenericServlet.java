@@ -32,15 +32,24 @@ public abstract class GenericServlet extends jakarta.servlet.GenericServlet impl
     }
 
     @Override
-    public void init(jakarta.servlet.ServletConfig config) throws jakarta.servlet.ServletException {
+    public void init(jakarta.servlet.ServletConfig config) throws ServletException {
         Servlet.super.init(config);
+    }
+
+    @Override
+    public void init() throws ServletException {
+        try {
+            super.init();
+        } catch (jakarta.servlet.ServletException exception) {
+            throw ServletShim.of(exception);
+        }
     }
 
     @Override
     public void service(
         jakarta.servlet.ServletRequest request,
         jakarta.servlet.ServletResponse response
-    ) throws jakarta.servlet.ServletException, IOException {
+    ) throws ServletException, IOException {
         Servlet.super.service(request, response);
     }
 

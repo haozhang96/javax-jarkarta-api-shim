@@ -30,8 +30,17 @@ public abstract class GenericFilter extends jakarta.servlet.GenericFilter implem
     }
 
     @Override
-    public void init(jakarta.servlet.FilterConfig config) throws jakarta.servlet.ServletException {
+    public void init(jakarta.servlet.FilterConfig config) throws ServletException {
         Filter.super.init(config);
+    }
+
+    @Override
+    public void init() throws ServletException {
+        try {
+            super.init();
+        } catch (jakarta.servlet.ServletException exception) {
+            throw ServletShim.of(exception);
+        }
     }
 
     //==================================================================================================================

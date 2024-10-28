@@ -51,7 +51,7 @@ public interface HttpServletRequest extends jakarta.servlet.http.HttpServletRequ
     @Override
     default boolean authenticate(
         jakarta.servlet.http.HttpServletResponse response
-    ) throws jakarta.servlet.ServletException, IOException {
+    ) throws ServletException, IOException {
         return authenticate(ServletShim.of(response));
     }
 

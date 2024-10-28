@@ -25,5 +25,5 @@ public interface FilterRegistration extends jakarta.servlet.FilterRegistration, 
      * @deprecated Use {@link jakarta.servlet.FilterRegistration.Dynamic} instead.
      */
     @Deprecated(since = "jakarta.servlet.FilterRegistration.Dynamic")
-    interface Dynamic extends jakarta.servlet.FilterRegistration.Dynamic, FilterRegistration { }
+    interface Dynamic extends jakarta.servlet.FilterRegistration.Dynamic, FilterRegistration, Registration.Dynamic { }
 }
