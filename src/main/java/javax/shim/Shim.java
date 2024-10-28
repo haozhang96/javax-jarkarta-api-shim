@@ -1,29 +1,19 @@
 package javax.shim;
 
-import javax.servlet.ServletShim;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Objects;
+import java.util.function.Function;
+import java.util.function.IntFunction;
+import java.util.stream.Collector;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * @deprecated Use {@link jakarta} instead.
- * @since Jakarta EE Platform 8
  */
 @Deprecated(since = "jakarta")
 public interface Shim {
-    //==================================================================================================================
-    // Factory Methods
-    //==================================================================================================================
-
-    @SuppressWarnings("unchecked")
-    static <T, S extends Shim> S of(T object) {
-        final var packageName = object.getClass().getPackageName();
-        if (packageName.startsWith(jakarta.servlet.Servlet.class.getPackageName())) {
-            return ServletShim.of(object);
-        }
-
-        throw new UnsupportedOperationException("Unknown type: " + object.getClass().getName());
-    }
-
     //==================================================================================================================
     // Object Implementation Methods
     //==================================================================================================================
@@ -38,12 +28,41 @@ public interface Shim {
     String toString();
 
     //==================================================================================================================
+    // Helper Methods
+    //==================================================================================================================
+
+    @SafeVarargs
+    static <T, S> S[] of(
+        Function<? super T, ? extends S> shimFactory,
+        IntFunction<S[]> arrayGenerator,
+        T... objects
+    ) {
+        return Stream
+            .of(objects)
+            .map(shimFactory)
+            .toArray(arrayGenerator);
+    }
+
+    static <T, S, C> C of(
+        Function<? super T, ? extends S> shimFactory,
+        Collector<? super S, ?, ? extends C> collector,
+        Iterable<? extends T> objects
+    ) {
+        final var stream =
+            objects instanceof Collection<?>
+                ? ((Collection<? extends T>) objects).stream()
+                : StreamSupport.stream(objects.spliterator(), false);
+        return stream
+            .map(shimFactory)
+            .collect(collector);
+    }
+
+    //==================================================================================================================
     // Delegate
     //==================================================================================================================
 
     /**
      * @deprecated Use {@link jakarta} instead.
-     * @since Jakarta EE Platform 8
      */
     @Deprecated(since = "jakarta")
     abstract class Delegate<T> implements Shim, Serializable {
@@ -83,7 +102,6 @@ public interface Shim {
 
         /**
          * @deprecated Use {@link jakarta} instead.
-         * @since Jakarta EE Platform 8
          */
         @Deprecated(since = "jakarta")
         public abstract static class Annotation<A extends java.lang.annotation.Annotation> extends Delegate<A> implements java.lang.annotation.Annotation {
@@ -105,5 +123,4 @@ public interface Shim {
             }
         }
     }
-
 }

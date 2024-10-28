@@ -5,9 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <name>javax-jakarta API Shim</name>
-    <description>
-        A
-    </description>
+    <description>A shim that helps bridge code using javax APIs to jakarta APIs</description>
 
     <groupId>org.haozhang</groupId>
     <artifactId>javax-jakarta-api-shim</artifactId>
@@ -23,7 +21,7 @@
 
     <properties>
         <version.jakarta.platform>10.0.0</version.jakarta.platform>
-        <version.jakarta.jws>3.0.0</version.jakarta.jws>
+        <version.springframework.boot>2.7.18</version.springframework.boot>
         <version.junit.jupiter>5.11.2</version.junit.jupiter>
 
         <maven.compiler.source>11</maven.compiler.source>
@@ -38,6 +36,13 @@
                 <groupId>jakarta.platform</groupId>
                 <artifactId>jakarta.jakartaee-bom</artifactId>
                 <version>${version.jakarta.platform}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${version.springframework.boot}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -223,6 +228,37 @@
         </dependency>-->
 
         <!-- Testing -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jetty</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>javax.servlet-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
