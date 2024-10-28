@@ -1,7 +1,5 @@
 package javax.websocket;
 
-import javax.servlet.ServletShim;
-
 /**
  * @deprecated Use {@link jakarta.websocket.SessionException} instead.
  */
@@ -26,6 +24,6 @@ public class SessionException extends jakarta.websocket.SessionException impleme
 
     @Override
     public Session getSession() {
-        return ServletShim.of(super.getSession());
+        return WebSocketShim.of(super.getSession());
     }
 }

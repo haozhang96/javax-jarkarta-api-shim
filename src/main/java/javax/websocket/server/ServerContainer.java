@@ -1,6 +1,5 @@
 package javax.websocket.server;
 
-import javax.servlet.ServletShim;
 import javax.websocket.DeploymentException;
 import javax.websocket.WebSocketContainer;
 import javax.websocket.WebSocketShim;
@@ -51,8 +50,8 @@ public interface ServerContainer extends jakarta.websocket.server.ServerContaine
         Map<String, String> pathParameters
     ) throws DeploymentException, IOException {
         upgradeHttpToWebSocket(
-            ServletShim.of(httpServletRequest),
-            ServletShim.of(httpServletResponse),
+            httpServletRequest,
+            httpServletResponse,
             WebSocketShim.of(endpointConfig),
             pathParameters
         );

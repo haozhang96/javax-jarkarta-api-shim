@@ -1,6 +1,5 @@
 package javax.websocket;
 
-import javax.servlet.ServletShim;
 import javax.shim.Shim;
 import java.lang.annotation.Annotation;
 import java.util.function.IntFunction;
@@ -69,7 +68,7 @@ public interface WebSocketShim extends Shim {
     }
 
     static <T extends Annotation, S extends Annotation> S of(T annotation) {
-        if (annotation == null || annotation instanceof ServletShim) {
+        if (annotation == null || annotation instanceof WebSocketShim) {
             return S(annotation);
         } else if (annotation instanceof jakarta.websocket.ClientEndpoint) {
             return S(new Facades.ClientEndpoint(S(annotation)));
