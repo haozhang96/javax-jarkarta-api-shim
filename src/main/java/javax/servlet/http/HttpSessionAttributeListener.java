@@ -38,16 +38,16 @@ public interface HttpSessionAttributeListener extends jakarta.servlet.http.HttpS
 
     @Override
     default void attributeAdded(jakarta.servlet.http.HttpSessionBindingEvent event) {
-        attributeAdded(ServletShim.<jakarta.servlet.http.HttpSessionBindingEvent, HttpSessionBindingEvent>of(event));
+        attributeAdded(ServletShim.<HttpSessionBindingEvent>of(event));
     }
 
     @Override
     default void attributeRemoved(jakarta.servlet.http.HttpSessionBindingEvent event) {
-        attributeRemoved(ServletShim.<jakarta.servlet.http.HttpSessionBindingEvent, HttpSessionBindingEvent>of(event));
+        attributeRemoved(ServletShim.<HttpSessionBindingEvent>of(event));
     }
 
     @Override
     default void attributeReplaced(jakarta.servlet.http.HttpSessionBindingEvent event) {
-        attributeReplaced(ServletShim.<jakarta.servlet.http.HttpSessionBindingEvent, HttpSessionBindingEvent>of(event));
+        attributeReplaced(ServletShim.<HttpSessionBindingEvent>of(event));
     }
 }

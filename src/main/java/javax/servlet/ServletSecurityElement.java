@@ -75,7 +75,7 @@ public class ServletSecurityElement extends HttpConstraintElement {
             Stream
                 .of(annotation.httpMethodConstraints())
                 .map(HttpMethodConstraintElement::new)
-                .collect(Collectors.toSet())
+                .collect(Collectors.toUnmodifiableSet())
         );
     }
 
@@ -85,7 +85,7 @@ public class ServletSecurityElement extends HttpConstraintElement {
             Stream
                 .of(annotation.httpMethodConstraints())
                 .map(HttpMethodConstraintElement::new)
-                .collect(Collectors.toSet())
+                .collect(Collectors.toUnmodifiableSet())
         );
     }
 

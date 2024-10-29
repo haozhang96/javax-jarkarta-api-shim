@@ -87,7 +87,6 @@ public abstract class HttpServlet extends GenericServlet {
                 final var wrapperClass = Class.forName(PACKAGE_NAME + ".NoBodyResponse");
                 final var wrapper =
                     wrapperClass
-                        .asSubclass(jakarta.servlet.http.HttpServletResponse.class)
                         .getDeclaredConstructor(jakarta.servlet.http.HttpServletResponse.class)
                         .newInstance(response);
                 doGet(request, ServletShim.of(wrapper));

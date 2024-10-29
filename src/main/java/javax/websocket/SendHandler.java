@@ -20,6 +20,6 @@ public interface SendHandler extends jakarta.websocket.SendHandler, WebSocketShi
 
     @Override
     default void onResult(jakarta.websocket.SendResult result) {
-        onResult(WebSocketShim.<jakarta.websocket.SendResult, SendResult>of(result));
+        onResult(WebSocketShim.<SendResult>of(result));
     }
 }

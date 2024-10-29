@@ -92,48 +92,56 @@ public interface ClientEndpointConfig extends jakarta.websocket.ClientEndpointCo
          * @see jakarta.websocket.ClientEndpointConfig.Builder#configurator(jakarta.websocket.ClientEndpointConfig.Configurator)
          */
         public Builder configurator(Configurator clientEndpointConfigurator) {
-            delegate.configurator(clientEndpointConfigurator);
-            return this;
+            return WebSocketShim.of(delegate.configurator(clientEndpointConfigurator));
         }
 
         /**
          * @see jakarta.websocket.ClientEndpointConfig.Builder#preferredSubprotocols(List)
          */
         public Builder preferredSubprotocols(List<String> preferredSubprotocols) {
-            delegate.preferredSubprotocols(preferredSubprotocols);
-            return this;
+            return WebSocketShim.of(delegate.preferredSubprotocols(preferredSubprotocols));
         }
 
         /**
          * @see jakarta.websocket.ClientEndpointConfig.Builder#extensions(List)
          */
         public Builder extensions(List<Extension> extensions) {
-            delegate.extensions(WebSocketShim.of(Collectors.toList(), extensions));
-            return this;
+            return WebSocketShim.of(delegate.extensions(
+                WebSocketShim
+                    .<Extension>of(extensions)
+                    .collect(Collectors.toList())
+            ));
         }
 
         /**
          * @see jakarta.websocket.ClientEndpointConfig.Builder#encoders(List)
          */
         public Builder encoders(List<Class<? extends Encoder>> encoders) {
-            delegate.encoders(WebSocketShim.of(Collectors.toList(), encoders));
-            return this;
+            return WebSocketShim.of(delegate.encoders(
+                encoders
+                    .stream()
+                    .map(encoder -> encoder.<jakarta.websocket.Encoder>asSubclass(jakarta.websocket.Encoder.class))
+                    .collect(Collectors.toList())
+            ));
         }
 
         /**
          * @see jakarta.websocket.ClientEndpointConfig.Builder#decoders(List)
          */
         public Builder decoders(List<Class<? extends Decoder>> decoders) {
-            delegate.decoders(WebSocketShim.of(Collectors.toList(), decoders));
-            return this;
+            return WebSocketShim.of(delegate.decoders(
+                decoders
+                    .stream()
+                    .map(decoder -> decoder.<jakarta.websocket.Decoder>asSubclass(jakarta.websocket.Decoder.class))
+                    .collect(Collectors.toList())
+            ));
         }
 
         /**
          * @see jakarta.websocket.ClientEndpointConfig.Builder#sslContext(SSLContext)
          */
         public Builder sslContext(SSLContext sslContext) {
-            delegate.sslContext(sslContext);
-            return this;
+            return WebSocketShim.of(delegate.sslContext(sslContext));
         }
     }
 }

@@ -36,16 +36,16 @@ public interface ServletContextAttributeListener extends jakarta.servlet.Servlet
 
     @Override
     default void attributeAdded(jakarta.servlet.ServletContextAttributeEvent event) {
-        attributeAdded(ServletShim.<jakarta.servlet.ServletContextAttributeEvent, ServletContextAttributeEvent>of(event));
+        attributeAdded(ServletShim.<ServletContextAttributeEvent>of(event));
     }
 
     @Override
     default void attributeRemoved(jakarta.servlet.ServletContextAttributeEvent event) {
-        attributeRemoved(ServletShim.<jakarta.servlet.ServletContextAttributeEvent, ServletContextAttributeEvent>of(event));
+        attributeRemoved(ServletShim.<ServletContextAttributeEvent>of(event));
     }
 
     @Override
     default void attributeReplaced(jakarta.servlet.ServletContextAttributeEvent event) {
-        attributeReplaced(ServletShim.<jakarta.servlet.ServletContextAttributeEvent, ServletContextAttributeEvent>of(event));
+        attributeReplaced(ServletShim.<ServletContextAttributeEvent>of(event));
     }
 }

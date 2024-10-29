@@ -55,7 +55,9 @@ public interface ServerEndpointConfig extends jakarta.websocket.server.ServerEnd
 
         @Override
         public List<Extension> getNegotiatedExtensions(List installed, List requested) {
-            return WebSocketShim.of(Collectors.toList(), super.getNegotiatedExtensions(installed, requested));
+            return WebSocketShim
+                .<Extension>of(super.getNegotiatedExtensions(installed, requested))
+                .collect(Collectors.toList());
         }
 
         @Override
@@ -111,40 +113,49 @@ public interface ServerEndpointConfig extends jakarta.websocket.server.ServerEnd
          * @see jakarta.websocket.server.ServerEndpointConfig.Builder#encoders(List)
          */
         public Builder encoders(List<Class<? extends Encoder>> encoders) {
-            delegate.encoders(WebSocketShim.of(Collectors.toList(), encoders));
-            return this;
+            return WebSocketShim.of(delegate.encoders(
+                encoders
+                    .stream()
+                    .map(encoder -> encoder.<jakarta.websocket.Encoder>asSubclass(jakarta.websocket.Encoder.class))
+                    .collect(Collectors.toList())
+            ));
         }
 
         /**
          * @see jakarta.websocket.server.ServerEndpointConfig.Builder#decoders(List)
          */
         public Builder decoders(List<Class<? extends Decoder>> decoders) {
-            delegate.decoders(WebSocketShim.of(Collectors.toList(), decoders));
-            return this;
+            return WebSocketShim.of(delegate.decoders(
+                decoders
+                    .stream()
+                    .map(decoder -> decoder.<jakarta.websocket.Decoder>asSubclass(jakarta.websocket.Decoder.class))
+                    .collect(Collectors.toList())
+            ));
         }
 
         /**
          * @see jakarta.websocket.server.ServerEndpointConfig.Builder#subprotocols(List)
          */
         public Builder subprotocols(List<String> subprotocols) {
-            delegate.subprotocols(subprotocols);
-            return this;
+            return WebSocketShim.of(delegate.subprotocols(subprotocols));
         }
 
         /**
          * @see jakarta.websocket.server.ServerEndpointConfig.Builder#extensions(List)
          */
         public Builder extensions(List<Extension> extensions) {
-            delegate.extensions(WebSocketShim.of(Collectors.toList(), extensions));
-            return this;
+            return WebSocketShim.of(delegate.extensions(
+                WebSocketShim
+                    .<Extension>of(extensions)
+                    .collect(Collectors.toList())
+            ));
         }
 
         /**
          * @see jakarta.websocket.server.ServerEndpointConfig.Builder#configurator(jakarta.websocket.server.ServerEndpointConfig.Configurator)
          */
         public Builder configurator(Configurator serverEndpointConfigurator) {
-            delegate.configurator(serverEndpointConfigurator);
-            return this;
+            return WebSocketShim.of(delegate.configurator(serverEndpointConfigurator));
         }
     }
 }

@@ -53,18 +53,12 @@ public interface Session extends jakarta.websocket.Session, WebSocketShim {
 
     @Override
     default <T> void addMessageHandler(Class<T> clazz, jakarta.websocket.MessageHandler.Whole<T> handler) {
-        addMessageHandler(
-            clazz,
-            WebSocketShim.<jakarta.websocket.MessageHandler.Whole<T>, MessageHandler.Whole<T>>of(handler)
-        );
+        addMessageHandler(clazz, WebSocketShim.<MessageHandler.Whole<T>>of(handler));
     }
 
     @Override
     default <T> void addMessageHandler(Class<T> clazz, jakarta.websocket.MessageHandler.Partial<T> handler) {
-        addMessageHandler(
-            clazz,
-            WebSocketShim.<jakarta.websocket.MessageHandler.Partial<T>, MessageHandler.Partial<T>>of(handler)
-        );
+        addMessageHandler(clazz, WebSocketShim.<MessageHandler.Partial<T>>of(handler));
     }
 
     @Override

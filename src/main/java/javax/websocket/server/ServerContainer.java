@@ -39,7 +39,7 @@ public interface ServerContainer extends jakarta.websocket.server.ServerContaine
 
     @Override
     default void addEndpoint(jakarta.websocket.server.ServerEndpointConfig endpointConfig) throws DeploymentException {
-        addEndpoint(WebSocketShim.<jakarta.websocket.server.ServerEndpointConfig, ServerEndpointConfig>of(endpointConfig));
+        addEndpoint(WebSocketShim.<ServerEndpointConfig>of(endpointConfig));
     }
 
     @Override

@@ -16,12 +16,12 @@ public interface ServletContext extends jakarta.servlet.ServletContext, ServletS
     /**
      * @see #addServlet(String, jakarta.servlet.Servlet)
      */
-    ServletRegistration.Dynamic addServlet(String servletName, Servlet servlet);
+    ServletRegistration.Dynamic addServlet(String name, Servlet servlet);
 
     /**
      * @see #addFilter(String, jakarta.servlet.Filter)
      */
-    FilterRegistration.Dynamic addFilter(String filterName, Filter filter);
+    FilterRegistration.Dynamic addFilter(String name, Filter filter);
 
     /**
      * @deprecated This method has been deprecated and/or removed since Servlet 2.1.
@@ -69,44 +69,44 @@ public interface ServletContext extends jakarta.servlet.ServletContext, ServletS
     RequestDispatcher getNamedDispatcher(String name);
 
     @Override
-    ServletRegistration.Dynamic addServlet(String servletName, String className);
+    ServletRegistration.Dynamic addServlet(String name, String className);
 
     @Override
-    default ServletRegistration.Dynamic addServlet(String servletName, jakarta.servlet.Servlet servlet) {
-        return addServlet(servletName, ServletShim.<jakarta.servlet.Servlet, Servlet>of(servlet));
+    default ServletRegistration.Dynamic addServlet(String name, jakarta.servlet.Servlet servlet) {
+        return addServlet(name, ServletShim.<Servlet>of(servlet));
     }
 
     @Override
-    ServletRegistration.Dynamic addServlet(String servletName, Class servletClass);
+    ServletRegistration.Dynamic addServlet(String name, Class clazz);
 
     @Override
-    ServletRegistration.Dynamic addJspFile(String servletName, String jspFile);
+    ServletRegistration.Dynamic addJspFile(String name, String file);
 
     @Override
     Servlet createServlet(Class clazz) throws ServletException;
 
     @Override
-    ServletRegistration getServletRegistration(String servletName);
+    ServletRegistration getServletRegistration(String name);
 
     @Override
     Map<String, ? extends ServletRegistration> getServletRegistrations();
 
     @Override
-    FilterRegistration.Dynamic addFilter(String filterName, String className);
+    FilterRegistration.Dynamic addFilter(String name, String className);
 
     @Override
-    default FilterRegistration.Dynamic addFilter(String filterName, jakarta.servlet.Filter filter) {
-        return addFilter(filterName, ServletShim.<jakarta.servlet.Filter, Filter>of(filter));
+    default FilterRegistration.Dynamic addFilter(String name, jakarta.servlet.Filter filter) {
+        return addFilter(name, ServletShim.<Filter>of(filter));
     }
 
     @Override
-    FilterRegistration.Dynamic addFilter(String filterName, Class filterClass);
+    FilterRegistration.Dynamic addFilter(String name, Class clazz);
 
     @Override
     Filter createFilter(Class clazz) throws ServletException;
 
     @Override
-    FilterRegistration getFilterRegistration(String filterName);
+    FilterRegistration getFilterRegistration(String name);
 
     @Override
     Map<String, ? extends FilterRegistration> getFilterRegistrations();

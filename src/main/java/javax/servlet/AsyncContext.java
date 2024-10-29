@@ -62,6 +62,6 @@ public interface AsyncContext extends jakarta.servlet.AsyncContext, ServletShim 
     default <T extends jakarta.servlet.AsyncListener> T createListener(
         Class<T> clazz
     ) throws ServletException {
-        return clazz.cast(createListener(clazz.asSubclass(AsyncListener.class), (Void) null));
+        return clazz.cast(createListener(ServletShim.of(AsyncListener.class, clazz), (Void) null));
     }
 }

@@ -27,11 +27,11 @@ public interface HttpSessionBindingListener extends jakarta.servlet.http.HttpSes
 
     @Override
     default void valueBound(jakarta.servlet.http.HttpSessionBindingEvent event) {
-        valueBound(ServletShim.<jakarta.servlet.http.HttpSessionBindingEvent, HttpSessionBindingEvent>of(event));
+        valueBound(ServletShim.<HttpSessionBindingEvent>of(event));
     }
 
     @Override
     default void valueUnbound(jakarta.servlet.http.HttpSessionBindingEvent event) {
-        valueUnbound(ServletShim.<jakarta.servlet.http.HttpSessionBindingEvent, HttpSessionBindingEvent>of(event));
+        valueUnbound(ServletShim.<HttpSessionBindingEvent>of(event));
     }
 }

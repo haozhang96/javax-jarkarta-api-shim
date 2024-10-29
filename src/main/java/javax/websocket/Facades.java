@@ -6,8 +6,10 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.net.URI;
 import java.nio.ByteBuffer;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * This interface contains {@link jakarta.websocket}-to-{@link javax.websocket} facades used for wrapping Jakarta
@@ -16,7 +18,7 @@ import java.util.stream.Collectors;
  * @deprecated Use {@link jakarta.websocket} instead.
  */
 @Deprecated(since = "jakarta.websocket")
-@SuppressWarnings("all") // A lot of ugliness is required to bridge the facades between the two APIs.
+@SuppressWarnings("ClassExplicitlyAnnotation")
 interface Facades {
     //==================================================================================================================
     // Annotations
@@ -41,18 +43,26 @@ interface Facades {
         }
 
         @Override
+        @SuppressWarnings("unchecked")
         public Class<? extends javax.websocket.Decoder>[] decoders() {
-            return (Class<? extends javax.websocket.Decoder>[]) delegate.decoders();
+            return Stream
+                .of(delegate.decoders())
+                .map(clazz -> WebSocketShim.<javax.websocket.Decoder>of(javax.websocket.Decoder.class, clazz))
+                .toArray(Class[]::new);
         }
 
         @Override
+        @SuppressWarnings("unchecked")
         public Class<? extends javax.websocket.Encoder>[] encoders() {
-            return (Class<? extends javax.websocket.Encoder>[]) delegate.encoders();
+            return Stream
+                .of(delegate.encoders())
+                .map(clazz -> WebSocketShim.<javax.websocket.Encoder>of(javax.websocket.Encoder.class, clazz))
+                .toArray(Class[]::new);
         }
 
         @Override
         public Class<? extends javax.websocket.ClientEndpointConfig.Configurator> configurator() {
-            return delegate.configurator().asSubclass(javax.websocket.ClientEndpointConfig.Configurator.class);
+            return WebSocketShim.of(javax.websocket.ClientEndpointConfig.Configurator.class, delegate.configurator());
         }
     }
 
@@ -148,18 +158,27 @@ interface Facades {
         }
 
         @Override
+        @SuppressWarnings("unchecked")
         public Class<? extends javax.websocket.Decoder>[] decoders() {
-            return (Class<? extends javax.websocket.Decoder>[]) delegate.decoders();
+            return Stream
+                .of(delegate.decoders())
+                .map(clazz -> WebSocketShim.<javax.websocket.Decoder>of(javax.websocket.Decoder.class, clazz))
+                .toArray(Class[]::new);
         }
 
         @Override
+        @SuppressWarnings("unchecked")
         public Class<? extends javax.websocket.Encoder>[] encoders() {
-            return (Class<? extends javax.websocket.Encoder>[]) delegate.encoders();
+            return Stream
+                .of(delegate.encoders())
+                .map(clazz -> WebSocketShim.<javax.websocket.Encoder>of(javax.websocket.Encoder.class, clazz))
+                .toArray(Class[]::new);
         }
 
         @Override
         public Class<? extends javax.websocket.server.ServerEndpointConfig.Configurator> configurator() {
-            return delegate.configurator().asSubclass(javax.websocket.server.ServerEndpointConfig.Configurator.class);
+            return WebSocketShim
+                .of(javax.websocket.server.ServerEndpointConfig.Configurator.class, delegate.configurator());
         }
     }
 
@@ -219,6 +238,7 @@ interface Facades {
         }
 
         @Override
+        @SuppressWarnings("CallToPrintStackTrace")
         public void printStackTrace() {
             delegate.printStackTrace();
         }
@@ -291,6 +311,7 @@ interface Facades {
         }
 
         @Override
+        @SuppressWarnings("CallToPrintStackTrace")
         public void printStackTrace() {
             delegate.printStackTrace();
         }
@@ -368,6 +389,7 @@ interface Facades {
         }
 
         @Override
+        @SuppressWarnings("CallToPrintStackTrace")
         public void printStackTrace() {
             delegate.printStackTrace();
         }
@@ -445,6 +467,7 @@ interface Facades {
         }
 
         @Override
+        @SuppressWarnings("CallToPrintStackTrace")
         public void printStackTrace() {
             delegate.printStackTrace();
         }
@@ -494,8 +517,8 @@ interface Facades {
         }
 
         @Override
-        public void setAsyncSendTimeout(long timeoutmillis) {
-            delegate.setAsyncSendTimeout(timeoutmillis);
+        public void setAsyncSendTimeout(long milliseconds) {
+            delegate.setAsyncSendTimeout(milliseconds);
         }
 
         @Override
@@ -506,7 +529,7 @@ interface Facades {
             try {
                 return WebSocketShim.of(delegate.connectToServer(annotatedEndpointInstance, path));
             } catch (jakarta.websocket.DeploymentException exception) {
-                throw WebSocketShim.<jakarta.websocket.DeploymentException, javax.websocket.DeploymentException>of(exception);
+                throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
             }
         }
 
@@ -518,7 +541,7 @@ interface Facades {
             try {
                 return WebSocketShim.of(delegate.connectToServer(annotatedEndpointClass, path));
             } catch (jakarta.websocket.DeploymentException exception) {
-                throw WebSocketShim.<jakarta.websocket.DeploymentException, javax.websocket.DeploymentException>of(exception);
+                throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
             }
         }
 
@@ -531,7 +554,7 @@ interface Facades {
             try {
                 return WebSocketShim.of(delegate.connectToServer(endpointInstance, endpointConfig, path));
             } catch (jakarta.websocket.DeploymentException exception) {
-                throw WebSocketShim.<jakarta.websocket.DeploymentException, javax.websocket.DeploymentException>of(exception);
+                throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
             }
         }
 
@@ -544,7 +567,7 @@ interface Facades {
             try {
                 return WebSocketShim.of(delegate.connectToServer(endpointInstance, endpointConfig, path));
             } catch (jakarta.websocket.DeploymentException exception) {
-                throw WebSocketShim.<jakarta.websocket.DeploymentException, javax.websocket.DeploymentException>of(exception);
+                throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
             }
         }
 
@@ -557,7 +580,7 @@ interface Facades {
             try {
                 return WebSocketShim.of(delegate.connectToServer(endpointClass, endpointConfig, path));
             } catch (jakarta.websocket.DeploymentException exception) {
-                throw WebSocketShim.<jakarta.websocket.DeploymentException, javax.websocket.DeploymentException>of(exception);
+                throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
             }
         }
 
@@ -570,7 +593,7 @@ interface Facades {
             try {
                 return WebSocketShim.of(delegate.connectToServer(endpointClass, endpointConfig, path));
             } catch (jakarta.websocket.DeploymentException exception) {
-                throw WebSocketShim.<jakarta.websocket.DeploymentException, javax.websocket.DeploymentException>of(exception);
+                throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
             }
         }
 
@@ -605,8 +628,11 @@ interface Facades {
         }
 
         @Override
+        @SuppressWarnings("rawtypes")
         public Set getInstalledExtensions() {
-            return WebSocketShim.of(Collectors.toSet(), delegate.getInstalledExtensions());
+            return WebSocketShim
+                .<javax.websocket.Extension>of(delegate.getInstalledExtensions())
+                .collect(Collectors.toCollection(LinkedHashSet::new));
         }
     }
 }

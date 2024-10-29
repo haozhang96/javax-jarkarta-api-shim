@@ -80,6 +80,6 @@ public interface HttpServletRequest extends jakarta.servlet.http.HttpServletRequ
     default <T extends jakarta.servlet.http.HttpUpgradeHandler> T upgrade(
         Class<T> clazz
     ) throws ServletException, IOException {
-        return clazz.cast(upgrade(clazz.asSubclass(HttpUpgradeHandler.class), (Void) null));
+        return clazz.cast(upgrade(ServletShim.of(HttpUpgradeHandler.class, clazz), (Void) null));
     }
 }

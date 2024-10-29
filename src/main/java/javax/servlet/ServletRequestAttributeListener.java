@@ -36,16 +36,16 @@ public interface ServletRequestAttributeListener extends jakarta.servlet.Servlet
 
     @Override
     default void attributeAdded(jakarta.servlet.ServletRequestAttributeEvent event) {
-        attributeAdded(ServletShim.<jakarta.servlet.ServletRequestAttributeEvent, ServletRequestAttributeEvent>of(event));
+        attributeAdded(ServletShim.<ServletRequestAttributeEvent>of(event));
     }
 
     @Override
     default void attributeRemoved(jakarta.servlet.ServletRequestAttributeEvent event) {
-        attributeRemoved(ServletShim.<jakarta.servlet.ServletRequestAttributeEvent, ServletRequestAttributeEvent>of(event));
+        attributeRemoved(ServletShim.<ServletRequestAttributeEvent>of(event));
     }
 
     @Override
     default void attributeReplaced(jakarta.servlet.ServletRequestAttributeEvent event) {
-        attributeReplaced(ServletShim.<jakarta.servlet.ServletRequestAttributeEvent, ServletRequestAttributeEvent>of(event));
+        attributeReplaced(ServletShim.<ServletRequestAttributeEvent>of(event));
     }
 }

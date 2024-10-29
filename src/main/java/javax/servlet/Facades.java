@@ -8,6 +8,7 @@ import java.security.Principal;
 import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * This interface contains {@link jakarta.servlet}-to-{@link javax.servlet} facades used for wrapping Jakarta Servlet
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
  * @deprecated Use {@link jakarta.servlet} instead.
  */
 @Deprecated(since = "jakarta.servlet")
-@SuppressWarnings("all") // A lot of ugliness is required to bridge the facades between the two APIs.
+@SuppressWarnings("ClassExplicitlyAnnotation")
 interface Facades {
     //==================================================================================================================
     // Annotations
@@ -158,7 +159,10 @@ interface Facades {
 
         @Override
         public javax.servlet.annotation.HttpMethodConstraint[] httpMethodConstraints() {
-            return ServletShim.of(javax.servlet.annotation.HttpMethodConstraint[]::new, delegate.httpMethodConstraints());
+            return Stream
+                .of(delegate.httpMethodConstraints())
+                .<javax.servlet.annotation.HttpMethodConstraint>map(ServletShim::of)
+                .toArray(javax.servlet.annotation.HttpMethodConstraint[]::new);
         }
     }
 
@@ -187,7 +191,10 @@ interface Facades {
 
         @Override
         public javax.servlet.annotation.WebInitParam[] initParams() {
-            return ServletShim.of(javax.servlet.annotation.WebInitParam[]::new, delegate.initParams());
+            return Stream
+                .of(delegate.initParams())
+                .<javax.servlet.annotation.WebInitParam>map(ServletShim::of)
+                .toArray(javax.servlet.annotation.WebInitParam[]::new);
         }
 
         @Override
@@ -221,8 +228,10 @@ interface Facades {
         }
 
         @Override
-        public DispatcherType[] dispatcherTypes() {
-            return ServletShim.of(DispatcherType[]::new, delegate.dispatcherTypes());
+        public javax.servlet.DispatcherType[] dispatcherTypes() {
+            return ServletShim
+                .<javax.servlet.DispatcherType>of(delegate.dispatcherTypes())
+                .toArray(javax.servlet.DispatcherType[]::new);
         }
 
         @Override
@@ -314,7 +323,10 @@ interface Facades {
 
         @Override
         public javax.servlet.annotation.WebInitParam[] initParams() {
-            return ServletShim.of(javax.servlet.annotation.WebInitParam[]::new, delegate.initParams());
+            return Stream
+                .of(delegate.initParams())
+                .<javax.servlet.annotation.WebInitParam>map(ServletShim::of)
+                .toArray(javax.servlet.annotation.WebInitParam[]::new);
         }
 
         @Override
@@ -563,6 +575,7 @@ interface Facades {
         }
     }
 
+    @SuppressWarnings("removal")
     final class Cookie extends javax.servlet.http.Cookie {
         private final jakarta.servlet.http.Cookie delegate;
 
@@ -655,6 +668,7 @@ interface Facades {
         }
 
         @Override
+        @SuppressWarnings("MethodDoesntCallSuperMethod")
         public Object clone() {
             return delegate.clone();
         }
@@ -690,6 +704,7 @@ interface Facades {
         }
 
         @Override
+        @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
         public boolean equals(Object obj) {
             return delegate.equals(obj);
         }
@@ -1501,7 +1516,9 @@ interface Facades {
 
         @Override
         public javax.servlet.http.Cookie[] getCookies() {
-            return ServletShim.of(javax.servlet.http.Cookie[]::new, delegate.getCookies());
+            return ServletShim
+                .<javax.servlet.http.Cookie>of(delegate.getCookies())
+                .toArray(javax.servlet.http.Cookie[]::new);
         }
 
         @Override
@@ -1670,12 +1687,11 @@ interface Facades {
         }
 
         @Override
+        @SuppressWarnings("rawtypes")
         public Collection getParts() throws javax.servlet.ServletException, IOException {
             try {
-                return delegate
-                    .getParts()
-                    .stream()
-                    .map(ServletShim::of)
+                return ServletShim
+                    .<javax.servlet.http.Part>of(delegate.getParts())
                     .collect(Collectors.toList());
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
@@ -2349,12 +2365,12 @@ interface Facades {
 
         @Override
         public Object getSource() {
-            return super.getSource();
+            return delegate.getSource();
         }
 
         @Override
         public String toString() {
-            return super.toString();
+            return delegate.toString();
         }
     }
 
@@ -3049,9 +3065,14 @@ interface Facades {
 
         @Override
         public void onStartup(
-            Set<Class<?>> classes, javax.servlet.ServletContext context
+            Set<Class<?>> classes,
+            javax.servlet.ServletContext context
         ) throws javax.servlet.ServletException {
-
+            try {
+                delegate.onStartup(classes, context);
+            } catch (jakarta.servlet.ServletException exception) {
+                throw ServletShim.of(exception);
+            }
         }
 
         @Override
@@ -3067,6 +3088,7 @@ interface Facades {
         }
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     final class ServletContext extends Shim.Delegate<jakarta.servlet.ServletContext> implements javax.servlet.ServletContext {
         //==============================================================================================================
         // Constructors
@@ -3201,86 +3223,86 @@ interface Facades {
         }
 
         @Override
-        public javax.servlet.ServletRegistration.Dynamic addServlet(String servletName, String className) {
-            return ServletShim.of(delegate.addServlet(servletName, className));
+        public javax.servlet.ServletRegistration.Dynamic addServlet(String name, String className) {
+            return ServletShim.of(delegate.addServlet(name, className));
         }
 
         @Override
-        public javax.servlet.ServletRegistration.Dynamic addServlet(String servletName, javax.servlet.Servlet servlet) {
-            return ServletShim.of(delegate.addServlet(servletName, servlet));
+        public javax.servlet.ServletRegistration.Dynamic addServlet(String name, javax.servlet.Servlet servlet) {
+            return ServletShim.of(delegate.addServlet(name, servlet));
         }
 
         @Override
-        public javax.servlet.ServletRegistration.Dynamic addServlet(String servletName, jakarta.servlet.Servlet servlet) {
-            return ServletShim.of(delegate.addServlet(servletName, servlet));
+        public javax.servlet.ServletRegistration.Dynamic addServlet(String name, jakarta.servlet.Servlet servlet) {
+            return ServletShim.of(delegate.addServlet(name, servlet));
         }
 
         @Override
-        public javax.servlet.ServletRegistration.Dynamic addServlet(String servletName, Class servletClass) {
-            return ServletShim.of(delegate.addServlet(servletName, servletClass));
+        public javax.servlet.ServletRegistration.Dynamic addServlet(String name, Class clazz) {
+            return ServletShim.of(delegate.addServlet(name, clazz.asSubclass(jakarta.servlet.Servlet.class)));
         }
 
         @Override
-        public javax.servlet.ServletRegistration.Dynamic addJspFile(String servletName, String jspFile) {
-            return ServletShim.of(delegate.addJspFile(servletName, jspFile));
+        public javax.servlet.ServletRegistration.Dynamic addJspFile(String name, String file) {
+            return ServletShim.of(delegate.addJspFile(name, file));
         }
 
         @Override
         public javax.servlet.Servlet createServlet(Class clazz) throws javax.servlet.ServletException {
             try {
-                return ServletShim.of(delegate.createServlet(clazz));
+                return ServletShim.of(delegate.createServlet(clazz.asSubclass(jakarta.servlet.Servlet.class)));
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
         }
 
         @Override
-        public javax.servlet.ServletRegistration getServletRegistration(String servletName) {
-            return ServletShim.of(delegate.getServletRegistration(servletName));
+        public javax.servlet.ServletRegistration getServletRegistration(String name) {
+            return ServletShim.of(delegate.getServletRegistration(name));
         }
 
         @Override
         public Map getServletRegistrations() {
-            return delegate.getServletRegistrations();
+            return ServletShim.of(delegate.getServletRegistrations());
         }
 
         @Override
-        public javax.servlet.FilterRegistration.Dynamic addFilter(String filterName, String className) {
-            return ServletShim.of(delegate.addFilter(filterName, className));
+        public javax.servlet.FilterRegistration.Dynamic addFilter(String name, String className) {
+            return ServletShim.of(delegate.addFilter(name, className));
         }
 
         @Override
-        public javax.servlet.FilterRegistration.Dynamic addFilter(String filterName, javax.servlet.Filter filter) {
-            return ServletShim.of(delegate.addFilter(filterName, filter));
+        public javax.servlet.FilterRegistration.Dynamic addFilter(String name, javax.servlet.Filter filter) {
+            return ServletShim.of(delegate.addFilter(name, filter));
         }
 
         @Override
-        public javax.servlet.FilterRegistration.Dynamic addFilter(String filterName, jakarta.servlet.Filter filter) {
-            return ServletShim.of(delegate.addFilter(filterName, filter));
+        public javax.servlet.FilterRegistration.Dynamic addFilter(String name, jakarta.servlet.Filter filter) {
+            return ServletShim.of(delegate.addFilter(name, filter));
         }
 
         @Override
-        public javax.servlet.FilterRegistration.Dynamic addFilter(String filterName, Class filterClass) {
-            return ServletShim.of(delegate.addFilter(filterName, filterClass));
+        public javax.servlet.FilterRegistration.Dynamic addFilter(String name, Class clazz) {
+            return ServletShim.of(delegate.addFilter(name, clazz.asSubclass(jakarta.servlet.Filter.class)));
         }
 
         @Override
         public javax.servlet.Filter createFilter(Class clazz) throws javax.servlet.ServletException {
             try {
-                return ServletShim.of(delegate.createFilter(clazz));
+                return ServletShim.of(delegate.createFilter(clazz.asSubclass(jakarta.servlet.Filter.class)));
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
         }
 
         @Override
-        public javax.servlet.FilterRegistration getFilterRegistration(String filterName) {
-            return ServletShim.of(delegate.getFilterRegistration(filterName));
+        public javax.servlet.FilterRegistration getFilterRegistration(String name) {
+            return ServletShim.of(delegate.getFilterRegistration(name));
         }
 
         @Override
         public Map getFilterRegistrations() {
-            return delegate.getFilterRegistrations();
+            return ServletShim.of(delegate.getFilterRegistrations());
         }
 
         @Override
@@ -3291,31 +3313,23 @@ interface Facades {
         @Override
         public void setSessionTrackingModes(Set sessionTrackingModes) {
             delegate.setSessionTrackingModes(
-                ((Set<javax.servlet.SessionTrackingMode>) sessionTrackingModes)
-                    .stream()
-                    .map(Object::toString)
-                    .map(jakarta.servlet.SessionTrackingMode::valueOf)
+                ServletShim
+                    .<javax.servlet.SessionTrackingMode>of(sessionTrackingModes)
                     .collect(Collectors.toCollection(LinkedHashSet::new))
             );
         }
 
         @Override
         public Set getDefaultSessionTrackingModes() {
-            return delegate
-                .getDefaultSessionTrackingModes()
-                .stream()
-                .map(Object::toString)
-                .map(javax.servlet.SessionTrackingMode::valueOf)
+            return ServletShim
+                .<javax.servlet.SessionTrackingMode>of(delegate.getDefaultSessionTrackingModes())
                 .collect(Collectors.toCollection(LinkedHashSet::new));
         }
 
         @Override
         public Set getEffectiveSessionTrackingModes() {
-            return delegate
-                .getEffectiveSessionTrackingModes()
-                .stream()
-                .map(Object::toString)
-                .map(javax.servlet.SessionTrackingMode::valueOf)
+            return ServletShim
+                .<javax.servlet.SessionTrackingMode>of(delegate.getEffectiveSessionTrackingModes())
                 .collect(Collectors.toCollection(LinkedHashSet::new));
         }
 
@@ -3330,8 +3344,8 @@ interface Facades {
         }
 
         @Override
-        public void addListener(Class<? extends EventListener> listenerClass) {
-            delegate.addListener(listenerClass);
+        public void addListener(Class<? extends EventListener> clazz) {
+            delegate.addListener(clazz);
         }
 
         @Override
@@ -3790,6 +3804,7 @@ interface Facades {
         }
 
         @Override
+        @SuppressWarnings("CallToPrintStackTrace")
         public void printStackTrace() {
             delegate.printStackTrace();
         }
@@ -3820,6 +3835,7 @@ interface Facades {
         }
     }
 
+    @SuppressWarnings("NullableProblems")
     final class ServletInputStream extends javax.servlet.ServletInputStream {
         private final jakarta.servlet.ServletInputStream delegate;
 
@@ -3906,8 +3922,8 @@ interface Facades {
         }
 
         @Override
-        public void mark(int readlimit) {
-            delegate.mark(readlimit);
+        public void mark(int limit) {
+            delegate.mark(limit);
         }
 
         @Override
@@ -3926,6 +3942,7 @@ interface Facades {
         }
     }
 
+    @SuppressWarnings("NullableProblems")
     final class ServletOutputStream extends javax.servlet.ServletOutputStream {
         private final jakarta.servlet.ServletOutputStream delegate;
 
@@ -4608,8 +4625,36 @@ interface Facades {
         //==============================================================================================================
         // Delegated Methods
         //==============================================================================================================
+
+        @Override
+        public Collection<javax.servlet.HttpMethodConstraintElement> getHttpMethodConstraints() {
+            return ServletShim
+                .<javax.servlet.HttpMethodConstraintElement>of(delegate.getHttpMethodConstraints())
+                .collect(Collectors.toList());
+        }
+
+        @Override
+        public Collection<String> getMethodNames() {
+            return delegate.getMethodNames();
+        }
+
+        @Override
+        public jakarta.servlet.annotation.ServletSecurity.EmptyRoleSemantic getEmptyRoleSemantic() {
+            return delegate.getEmptyRoleSemantic();
+        }
+
+        @Override
+        public jakarta.servlet.annotation.ServletSecurity.TransportGuarantee getTransportGuarantee() {
+            return delegate.getTransportGuarantee();
+        }
+
+        @Override
+        public String[] getRolesAllowed() {
+            return delegate.getRolesAllowed();
+        }
     }
 
+    @SuppressWarnings("removal")
     final class SessionCookieConfig extends Shim.Delegate<jakarta.servlet.SessionCookieConfig> implements javax.servlet.SessionCookieConfig {
         //==============================================================================================================
         // Constructors
@@ -4764,6 +4809,7 @@ interface Facades {
         }
 
         @Override
+        @SuppressWarnings("CallToPrintStackTrace")
         public void printStackTrace() {
             delegate.printStackTrace();
         }

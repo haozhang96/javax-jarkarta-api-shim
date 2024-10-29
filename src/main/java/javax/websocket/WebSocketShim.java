@@ -2,8 +2,8 @@ package javax.websocket;
 
 import javax.shim.Shim;
 import java.lang.annotation.Annotation;
-import java.util.function.IntFunction;
-import java.util.stream.Collector;
+import java.util.Map;
+import java.util.stream.Stream;
 
 /**
  * @deprecated Use {@link jakarta.websocket} instead.
@@ -14,7 +14,7 @@ public interface WebSocketShim extends Shim {
     // Factory Methods
     //==================================================================================================================
 
-    static <T, S> S of(T object) {
+    static <S extends WebSocketShim> S of(Object object) {
         //==============================================================================================================
         // Specializations
         //==============================================================================================================
@@ -42,16 +42,23 @@ public interface WebSocketShim extends Shim {
         throw new UnsupportedOperationException("Unknown type: " + object.getClass().getName());
     }
 
-    @SafeVarargs
-    static <T, S> S[] of(IntFunction<S[]> arrayGenerator, T... objects) {
-        return Shim.of(WebSocketShim::of, arrayGenerator, objects);
+    static <S extends WebSocketShim> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {
+        return Shim.of(shimType, interfaceType);
     }
 
-    static <T, S, C> C of(Collector<? super S, ?, ? extends C> collector, Iterable<? extends T> objects) {
-        return Shim.of(WebSocketShim::of, collector, objects);
+    static <S extends WebSocketShim> Stream<S> of(Object[] objects) {
+        return Shim.of(WebSocketShim::of, objects);
     }
 
-    static <T extends Exception, S extends Exception> S of(T exception) {
+    static <S extends WebSocketShim> Stream<S> of(Iterable<?> objects) {
+        return Shim.of(WebSocketShim::of, objects);
+    }
+
+    static <K, S extends WebSocketShim> Map<K, S> of(Map<? extends K, ?> map) {
+        return Shim.of(WebSocketShim::of, map);
+    }
+
+    static <S extends Exception & WebSocketShim> S of(Exception exception) {
         if (exception == null || exception instanceof WebSocketShim) {
             return S(exception);
         } else if (exception instanceof jakarta.websocket.DecodeException) {
@@ -67,7 +74,11 @@ public interface WebSocketShim extends Shim {
         throw new UnsupportedOperationException("Unknown exception type: " + exception.getClass().getName());
     }
 
-    static <T extends Annotation, S extends Annotation> S of(T annotation) {
+    //==================================================================================================================
+    // Private Helper Methods
+    //==================================================================================================================
+
+    private static <S extends Annotation> S of(Annotation annotation) {
         if (annotation == null || annotation instanceof WebSocketShim) {
             return S(annotation);
         } else if (annotation instanceof jakarta.websocket.ClientEndpoint) {
@@ -89,12 +100,8 @@ public interface WebSocketShim extends Shim {
         throw new UnsupportedOperationException("Unknown annotation type: " + annotation.annotationType().getName());
     }
 
-    //==================================================================================================================
-    // Private Helper Methods
-    //==================================================================================================================
-
     @SuppressWarnings("unchecked")
-    private static <T> T S(Object object) {
-        return (T) object;
+    private static <S> S S(Object object) {
+        return (S) object;
     }
 }

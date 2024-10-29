@@ -36,7 +36,7 @@ public interface ServletRegistration extends jakarta.servlet.ServletRegistration
 
         @Override
         default Set<String> setServletSecurity(jakarta.servlet.ServletSecurityElement constraint) {
-            return setServletSecurity(ServletShim.<jakarta.servlet.ServletSecurityElement, ServletSecurityElement>of(constraint));
+            return setServletSecurity(ServletShim.<ServletSecurityElement>of(constraint));
         }
 
         @Override

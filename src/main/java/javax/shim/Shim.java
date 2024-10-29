@@ -1,11 +1,13 @@
 package javax.shim;
 
 import java.io.Serializable;
+import java.lang.invoke.MethodHandles;
+import java.lang.reflect.Proxy;
 import java.util.Collection;
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
-import java.util.function.IntFunction;
-import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -28,43 +30,40 @@ public interface Shim {
     String toString();
 
     //==================================================================================================================
-    // Helper Methods
+    // Helpers
     //==================================================================================================================
 
-    @SafeVarargs
-    static <T, S> S[] of(
-        Function<? super T, ? extends S> shimFactory,
-        IntFunction<S[]> arrayGenerator,
-        T... objects
-    ) {
+    static <S extends Shim> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {
+        if (shimType.isAssignableFrom(interfaceType)) {
+            return interfaceType.asSubclass(shimType);
+        }
+
+        return Proxy
+            .getProxyClass(MethodHandles.lookup().lookupClass().getClassLoader(), shimType, interfaceType)
+            .asSubclass(shimType);
+    }
+
+    static <S extends Shim> Stream<S> of(Function<Object, ? extends S> shimFactory, Object[] objects) {
         return Stream
             .of(objects)
-            .map(shimFactory)
-            .toArray(arrayGenerator);
+            .map(shimFactory);
     }
 
-    static <T, S, C> C of(
-        Function<? super T, ? extends S> shimFactory,
-        Collector<? super S, ?, ? extends C> collector,
-        Iterable<? extends T> objects
-    ) {
+    static <S extends Shim> Stream<S> of(Function<Object, ? extends S> shimFactory, Iterable<?> objects) {
         final var stream =
             objects instanceof Collection<?>
-                ? ((Collection<? extends T>) objects).stream()
+                ? ((Collection<?>) objects).stream()
                 : StreamSupport.stream(objects.spliterator(), false);
-        return stream
-            .map(shimFactory)
-            .collect(collector);
+        return stream.map(shimFactory);
     }
 
-    //==================================================================================================================
-    // Delegate
-    //==================================================================================================================
+    static <K, S extends Shim> Map<K, S> of(Function<Object, ? extends S> shimFactory, Map<? extends K, ?> map) {
+        return map
+            .entrySet()
+            .stream()
+            .collect(Collectors.toMap(Map.Entry::getKey, shimFactory.compose(Map.Entry::getValue)));
+    }
 
-    /**
-     * @deprecated Use {@link jakarta} instead.
-     */
-    @Deprecated(since = "jakarta")
     abstract class Delegate<T> implements Shim, Serializable {
         protected final T delegate; // Conditionally serializable
 
@@ -100,10 +99,6 @@ public interface Shim {
         // Annotation-specific Delegate
         //==============================================================================================================
 
-        /**
-         * @deprecated Use {@link jakarta} instead.
-         */
-        @Deprecated(since = "jakarta")
         public abstract static class Annotation<A extends java.lang.annotation.Annotation> extends Delegate<A> implements java.lang.annotation.Annotation {
             //==========================================================================================================
             // Constructors
