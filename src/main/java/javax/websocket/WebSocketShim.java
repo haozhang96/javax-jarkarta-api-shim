@@ -78,7 +78,7 @@ public interface WebSocketShim extends Shim {
     // Private Helper Methods
     //==================================================================================================================
 
-    private static <S extends Annotation> S of(Annotation annotation) {
+    private static <S extends Annotation & WebSocketShim> S of(Annotation annotation) {
         if (annotation == null || annotation instanceof WebSocketShim) {
             return S(annotation);
         } else if (annotation instanceof jakarta.websocket.ClientEndpoint) {

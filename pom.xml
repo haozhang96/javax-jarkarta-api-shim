@@ -21,7 +21,8 @@
 
     <properties>
         <version.jakarta.platform>10.0.0</version.jakarta.platform>
-        <version.springframework.boot>2.7.18</version.springframework.boot>
+        <version.springframework.boot.v2>2.7.18</version.springframework.boot.v2>
+        <version.springframework.boot.v3>3.3.5</version.springframework.boot.v3>
         <version.junit.jupiter>5.11.2</version.junit.jupiter>
 
         <maven.compiler.source>11</maven.compiler.source>
@@ -42,7 +43,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>${version.springframework.boot}</version>
+                <version>${version.springframework.boot.v2}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -50,25 +51,15 @@
     </dependencyManagement>
 
     <dependencies>
-        <!-- Jakarta -->
+        <!-- Jakarta APIs -->
         <dependency><!-- Jakarta Activation: https://jakarta.ee/specifications/activation/ -->
             <groupId>jakarta.activation</groupId>
             <artifactId>jakarta.activation-api</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency><!-- Jakarta Concurrency: https://jakarta.ee/specifications/concurrency/ -->
-            <groupId>jakarta.enterprise.concurrent</groupId>
-            <artifactId>jakarta.enterprise.concurrent-api</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency><!-- Jakarta Contexts and Dependency Injection: https://jakarta.ee/specifications/cdi/ -->
-            <groupId>jakarta.enterprise</groupId>
-            <artifactId>jakarta.enterprise.cdi-api</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency><!-- Jakarta Dependency Injection: https://jakarta.ee/specifications/dependency-injection/ -->
-            <groupId>jakarta.inject</groupId>
-            <artifactId>jakarta.inject-api</artifactId>
+        <dependency><!-- Jakarta Annotations: https://jakarta.ee/specifications/annotations/ -->
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency><!-- Jakarta Authentication: https://jakarta.ee/specifications/authentication/ -->
@@ -81,151 +72,131 @@
             <artifactId>jakarta.authorization-api</artifactId>
             <optional>true</optional>
         </dependency>
-        <!--<dependency>
-            <groupId>jakarta.management.j2ee</groupId>
-            <artifactId>jakarta.management.j2ee-api</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.mvc</groupId>
-            <artifactId>jakarta.mvc-api</artifactId>
-            <optional>true</optional>
-        </dependency>-->
-        <dependency>
-            <groupId>jakarta.json</groupId>
-            <artifactId>jakarta.json-api</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.json.bind</groupId>
-            <artifactId>jakarta.json.bind-api</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.ws.rs</groupId>
-            <artifactId>jakarta.ws.rs-api</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.el</groupId>
-            <artifactId>jakarta.el-api</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.ejb</groupId>
-            <artifactId>jakarta.ejb-api</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.faces</groupId>
-            <artifactId>jakarta.faces-api</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <!--<dependency>
-            <groupId>jakarta.data</groupId>
-            <artifactId>jakarta.data-api</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.platform</groupId>
-            <artifactId>jakarta.jakartaee-api</artifactId>
-            <optional>true</optional>
-        </dependency>-->
-        <dependency>
-            <groupId>jakarta.annotation</groupId>
-            <artifactId>jakarta.annotation-api</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.persistence</groupId>
-            <artifactId>jakarta.persistence-api</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.jms</groupId>
-            <artifactId>jakarta.jms-api</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.mail</groupId>
-            <artifactId>jakarta.mail-api</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>jakarta.servlet-api</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.transaction</groupId>
-            <artifactId>jakarta.transaction-api</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.xml.bind</groupId>
-            <artifactId>jakarta.xml.bind-api</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.xml.soap</groupId>
-            <artifactId>jakarta.xml.soap-api</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <!--<dependency>
-            <groupId>jakarta.xml.registry</groupId>
-            <artifactId>jakarta.xml.registry-api</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.xml.rpc</groupId>
-            <artifactId>jakarta.xml.rpc-api</artifactId>
-            <optional>true</optional>
-        </dependency>-->
-        <dependency>
-            <groupId>jakarta.xml.ws</groupId>
-            <artifactId>jakarta.xml.ws-api</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.validation</groupId>
-            <artifactId>jakarta.validation-api</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
+        <dependency><!-- Jakarta Batch: https://jakarta.ee/specifications/batch/ -->
             <groupId>jakarta.batch</groupId>
             <artifactId>jakarta.batch-api</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>jakarta.websocket</groupId>
-            <artifactId>jakarta.websocket-api</artifactId>
+        <dependency><!-- Jakarta Contexts and Dependency Injection: https://jakarta.ee/specifications/cdi/ -->
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>jakarta.enterprise.cdi-api</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>jakarta.websocket</groupId>
-            <artifactId>jakarta.websocket-client-api</artifactId>
+        <dependency><!-- Jakarta Concurrency: https://jakarta.ee/specifications/concurrency/ -->
+            <groupId>jakarta.enterprise.concurrent</groupId>
+            <artifactId>jakarta.enterprise.concurrent-api</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
+        <dependency><!-- Jakarta Enterprise Beans: https://jakarta.ee/specifications/enterprise-beans/ -->
+            <groupId>jakarta.ejb</groupId>
+            <artifactId>jakarta.ejb-api</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency><!-- Jakarta Expression Language: https://jakarta.ee/specifications/expression-language/ -->
+            <groupId>jakarta.el</groupId>
+            <artifactId>jakarta.el-api</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency><!-- Jakarta Faces: https://jakarta.ee/specifications/faces/ -->
+            <groupId>jakarta.faces</groupId>
+            <artifactId>jakarta.faces-api</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency><!-- Jakarta Dependency Injection: https://jakarta.ee/specifications/dependency-injection/ -->
+            <groupId>jakarta.inject</groupId>
+            <artifactId>jakarta.inject-api</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency><!-- Jakarta Interceptors: https://jakarta.ee/specifications/interceptors/ -->
             <groupId>jakarta.interceptor</groupId>
             <artifactId>jakarta.interceptor-api</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
+        <dependency><!-- Jakarta Messaging: https://jakarta.ee/specifications/messaging/ -->
+            <groupId>jakarta.jms</groupId>
+            <artifactId>jakarta.jms-api</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency><!-- Jakarta JSON Processing: https://jakarta.ee/specifications/jsonp/ -->
+            <groupId>jakarta.json</groupId>
+            <artifactId>jakarta.json-api</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency><!-- Jakarta JSON Binding: https://jakarta.ee/specifications/jsonb/ -->
+            <groupId>jakarta.json.bind</groupId>
+            <artifactId>jakarta.json.bind-api</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency><!-- Jakarta Mail: https://jakarta.ee/specifications/mail/ -->
+            <groupId>jakarta.mail</groupId>
+            <artifactId>jakarta.mail-api</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency><!-- Jakarta Persistence: https://jakarta.ee/specifications/persistence/ -->
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency><!-- Jakarta Connectors: https://jakarta.ee/specifications/connectors/ -->
+            <groupId>jakarta.resource</groupId>
+            <artifactId>jakarta.resource-api</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency><!-- Jakarta Security: https://jakarta.ee/specifications/security/ -->
             <groupId>jakarta.security.enterprise</groupId>
             <artifactId>jakarta.security.enterprise-api</artifactId>
             <optional>true</optional>
         </dependency>
-        <!--<dependency>
-            <groupId>jakarta.security.auth.message</groupId>
-            <artifactId>jakarta.security.auth.message-api</artifactId>
+        <dependency><!-- Jakarta Servlet: https://jakarta.ee/specifications/servlet/ -->
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>jakarta.security.jacc</groupId>
-            <artifactId>jakarta.security.jacc-api</artifactId>
+        <dependency><!-- Jakarta Server Pages: https://jakarta.ee/specifications/pages/ -->
+            <groupId>jakarta.servlet.jsp</groupId>
+            <artifactId>jakarta.servlet.jsp-api</artifactId>
             <optional>true</optional>
-        </dependency>-->
+        </dependency>
+        <dependency><!-- Jakarta Transaction: https://jakarta.ee/specifications/transaction/ -->
+            <groupId>jakarta.transaction</groupId>
+            <artifactId>jakarta.transaction-api</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency><!-- Jakarta Validation: https://jakarta.ee/specifications/validation/ -->
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency><!-- Jakarta WebSocket: https://jakarta.ee/specifications/websocket/ -->
+            <groupId>jakarta.websocket</groupId>
+            <artifactId>jakarta.websocket-api</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency><!-- Jakarta WebSocket: https://jakarta.ee/specifications/websocket/ -->
+            <groupId>jakarta.websocket</groupId>
+            <artifactId>jakarta.websocket-client-api</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency><!-- Jakarta RESTful Web Services: https://jakarta.ee/specifications/restful-ws/ -->
+            <groupId>jakarta.ws.rs</groupId>
+            <artifactId>jakarta.ws.rs-api</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency><!-- Jakarta XML Binding: https://jakarta.ee/specifications/xml-binding/ -->
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency><!-- Jakarta SOAP with Attachments: https://jakarta.ee/specifications/soap-attachments/ -->
+            <groupId>jakarta.xml.soap</groupId>
+            <artifactId>jakarta.xml.soap-api</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency><!-- Jakarta XML Web Services: https://jakarta.ee/specifications/xml-web-services/ -->
+            <groupId>jakarta.xml.ws</groupId>
+            <artifactId>jakarta.xml.ws-api</artifactId>
+            <optional>true</optional>
+        </dependency>
 
         <!-- Testing -->
         <dependency>
