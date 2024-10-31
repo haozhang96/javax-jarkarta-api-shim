@@ -17,7 +17,7 @@ import java.util.stream.Stream;
  * @deprecated Use {@link jakarta.servlet} instead.
  */
 @Deprecated(since = "jakarta.servlet")
-@SuppressWarnings("ClassExplicitlyAnnotation")
+@SuppressWarnings("all")
 interface Facades {
     //==================================================================================================================
     // Annotations
@@ -411,23 +411,9 @@ interface Facades {
         }
 
         @Override
-        public <T extends javax.servlet.AsyncListener> T createListener(
-            Class<T> clazz,
-            Void... ignored
-        ) throws javax.servlet.ServletException {
+        public javax.servlet.AsyncListener createListener(Class clazz) throws javax.servlet.ServletException {
             try {
-                return delegate.createListener(clazz);
-            } catch (jakarta.servlet.ServletException exception) {
-                throw ServletShim.of(exception);
-            }
-        }
-
-        @Override
-        public <T extends jakarta.servlet.AsyncListener> T createListener(
-            Class<T> clazz
-        ) throws javax.servlet.ServletException {
-            try {
-                return delegate.createListener(clazz);
+                return ServletShim.of(delegate.createListener(clazz.asSubclass(jakarta.servlet.AsyncListener.class)));
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -575,7 +561,6 @@ interface Facades {
         }
     }
 
-    @SuppressWarnings("removal")
     final class Cookie extends javax.servlet.http.Cookie {
         private final jakarta.servlet.http.Cookie delegate;
 
@@ -668,7 +653,6 @@ interface Facades {
         }
 
         @Override
-        @SuppressWarnings("MethodDoesntCallSuperMethod")
         public Object clone() {
             return delegate.clone();
         }
@@ -704,7 +688,6 @@ interface Facades {
         }
 
         @Override
-        @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
         public boolean equals(Object obj) {
             return delegate.equals(obj);
         }
@@ -1687,7 +1670,6 @@ interface Facades {
         }
 
         @Override
-        @SuppressWarnings("rawtypes")
         public Collection getParts() throws javax.servlet.ServletException, IOException {
             try {
                 return ServletShim
@@ -1708,23 +1690,11 @@ interface Facades {
         }
 
         @Override
-        public <T extends javax.servlet.http.HttpUpgradeHandler> T upgrade(
-            Class<T> clazz,
-            Void... ignored
+        public javax.servlet.http.HttpUpgradeHandler upgrade(
+            Class clazz
         ) throws javax.servlet.ServletException, IOException {
             try {
-                return delegate.upgrade(clazz);
-            } catch (jakarta.servlet.ServletException exception) {
-                throw ServletShim.of(exception);
-            }
-        }
-
-        @Override
-        public <T extends jakarta.servlet.http.HttpUpgradeHandler> T upgrade(
-            Class<T> clazz
-        ) throws javax.servlet.ServletException, IOException {
-            try {
-                return delegate.upgrade(clazz);
+                return ServletShim.of(delegate.upgrade(clazz.asSubclass(jakarta.servlet.http.HttpUpgradeHandler.class)));
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -3088,7 +3058,6 @@ interface Facades {
         }
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     final class ServletContext extends Shim.Delegate<jakarta.servlet.ServletContext> implements javax.servlet.ServletContext {
         //==============================================================================================================
         // Constructors
@@ -3804,7 +3773,6 @@ interface Facades {
         }
 
         @Override
-        @SuppressWarnings("CallToPrintStackTrace")
         public void printStackTrace() {
             delegate.printStackTrace();
         }
@@ -3835,7 +3803,6 @@ interface Facades {
         }
     }
 
-    @SuppressWarnings("NullableProblems")
     final class ServletInputStream extends javax.servlet.ServletInputStream {
         private final jakarta.servlet.ServletInputStream delegate;
 
@@ -3942,7 +3909,6 @@ interface Facades {
         }
     }
 
-    @SuppressWarnings("NullableProblems")
     final class ServletOutputStream extends javax.servlet.ServletOutputStream {
         private final jakarta.servlet.ServletOutputStream delegate;
 
@@ -4654,7 +4620,6 @@ interface Facades {
         }
     }
 
-    @SuppressWarnings("removal")
     final class SessionCookieConfig extends Shim.Delegate<jakarta.servlet.SessionCookieConfig> implements javax.servlet.SessionCookieConfig {
         //==============================================================================================================
         // Constructors
@@ -4809,7 +4774,6 @@ interface Facades {
         }
 
         @Override
-        @SuppressWarnings("CallToPrintStackTrace")
         public void printStackTrace() {
             delegate.printStackTrace();
         }

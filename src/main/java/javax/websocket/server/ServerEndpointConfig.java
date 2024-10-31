@@ -1,8 +1,7 @@
 package javax.websocket.server;
 
-import jakarta.websocket.server.HandshakeRequest;
-
 import javax.websocket.*;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -113,24 +112,14 @@ public interface ServerEndpointConfig extends jakarta.websocket.server.ServerEnd
          * @see jakarta.websocket.server.ServerEndpointConfig.Builder#encoders(List)
          */
         public Builder encoders(List<Class<? extends Encoder>> encoders) {
-            return WebSocketShim.of(delegate.encoders(
-                encoders
-                    .stream()
-                    .map(encoder -> encoder.<jakarta.websocket.Encoder>asSubclass(jakarta.websocket.Encoder.class))
-                    .collect(Collectors.toList())
-            ));
+            return WebSocketShim.of(delegate.encoders(Collections.unmodifiableList(encoders)));
         }
 
         /**
          * @see jakarta.websocket.server.ServerEndpointConfig.Builder#decoders(List)
          */
         public Builder decoders(List<Class<? extends Decoder>> decoders) {
-            return WebSocketShim.of(delegate.decoders(
-                decoders
-                    .stream()
-                    .map(decoder -> decoder.<jakarta.websocket.Decoder>asSubclass(jakarta.websocket.Decoder.class))
-                    .collect(Collectors.toList())
-            ));
+            return WebSocketShim.of(delegate.decoders(Collections.unmodifiableList(decoders)));
         }
 
         /**
@@ -144,11 +133,7 @@ public interface ServerEndpointConfig extends jakarta.websocket.server.ServerEnd
          * @see jakarta.websocket.server.ServerEndpointConfig.Builder#extensions(List)
          */
         public Builder extensions(List<Extension> extensions) {
-            return WebSocketShim.of(delegate.extensions(
-                WebSocketShim
-                    .<Extension>of(extensions)
-                    .collect(Collectors.toList())
-            ));
+            return WebSocketShim.of(delegate.extensions(Collections.unmodifiableList(extensions)));
         }
 
         /**

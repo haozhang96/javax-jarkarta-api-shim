@@ -21,11 +21,6 @@ public interface HttpServletRequest extends jakarta.servlet.http.HttpServletRequ
     boolean authenticate(HttpServletResponse response) throws ServletException, IOException;
 
     /**
-     * @see #upgrade(Class)
-     */
-    <T extends HttpUpgradeHandler> T upgrade(Class<T> clazz, Void... ignored) throws ServletException, IOException;
-
-    /**
      * @deprecated This method has been deprecated and/or removed since Servlet 4.0.
      */
     @Deprecated(since = "Servlet 4.0", forRemoval = true)
@@ -77,9 +72,6 @@ public interface HttpServletRequest extends jakarta.servlet.http.HttpServletRequ
     Part getPart(String name) throws ServletException, IOException;
 
     @Override
-    default <T extends jakarta.servlet.http.HttpUpgradeHandler> T upgrade(
-        Class<T> clazz
-    ) throws ServletException, IOException {
-        return clazz.cast(upgrade(ServletShim.of(HttpUpgradeHandler.class, clazz), (Void) null));
-    }
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    HttpUpgradeHandler upgrade(Class clazz) throws ServletException, IOException;
 }

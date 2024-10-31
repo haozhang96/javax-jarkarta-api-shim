@@ -206,17 +206,7 @@ public class HttpServletRequestWrapper extends ServletRequestWrapper implements 
     }
 
     @Override
-    public <T extends HttpUpgradeHandler> T upgrade(
-        Class<T> clazz,
-        Void... ignored
-    ) throws ServletException, IOException {
-        return getRequest().upgrade(clazz, ignored);
-    }
-
-    @Override
-    public <T extends jakarta.servlet.http.HttpUpgradeHandler> T upgrade(
-        Class<T> clazz
-    ) throws ServletException, IOException {
+    public HttpUpgradeHandler upgrade(Class clazz) throws ServletException, IOException {
         return getRequest().upgrade(clazz);
     }
 

@@ -24,11 +24,6 @@ public interface AsyncContext extends jakarta.servlet.AsyncContext, ServletShim 
      */
     void addListener(AsyncListener listener, ServletRequest request, ServletResponse response);
 
-    /**
-     * @see #createListener(Class)
-     */
-    <T extends AsyncListener> T createListener(Class<T> clazz, Void... ignored) throws ServletException;
-
     //==================================================================================================================
     // AsyncContext Implementation Methods
     //==================================================================================================================
@@ -59,9 +54,6 @@ public interface AsyncContext extends jakarta.servlet.AsyncContext, ServletShim 
     }
 
     @Override
-    default <T extends jakarta.servlet.AsyncListener> T createListener(
-        Class<T> clazz
-    ) throws ServletException {
-        return clazz.cast(createListener(ServletShim.of(AsyncListener.class, clazz), (Void) null));
-    }
+    @SuppressWarnings("unchecked")
+    AsyncListener createListener(Class clazz) throws ServletException;
 }
