@@ -66,7 +66,7 @@ public interface ClientEndpointConfig extends jakarta.websocket.ClientEndpointCo
             this(jakarta.websocket.ClientEndpointConfig.Builder.create());
         }
 
-        Builder(jakarta.websocket.ClientEndpointConfig.Builder delegate) {
+        protected Builder(jakarta.websocket.ClientEndpointConfig.Builder delegate) {
             super(delegate);
         }
 

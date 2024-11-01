@@ -1,6 +1,7 @@
 package javax.websocket;
 
 import javax.net.ssl.SSLContext;
+import javax.servlet.ServletShim;
 import javax.shim.Shim;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -8,6 +9,7 @@ import java.io.PrintWriter;
 import java.lang.invoke.MethodHandles;
 import java.net.URI;
 import java.nio.ByteBuffer;
+import java.security.Principal;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +24,7 @@ import java.util.stream.Stream;
  * @deprecated Use {@link jakarta.websocket} instead.
  */
 @Deprecated(since = "jakarta.websocket")
-//@SuppressWarnings("all")
+@SuppressWarnings("all")
 interface Facades {
     //==================================================================================================================
     // Annotations
@@ -655,7 +657,40 @@ interface Facades {
         // Delegated Methods
         //==============================================================================================================
 
-        
+        @Override
+        public Map<String, List<String>> getHeaders() {
+            return delegate.getHeaders();
+        }
+
+        @Override
+        public Principal getUserPrincipal() {
+            return delegate.getUserPrincipal();
+        }
+
+        @Override
+        public URI getRequestURI() {
+            return delegate.getRequestURI();
+        }
+
+        @Override
+        public boolean isUserInRole(String role) {
+            return delegate.isUserInRole(role);
+        }
+
+        @Override
+        public Object getHttpSession() {
+            return ServletShim.of(delegate.getHttpSession());
+        }
+
+        @Override
+        public Map<String, List<String>> getParameterMap() {
+            return delegate.getParameterMap();
+        }
+
+        @Override
+        public String getQueryString() {
+            return delegate.getQueryString();
+        }
     }
 
     final class SendResult extends javax.websocket.SendResult {
@@ -682,6 +717,141 @@ interface Facades {
         @Override
         public boolean isOK() {
             return delegate.isOK();
+        }
+    }
+
+    final class ServerEndpointConfig extends Shim.Delegate<jakarta.websocket.server.ServerEndpointConfig> implements javax.websocket.server.ServerEndpointConfig {
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        ServerEndpointConfig(jakarta.websocket.server.ServerEndpointConfig delegate) {
+            super(delegate);
+        }
+
+        //==============================================================================================================
+        // Delegated Methods
+        //==============================================================================================================
+
+        @Override
+        public List getExtensions() {
+            return WebSocketShim
+                .<javax.websocket.Extension>of(delegate.getExtensions())
+                .collect(Collectors.toList());
+        }
+
+        @Override
+        public javax.websocket.server.ServerEndpointConfig.Configurator getConfigurator() {
+            return WebSocketShim.of(delegate.getConfigurator());
+        }
+
+        @Override
+        public Class<?> getEndpointClass() {
+            return delegate.getEndpointClass();
+        }
+
+        @Override
+        public String getPath() {
+            return delegate.getPath();
+        }
+
+        @Override
+        public List<String> getSubprotocols() {
+            return delegate.getSubprotocols();
+        }
+
+        @Override
+        public List getEncoders() {
+            return delegate
+                .getEncoders()
+                .stream()
+                .map(clazz -> WebSocketShim.<javax.websocket.Encoder>of(javax.websocket.Encoder.class, clazz))
+                .collect(Collectors.toList());
+        }
+
+        @Override
+        public List getDecoders() {
+            return delegate
+                .getDecoders()
+                .stream()
+                .map(clazz -> WebSocketShim.<javax.websocket.Decoder>of(javax.websocket.Decoder.class, clazz))
+                .collect(Collectors.toList());
+        }
+
+        @Override
+        public Map<String, Object> getUserProperties() {
+            return delegate.getUserProperties();
+        }
+    }
+
+    final class ServerEndpointConfig$Builder extends javax.websocket.server.ServerEndpointConfig.Builder {
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        ServerEndpointConfig$Builder(jakarta.websocket.server.ServerEndpointConfig.Builder delegate) {
+            super(delegate);
+        }
+    }
+
+    final class ServerEndpointConfig$Configurator extends javax.websocket.server.ServerEndpointConfig.Configurator {
+        private final jakarta.websocket.server.ServerEndpointConfig.Configurator delegate;
+
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        ServerEndpointConfig$Configurator(jakarta.websocket.server.ServerEndpointConfig.Configurator delegate) {
+            this.delegate = delegate;
+        }
+
+        //==============================================================================================================
+        // Delegated Methods
+        //==============================================================================================================
+
+        @Override
+        public javax.websocket.server.ServerEndpointConfig.Configurator getContainerDefaultConfigurator() {
+            return WebSocketShim.of(delegate.getContainerDefaultConfigurator());
+        }
+
+        @Override
+        public String getNegotiatedSubprotocol(List<String> supported, List<String> requested) {
+            return delegate.getNegotiatedSubprotocol(supported, requested);
+        }
+
+        @Override
+        public List<javax.websocket.Extension> getNegotiatedExtensions(List installed, List requested) {
+            return WebSocketShim
+                .<javax.websocket.Extension>of(delegate.getNegotiatedExtensions(installed, requested))
+                .collect(Collectors.toList());
+        }
+
+        @Override
+        public boolean checkOrigin(String originHeaderValue) {
+            return delegate.checkOrigin(originHeaderValue);
+        }
+
+        @Override
+        public void modifyHandshake(
+            javax.websocket.server.ServerEndpointConfig endpointConfig,
+            javax.websocket.server.HandshakeRequest request,
+            javax.websocket.HandshakeResponse response
+        ) {
+            delegate.modifyHandshake(endpointConfig, request, response);
+        }
+
+        @Override
+        public void modifyHandshake(
+            jakarta.websocket.server.ServerEndpointConfig endpointConfig,
+            jakarta.websocket.server.HandshakeRequest request,
+            jakarta.websocket.HandshakeResponse response
+        ) {
+            delegate.modifyHandshake(endpointConfig, request, response);
+        }
+
+        @Override
+        public <T> T getEndpointInstance(Class<T> endpointClass) throws InstantiationException {
+            return delegate.getEndpointInstance(endpointClass);
         }
     }
 

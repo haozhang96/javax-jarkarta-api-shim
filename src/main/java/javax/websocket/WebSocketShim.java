@@ -30,6 +30,24 @@ public interface WebSocketShim extends Shim {
         // Core
         //==============================================================================================================
 
+        } else if (object instanceof jakarta.websocket.ClientEndpointConfig) {
+            return S(new Facades.ClientEndpointConfig(S(object)));
+        } else if (object instanceof jakarta.websocket.ClientEndpointConfig.Builder) {
+            return S(new Facades.ClientEndpointConfig$Builder(S(object)));
+        } else if (object instanceof jakarta.websocket.ClientEndpointConfig.Configurator) {
+            return S(new Facades.ClientEndpointConfig$Configurator(S(object)));
+        } else if (object instanceof jakarta.websocket.server.HandshakeRequest) {
+            return S(new Facades.HandshakeRequest(S(object)));
+//        } else if (object instanceof jakarta.websocket.server.ServerApplicationConfig) {
+//            return S(new Facades.ServerApplicationConfig(S(object)));
+//        } else if (object instanceof jakarta.websocket.server.ServerContainer) {
+//            return S(new Facades.ServerContainer(S(object)));
+        } else if (object instanceof jakarta.websocket.server.ServerEndpointConfig) {
+            return S(new Facades.ServerEndpointConfig(S(object)));
+        } else if (object instanceof jakarta.websocket.server.ServerEndpointConfig.Builder) {
+            return S(new Facades.ServerEndpointConfig$Builder(S(object)));
+        } else if (object instanceof jakarta.websocket.server.ServerEndpointConfig.Configurator) {
+            return S(new Facades.ServerEndpointConfig$Configurator(S(object)));
         } else if (object instanceof jakarta.websocket.WebSocketContainer) {
             return S(new Facades.WebSocketContainer(S(object)));
 

@@ -82,8 +82,12 @@ public interface ServerEndpointConfig extends jakarta.websocket.server.ServerEnd
         // Constructors
         //==============================================================================================================
 
-        Builder(Class<?> endpointClass, String path) {
-            super(jakarta.websocket.server.ServerEndpointConfig.Builder.create(endpointClass, path));
+        private Builder(Class<?> endpointClass, String path) {
+            this(jakarta.websocket.server.ServerEndpointConfig.Builder.create(endpointClass, path));
+        }
+
+        protected Builder(jakarta.websocket.server.ServerEndpointConfig.Builder delegate) {
+            super(delegate);
         }
 
         //==============================================================================================================
