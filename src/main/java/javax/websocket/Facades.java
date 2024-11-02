@@ -1,8 +1,8 @@
 package javax.websocket;
 
+import javax.Shim;
 import javax.net.ssl.SSLContext;
 import javax.servlet.ServletShim;
-import javax.shim.Shim;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
@@ -720,6 +720,228 @@ interface Facades {
         }
     }
 
+    final class ServerApplicationConfig extends Shim.Delegate<jakarta.websocket.server.ServerApplicationConfig> implements javax.websocket.server.ServerApplicationConfig {
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        ServerApplicationConfig(jakarta.websocket.server.ServerApplicationConfig delegate) {
+            super(delegate);
+        }
+
+        //==============================================================================================================
+        // Delegated Methods
+        //==============================================================================================================
+
+        @Override
+        public Set getEndpointConfigs(Set endpointClasses) {
+            return WebSocketShim
+                .<javax.websocket.server.ServerEndpointConfig>of(delegate.getEndpointConfigs(endpointClasses))
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+        }
+
+        @Override
+        public Set<Class<?>> getAnnotatedEndpointClasses(Set<Class<?>> scanned) {
+            return delegate.getAnnotatedEndpointClasses(scanned);
+        }
+    }
+
+    final class ServerContainer extends Shim.Delegate<jakarta.websocket.server.ServerContainer> implements javax.websocket.server.ServerContainer {
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        ServerContainer(jakarta.websocket.server.ServerContainer delegate) {
+            super(delegate);
+        }
+
+        //==============================================================================================================
+        // Delegated Methods
+        //==============================================================================================================
+
+        @Override
+        public void addEndpoint(Class<?> endpointClass) throws javax.websocket.DeploymentException {
+            try {
+                delegate.addEndpoint(endpointClass);
+            } catch (jakarta.websocket.DeploymentException exception) {
+                throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
+            }
+        }
+
+        @Override
+        public void addEndpoint(
+            javax.websocket.server.ServerEndpointConfig endpointConfig
+        ) throws javax.websocket.DeploymentException {
+            try {
+                delegate.addEndpoint(endpointConfig);
+            } catch (jakarta.websocket.DeploymentException exception) {
+                throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
+            }
+        }
+
+        @Override
+        public void addEndpoint(
+            jakarta.websocket.server.ServerEndpointConfig endpointConfig
+        ) throws javax.websocket.DeploymentException {
+            try {
+                delegate.addEndpoint(endpointConfig);
+            } catch (jakarta.websocket.DeploymentException exception) {
+                throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
+            }
+        }
+
+        @Override
+        public void upgradeHttpToWebSocket(
+            Object httpServletRequest,
+            Object httpServletResponse,
+            javax.websocket.server.ServerEndpointConfig endpointConfig,
+            Map<String, String> pathParameters
+        ) throws javax.websocket.DeploymentException, IOException {
+            try {
+                delegate.upgradeHttpToWebSocket(httpServletRequest, httpServletResponse, endpointConfig, pathParameters);
+            } catch (jakarta.websocket.DeploymentException exception) {
+                throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
+            }
+        }
+
+        @Override
+        public void upgradeHttpToWebSocket(
+            Object httpServletRequest,
+            Object httpServletResponse,
+            jakarta.websocket.server.ServerEndpointConfig endpointConfig,
+            Map<String, String> pathParameters
+        ) throws javax.websocket.DeploymentException, IOException {
+            try {
+                delegate.upgradeHttpToWebSocket(httpServletRequest, httpServletResponse, endpointConfig, pathParameters);
+            } catch (jakarta.websocket.DeploymentException exception) {
+                throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
+            }
+        }
+
+        @Override
+        public long getDefaultAsyncSendTimeout() {
+            return delegate.getDefaultAsyncSendTimeout();
+        }
+
+        @Override
+        public void setAsyncSendTimeout(long timeout) {
+            delegate.setAsyncSendTimeout(timeout);
+        }
+
+        @Override
+        public long getDefaultMaxSessionIdleTimeout() {
+            return delegate.getDefaultMaxSessionIdleTimeout();
+        }
+
+        @Override
+        public void setDefaultMaxSessionIdleTimeout(long timeout) {
+            delegate.setDefaultMaxSessionIdleTimeout(timeout);
+        }
+
+        @Override
+        public int getDefaultMaxBinaryMessageBufferSize() {
+            return delegate.getDefaultMaxBinaryMessageBufferSize();
+        }
+
+        @Override
+        public void setDefaultMaxBinaryMessageBufferSize(int max) {
+            delegate.setDefaultMaxBinaryMessageBufferSize(max);
+        }
+
+        @Override
+        public int getDefaultMaxTextMessageBufferSize() {
+            return delegate.getDefaultMaxTextMessageBufferSize();
+        }
+
+        @Override
+        public void setDefaultMaxTextMessageBufferSize(int max) {
+            delegate.setDefaultMaxTextMessageBufferSize(max);
+        }
+
+        @Override
+        public Set getInstalledExtensions() {
+            return WebSocketShim
+                .<javax.websocket.Extension>of(delegate.getInstalledExtensions())
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+        }
+
+        @Override
+        public javax.websocket.Session connectToServer(
+            javax.websocket.Endpoint endpointInstance,
+            javax.websocket.ClientEndpointConfig endpointConfig,
+            URI path
+        ) throws javax.websocket.DeploymentException, IOException {
+            try {
+                return WebSocketShim.of(delegate.connectToServer(endpointInstance, endpointConfig, path));
+            } catch (jakarta.websocket.DeploymentException exception) {
+                throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
+            }
+        }
+
+        @Override
+        public javax.websocket.Session connectToServer(
+            jakarta.websocket.Endpoint endpointInstance,
+            jakarta.websocket.ClientEndpointConfig endpointConfig,
+            URI path
+        ) throws javax.websocket.DeploymentException, IOException {
+            try {
+                return WebSocketShim.of(delegate.connectToServer(endpointInstance, endpointConfig, path));
+            } catch (jakarta.websocket.DeploymentException exception) {
+                throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
+            }
+        }
+
+        @Override
+        public javax.websocket.Session connectToServer(
+            Class<? extends javax.websocket.Endpoint> endpointClass,
+            javax.websocket.ClientEndpointConfig endpointConfig,
+            URI path
+        ) throws javax.websocket.DeploymentException, IOException {
+            try {
+                return WebSocketShim.of(delegate.connectToServer(endpointClass, endpointConfig, path));
+            } catch (jakarta.websocket.DeploymentException exception) {
+                throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
+            }
+        }
+
+        @Override
+        public javax.websocket.Session connectToServer(
+            Class<? extends jakarta.websocket.Endpoint> endpointClass,
+            jakarta.websocket.ClientEndpointConfig endpointConfig,
+            URI path
+        ) throws javax.websocket.DeploymentException, IOException {
+            try {
+                return WebSocketShim.of(delegate.connectToServer(endpointClass, endpointConfig, path));
+            } catch (jakarta.websocket.DeploymentException exception) {
+                throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
+            }
+        }
+
+        @Override
+        public javax.websocket.Session connectToServer(
+            Object annotatedEndpointInstance,
+            URI path
+        ) throws javax.websocket.DeploymentException, IOException {
+            try {
+                return WebSocketShim.of(delegate.connectToServer(annotatedEndpointInstance, path));
+            } catch (jakarta.websocket.DeploymentException exception) {
+                throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
+            }
+        }
+
+        @Override
+        public javax.websocket.Session connectToServer(
+            Class<?> annotatedEndpointClass,
+            URI path
+        ) throws javax.websocket.DeploymentException, IOException {
+            try {
+                return WebSocketShim.of(delegate.connectToServer(annotatedEndpointClass, path));
+            } catch (jakarta.websocket.DeploymentException exception) {
+                throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
+            }
+        }
+    }
+
     final class ServerEndpointConfig extends Shim.Delegate<jakarta.websocket.server.ServerEndpointConfig> implements javax.websocket.server.ServerEndpointConfig {
         //==============================================================================================================
         // Constructors
@@ -951,8 +1173,8 @@ interface Facades {
         }
 
         @Override
-        public void setAsyncSendTimeout(long milliseconds) {
-            delegate.setAsyncSendTimeout(milliseconds);
+        public void setAsyncSendTimeout(long timeout) {
+            delegate.setAsyncSendTimeout(timeout);
         }
 
         @Override

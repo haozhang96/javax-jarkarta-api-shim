@@ -1,6 +1,6 @@
 package javax.websocket;
 
-import javax.shim.Shim;
+import javax.Shim;
 import java.lang.annotation.Annotation;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -38,10 +38,10 @@ public interface WebSocketShim extends Shim {
             return S(new Facades.ClientEndpointConfig$Configurator(S(object)));
         } else if (object instanceof jakarta.websocket.server.HandshakeRequest) {
             return S(new Facades.HandshakeRequest(S(object)));
-//        } else if (object instanceof jakarta.websocket.server.ServerApplicationConfig) {
-//            return S(new Facades.ServerApplicationConfig(S(object)));
-//        } else if (object instanceof jakarta.websocket.server.ServerContainer) {
-//            return S(new Facades.ServerContainer(S(object)));
+        } else if (object instanceof jakarta.websocket.server.ServerApplicationConfig) {
+            return S(new Facades.ServerApplicationConfig(S(object)));
+        } else if (object instanceof jakarta.websocket.server.ServerContainer) {
+            return S(new Facades.ServerContainer(S(object)));
         } else if (object instanceof jakarta.websocket.server.ServerEndpointConfig) {
             return S(new Facades.ServerEndpointConfig(S(object)));
         } else if (object instanceof jakarta.websocket.server.ServerEndpointConfig.Builder) {

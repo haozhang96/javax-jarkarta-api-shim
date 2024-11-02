@@ -1,7 +1,7 @@
 package javax.websocket;
 
 import javax.net.ssl.SSLContext;
-import javax.shim.Shim;
+import javax.Shim;
 import java.util.Collections;
 import java.util.List;
 

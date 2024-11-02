@@ -2,7 +2,7 @@ package javax.servlet;
 
 import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.http.MappingMatch;
-import javax.shim.Shim;
+import javax.Shim;
 import java.lang.annotation.Annotation;
 import java.util.EventListener;
 import java.util.EventObject;

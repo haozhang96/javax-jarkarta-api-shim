@@ -1,7 +1,8 @@
-package javax.shim;
+package javax;
 
 import java.io.Serializable;
 import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
 import java.lang.reflect.Proxy;
 import java.util.Collection;
 import java.util.Map;
@@ -30,7 +31,7 @@ public interface Shim {
     String toString();
 
     //==================================================================================================================
-    // Helpers
+    // Helper Methods
     //==================================================================================================================
 
     static <S extends Shim> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {
@@ -64,7 +65,15 @@ public interface Shim {
             .collect(Collectors.toMap(Map.Entry::getKey, shimFactory.compose(Map.Entry::getValue)));
     }
 
-    abstract class Delegate<T> implements Shim, Serializable {
+    //==================================================================================================================
+    // Delegates
+    //==================================================================================================================
+
+    /**
+     * @deprecated Use {@link jakarta} instead.
+     */
+    @Deprecated(since = "jakarta")
+    abstract class Delegate<T> implements Shim, Serializable, Cloneable {
         protected final T delegate; // Conditionally serializable
 
         //==============================================================================================================
@@ -95,10 +104,34 @@ public interface Shim {
             return delegate.toString();
         }
 
+        @Override
+        @SuppressWarnings("unchecked")
+        protected final Delegate<T> clone() throws CloneNotSupportedException {
+            return getClass().cast(super.clone());
+        }
+
+        @Override
+        @SuppressWarnings("deprecation")
+        protected final void finalize() throws Throwable {
+            try {
+                MethodHandles
+                    .lookup()
+                    .findVirtual(Object.class, "finalize", MethodType.methodType(void.class))
+                    .bindTo(delegate)
+                    .invokeExact();
+            } finally {
+                super.finalize();
+            }
+        }
+
         //==============================================================================================================
         // Annotation-specific Delegate
         //==============================================================================================================
 
+        /**
+         * @deprecated Use {@link jakarta} instead.
+         */
+        @Deprecated(since = "jakarta")
         public abstract static class Annotation<A extends java.lang.annotation.Annotation> extends Delegate<A> implements java.lang.annotation.Annotation {
             //==========================================================================================================
             // Constructors
