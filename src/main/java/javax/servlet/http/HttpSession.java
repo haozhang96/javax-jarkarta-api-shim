@@ -17,7 +17,7 @@ public interface HttpSession extends jakarta.servlet.http.HttpSession, ServletSh
      * @deprecated This method has been deprecated and/or removed since Servlet 2.1.
      */
     @Deprecated(since = "Servlet 2.1", forRemoval = true)
-    default HttpSessionContext getSessionContext() {
+    default @SuppressWarnings("removal") HttpSessionContext getSessionContext() {
         return null;
     }
 

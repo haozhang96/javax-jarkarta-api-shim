@@ -22,6 +22,7 @@ public abstract class HttpServlet extends GenericServlet {
     /**
      * @see jakarta.servlet.http.HttpServlet#LEGACY_DO_HEAD
      */
+    @SuppressWarnings("removal")
     public static final String LEGACY_DO_HEAD = jakarta.servlet.http.HttpServlet.LEGACY_DO_HEAD;
 
     private static final long serialVersionUID = 8466325577512134784L; // Use the ID from jakarta.servlet.

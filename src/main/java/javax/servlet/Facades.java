@@ -561,6 +561,7 @@ interface Facades {
         }
     }
 
+    @SuppressWarnings("removal")
     final class Cookie extends javax.servlet.http.Cookie {
         private final jakarta.servlet.http.Cookie delegate;
 
@@ -4663,10 +4664,14 @@ interface Facades {
             return delegate.getPath();
         }
 
+        @Override
+        @SuppressWarnings("removal")
         public void setComment(String comment) {
             delegate.setComment(comment);
         }
 
+        @Override
+        @SuppressWarnings("removal")
         public String getComment() {
             return delegate.getComment();
         }

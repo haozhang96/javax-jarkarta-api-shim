@@ -27,15 +27,9 @@ public interface WebSocketShim extends Shim {
             return S(of((Annotation) object));
 
         //==============================================================================================================
-        // Core
+        // Server-specific APIs
         //==============================================================================================================
 
-        } else if (object instanceof jakarta.websocket.ClientEndpointConfig) {
-            return S(new Facades.ClientEndpointConfig(S(object)));
-        } else if (object instanceof jakarta.websocket.ClientEndpointConfig.Builder) {
-            return S(new Facades.ClientEndpointConfig$Builder(S(object)));
-        } else if (object instanceof jakarta.websocket.ClientEndpointConfig.Configurator) {
-            return S(new Facades.ClientEndpointConfig$Configurator(S(object)));
         } else if (object instanceof jakarta.websocket.server.HandshakeRequest) {
             return S(new Facades.HandshakeRequest(S(object)));
         } else if (object instanceof jakarta.websocket.server.ServerApplicationConfig) {
@@ -48,6 +42,73 @@ public interface WebSocketShim extends Shim {
             return S(new Facades.ServerEndpointConfig$Builder(S(object)));
         } else if (object instanceof jakarta.websocket.server.ServerEndpointConfig.Configurator) {
             return S(new Facades.ServerEndpointConfig$Configurator(S(object)));
+
+        //==============================================================================================================
+        // Core & Client-specific APIs
+        //==============================================================================================================
+
+        } else if (object instanceof jakarta.websocket.ClientEndpointConfig) {
+            return S(new Facades.ClientEndpointConfig(S(object)));
+        } else if (object instanceof jakarta.websocket.ClientEndpointConfig.Builder) {
+            return S(new Facades.ClientEndpointConfig$Builder(S(object)));
+        } else if (object instanceof jakarta.websocket.ClientEndpointConfig.Configurator) {
+            return S(new Facades.ClientEndpointConfig$Configurator(S(object)));
+        } else if (object instanceof jakarta.websocket.CloseReason) {
+            return S(new Facades.CloseReason(S(object)));
+        } else if (object instanceof jakarta.websocket.CloseReason.CloseCode) {
+            return S(new Facades.CloseReason$CloseCode(S(object)));
+        } else if (object instanceof jakarta.websocket.ContainerProvider) {
+            return S(new Facades.ContainerProvider(S(object)));
+        } else if (object instanceof jakarta.websocket.Decoder.Binary) {
+            return S(new Facades.Decoder$Binary<>(S(object)));
+        } else if (object instanceof jakarta.websocket.Decoder.BinaryStream) {
+            return S(new Facades.Decoder$BinaryStream<>(S(object)));
+        } else if (object instanceof jakarta.websocket.Decoder.Text) {
+            return S(new Facades.Decoder$Text<>(S(object)));
+        } else if (object instanceof jakarta.websocket.Decoder.TextStream) {
+            return S(new Facades.Decoder$TextStream<>(S(object)));
+        } else if (object instanceof jakarta.websocket.Decoder) {
+            return S(new Facades.Decoder(S(object)));
+        } else if (object instanceof jakarta.websocket.Encoder.Binary) {
+            return S(new Facades.Encoder$Binary<>(S(object)));
+        } else if (object instanceof jakarta.websocket.Encoder.BinaryStream) {
+            return S(new Facades.Encoder$BinaryStream<>(S(object)));
+        } else if (object instanceof jakarta.websocket.Encoder.Text) {
+            return S(new Facades.Encoder$Text<>(S(object)));
+        } else if (object instanceof jakarta.websocket.Encoder.TextStream) {
+            return S(new Facades.Encoder$TextStream<>(S(object)));
+        } else if (object instanceof jakarta.websocket.Encoder) {
+            return S(new Facades.Encoder(S(object)));
+        } else if (object instanceof jakarta.websocket.Endpoint) {
+            return S(new Facades.Endpoint(S(object)));
+        } else if (object instanceof jakarta.websocket.EndpointConfig) {
+            return S(new Facades.EndpointConfig(S(object)));
+        } else if (object instanceof jakarta.websocket.Extension) {
+            return S(new Facades.Extension(S(object)));
+        } else if (object instanceof jakarta.websocket.Extension.Parameter) {
+            return S(new Facades.Extension$Parameter(S(object)));
+        } else if (object instanceof jakarta.websocket.HandshakeResponse) {
+            return S(new Facades.HandshakeResponse(S(object)));
+        } else if (object instanceof jakarta.websocket.MessageHandler.Partial) {
+            return S(new Facades.MessageHandler$Partial<>(S(object)));
+        } else if (object instanceof jakarta.websocket.MessageHandler.Whole) {
+            return S(new Facades.MessageHandler$Whole<>(S(object)));
+        } else if (object instanceof jakarta.websocket.MessageHandler) {
+            return S(new Facades.MessageHandler(S(object)));
+        } else if (object instanceof jakarta.websocket.PongMessage) {
+            return S(new Facades.PongMessage(S(object)));
+        } else if (object instanceof jakarta.websocket.RemoteEndpoint.Async) {
+            return S(new Facades.RemoteEndpoint$Async(S(object)));
+        } else if (object instanceof jakarta.websocket.RemoteEndpoint.Basic) {
+            return S(new Facades.RemoteEndpoint$Basic(S(object)));
+        } else if (object instanceof jakarta.websocket.RemoteEndpoint) {
+            return S(new Facades.RemoteEndpoint(S(object)));
+        } else if (object instanceof jakarta.websocket.SendHandler) {
+            return S(new Facades.SendHandler(S(object)));
+        } else if (object instanceof jakarta.websocket.SendResult) {
+            return S(new Facades.SendResult(S(object)));
+        } else if (object instanceof jakarta.websocket.Session) {
+            return S(new Facades.Session(S(object)));
         } else if (object instanceof jakarta.websocket.WebSocketContainer) {
             return S(new Facades.WebSocketContainer(S(object)));
 
