@@ -5,10 +5,8 @@ import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Proxy;
 import java.util.Collection;
-import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -34,7 +32,7 @@ public interface Shim {
     // Helper Methods
     //==================================================================================================================
 
-    static <S extends Shim> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {
+    static <S> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {
         if (shimType.isAssignableFrom(interfaceType)) {
             return interfaceType.asSubclass(shimType);
         }
@@ -44,25 +42,18 @@ public interface Shim {
             .asSubclass(shimType);
     }
 
-    static <S extends Shim> Stream<S> of(Function<Object, ? extends S> shimFactory, Object[] objects) {
+    static <S> Stream<S> of(Function<Object, ? extends S> shimFactory, Object[] objects) {
         return Stream
             .of(objects)
             .map(shimFactory);
     }
 
-    static <S extends Shim> Stream<S> of(Function<Object, ? extends S> shimFactory, Iterable<?> objects) {
+    static <S> Stream<S> of(Function<Object, ? extends S> shimFactory, Iterable<?> objects) {
         final var stream =
             objects instanceof Collection<?>
                 ? ((Collection<?>) objects).stream()
                 : StreamSupport.stream(objects.spliterator(), false);
         return stream.map(shimFactory);
-    }
-
-    static <K, S extends Shim> Map<K, S> of(Function<Object, ? extends S> shimFactory, Map<? extends K, ?> map) {
-        return map
-            .entrySet()
-            .stream()
-            .collect(Collectors.toMap(Map.Entry::getKey, shimFactory.compose(Map.Entry::getValue)));
     }
 
     //==================================================================================================================
