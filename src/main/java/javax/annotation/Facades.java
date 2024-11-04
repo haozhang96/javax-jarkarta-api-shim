@@ -1,8 +1,6 @@
 package javax.annotation;
 
 import javax.Shim;
-import javax.annotation.sql.DataSourceDefinition;
-import javax.jws.JWSShim;
 
 /**
  * This interface contains {@link jakarta.annotation}-to-{@link javax.annotation} facades used for wrapping Jakarta
