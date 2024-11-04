@@ -8,9 +8,9 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -26,10 +26,12 @@ public abstract class HttpServlet extends GenericServlet {
     public static final String LEGACY_DO_HEAD = jakarta.servlet.http.HttpServlet.LEGACY_DO_HEAD;
 
     private static final long serialVersionUID = 8466325577512134784L; // Use the ID from jakarta.servlet.
-    private static final String PACKAGE_NAME = "jakarta.servlet.http";
+    private static final String PACKAGE_NAME = jakarta.servlet.http.HttpServlet.class.getPackageName();
     private static final ResourceBundle MESSAGES  = ResourceBundle.getBundle(PACKAGE_NAME + ".LocalStrings");
     private static final Set<String> BAD_REQUEST_PROTOCOLS = Set.of("HTTP/0.9", "HTTP/1.0");
     private static final String CRLF = "\r\n";
+
+    private final Set<String> allowedMethods = getAllowedMethods();
 
     //==================================================================================================================
     // HttpServlet Implementation Methods
@@ -83,21 +85,21 @@ public abstract class HttpServlet extends GenericServlet {
         HttpServletRequest request,
         HttpServletResponse response
     ) throws ServletException, IOException {
-        if (Boolean.parseBoolean(getServletConfig().getInitParameter(LEGACY_DO_HEAD))) {
+        if (isLegacyDoHead()) {
             try {
                 final var wrapperClass = Class.forName(PACKAGE_NAME + ".NoBodyResponse");
-                final var wrapper =
-                    wrapperClass
-                        .getDeclaredConstructor(jakarta.servlet.http.HttpServletResponse.class)
-                        .newInstance(response);
-                doGet(request, ServletShim.of(wrapper));
+                final var wrapperConstructor =
+                    wrapperClass.getDeclaredConstructor(jakarta.servlet.http.HttpServletResponse.class);
+                if (wrapperConstructor.trySetAccessible()) {
+                    final var wrapper = wrapperConstructor.newInstance(response);
+                    doGet(request, ServletShim.of(wrapper));
 
-                final var method = wrapperClass.getDeclaredMethod("setContentLength");
-                if (method.trySetAccessible()) {
-                    method.invoke(wrapper);
+                    final var method = wrapperClass.getDeclaredMethod("setContentLength");
+                    if (method.trySetAccessible()) {
+                        method.invoke(wrapper);
+                        return;
+                    }
                 }
-
-                return;
             } catch (ReflectiveOperationException exception) {
                 // Fall through to non-legacy behavior.
             }
@@ -143,17 +145,6 @@ public abstract class HttpServlet extends GenericServlet {
         HttpServletRequest request,
         HttpServletResponse response
     ) throws ServletException, IOException {
-        Set<String> allowedMethods = new HashSet<>(8);
-
-        for (final var method : (Iterable<Method>) getDeclaredMethods(getClass()).distinct()::iterator) {
-            switch (method.getName()) {
-                case "doGet": allowedMethods.addAll(Set.of(HttpMethod.GET, HttpMethod.HEAD)); break;
-                case "doPost": allowedMethods.add(HttpMethod.POST); break;
-                case "doPut": allowedMethods.add(HttpMethod.PUT); break;
-                case "doDelete": allowedMethods.add(HttpMethod.DELETE); break;
-            }
-        }
-
         response.setHeader(HttpHeaders.ALLOW, String.join(", ", allowedMethods));
     }
 
@@ -222,16 +213,36 @@ public abstract class HttpServlet extends GenericServlet {
         return MessageFormat.format(MESSAGES.getString(key), arguments);
     }
 
+    private void updateLastModified(HttpServletRequest request, HttpServletResponse response) {
+        final var lastModified = getLastModified(request);
+        if (!response.containsHeader(HttpHeaders.LAST_MODIFIED) && lastModified >= 0L) {
+            response.setDateHeader(HttpHeaders.LAST_MODIFIED, lastModified);
+        }
+    }
+
+    private Set<String> getAllowedMethods() {
+        return getDeclaredMethods(getClass())
+            .filter(method -> method.getName().startsWith("do"))
+            .flatMap(dispatchMethod -> {
+                switch (dispatchMethod.getName()) {
+                    case "doGet": return Stream.of(HttpMethod.GET, HttpMethod.HEAD);
+                    case "doPost": return Stream.of(HttpMethod.POST);
+                    case "doPut": return Stream.of(HttpMethod.PUT);
+                    case "doDelete": return Stream.of(HttpMethod.DELETE);
+                    default: return Stream.of();
+                }
+            })
+            .collect(Collectors.toUnmodifiableSet());
+    }
+
     private Stream<Method> getDeclaredMethods(Class<?> clazz) {
         final var superClass = clazz.getSuperclass();
         final var methods = Stream.of(clazz.getDeclaredMethods());
         return superClass == HttpServlet.class ? methods : Stream.concat(methods, getDeclaredMethods(superClass));
     }
 
-    private void updateLastModified(HttpServletRequest request, HttpServletResponse response) {
-        final var lastModified = getLastModified(request);
-        if (!response.containsHeader(HttpHeaders.LAST_MODIFIED) && lastModified >= 0L) {
-            response.setDateHeader(HttpHeaders.LAST_MODIFIED, lastModified);
-        }
+    private boolean isLegacyDoHead() {
+        return Boolean.parseBoolean(getServletConfig().getInitParameter(LEGACY_DO_HEAD))
+            || Boolean.parseBoolean(getServletConfig().getInitParameter(LEGACY_DO_HEAD.replace("jakarta", "javax")));
     }
 }
