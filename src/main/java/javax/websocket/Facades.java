@@ -2,7 +2,6 @@ package javax.websocket;
 
 import javax.Shim;
 import javax.net.ssl.SSLContext;
-import javax.servlet.ServletShim;
 import java.io.*;
 import java.lang.invoke.MethodHandles;
 import java.net.URI;
@@ -29,7 +28,7 @@ interface Facades {
     // Annotations
     //==================================================================================================================
 
-    final class ClientEndpoint extends Shim.Delegate.Annotation<jakarta.websocket.ClientEndpoint> implements javax.websocket.ClientEndpoint {
+    final class ClientEndpoint extends Shim.Delegate.Annotation<jakarta.websocket.ClientEndpoint> implements javax.websocket.ClientEndpoint, WebSocketShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -69,7 +68,7 @@ interface Facades {
         }
     }
 
-    final class OnClose extends Shim.Delegate.Annotation<jakarta.websocket.OnClose> implements javax.websocket.OnClose {
+    final class OnClose extends Shim.Delegate.Annotation<jakarta.websocket.OnClose> implements javax.websocket.OnClose, WebSocketShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -79,7 +78,7 @@ interface Facades {
         }
     }
 
-    final class OnError extends Shim.Delegate.Annotation<jakarta.websocket.OnError> implements javax.websocket.OnError {
+    final class OnError extends Shim.Delegate.Annotation<jakarta.websocket.OnError> implements javax.websocket.OnError, WebSocketShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -89,7 +88,7 @@ interface Facades {
         }
     }
 
-    final class OnMessage extends Shim.Delegate.Annotation<jakarta.websocket.OnMessage> implements javax.websocket.OnMessage {
+    final class OnMessage extends Shim.Delegate.Annotation<jakarta.websocket.OnMessage> implements javax.websocket.OnMessage, WebSocketShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -108,7 +107,7 @@ interface Facades {
         }
     }
 
-    final class OnOpen extends Shim.Delegate.Annotation<jakarta.websocket.OnOpen> implements javax.websocket.OnOpen {
+    final class OnOpen extends Shim.Delegate.Annotation<jakarta.websocket.OnOpen> implements javax.websocket.OnOpen, WebSocketShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -118,7 +117,7 @@ interface Facades {
         }
     }
 
-    final class PathParam extends Shim.Delegate.Annotation<jakarta.websocket.server.PathParam> implements javax.websocket.server.PathParam {
+    final class PathParam extends Shim.Delegate.Annotation<jakarta.websocket.server.PathParam> implements javax.websocket.server.PathParam, WebSocketShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -137,7 +136,7 @@ interface Facades {
         }
     }
 
-    final class ServerEndpoint extends Shim.Delegate.Annotation<jakarta.websocket.server.ServerEndpoint> implements javax.websocket.server.ServerEndpoint {
+    final class ServerEndpoint extends Shim.Delegate.Annotation<jakarta.websocket.server.ServerEndpoint> implements javax.websocket.server.ServerEndpoint, WebSocketShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -1131,7 +1130,7 @@ interface Facades {
 
         @Override
         public Object getHttpSession() {
-            return ServletShim.of(delegate.getHttpSession());
+            return delegate.getHttpSession();
         }
 
         @Override
