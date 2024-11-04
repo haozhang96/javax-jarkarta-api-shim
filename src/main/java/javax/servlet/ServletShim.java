@@ -1,12 +1,11 @@
 package javax.servlet;
 
+import javax.Shim;
 import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.http.MappingMatch;
-import javax.Shim;
 import java.lang.annotation.Annotation;
 import java.util.EventListener;
 import java.util.EventObject;
-import java.util.Map;
 import java.util.stream.Stream;
 
 /**
@@ -19,7 +18,7 @@ public interface ServletShim extends Shim {
     //==================================================================================================================
 
     @SuppressWarnings("rawtypes")
-    static <S extends ServletShim> S of(Object object) {
+    static <S> S of(Object object) {
         //==============================================================================================================
         // Specializations
         //==============================================================================================================
@@ -147,23 +146,7 @@ public interface ServletShim extends Shim {
         throw new UnsupportedOperationException("Unknown type: " + object.getClass().getName());
     }
 
-    static <S extends ServletShim> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {
-        return Shim.of(shimType, interfaceType);
-    }
-
-    static <S extends ServletShim> Stream<S> of(Object[] objects) {
-        return Shim.of(ServletShim::of, objects);
-    }
-
-    static <S extends ServletShim> Stream<S> of(Iterable<?> objects) {
-        return Shim.of(ServletShim::of, objects);
-    }
-
-    static <K, S extends ServletShim> Map<K, S> of(Map<? extends K, ?> map) {
-        return Shim.of(ServletShim::of, map);
-    }
-
-    static <S extends ServletException & ServletShim> S of(jakarta.servlet.ServletException exception) {
+    static <S extends ServletException> S of(jakarta.servlet.ServletException exception) {
         if (exception == null || exception instanceof ServletShim) {
             return S(exception);
         } else if (exception instanceof jakarta.servlet.UnavailableException) {
@@ -173,11 +156,23 @@ public interface ServletShim extends Shim {
         return S(new Facades.ServletException(exception));
     }
 
+    static <S> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {
+        return Shim.of(shimType, interfaceType);
+    }
+
+    static <S> Stream<S> of(Object[] objects) {
+        return Shim.of(ServletShim::of, objects);
+    }
+
+    static <S> Stream<S> of(Iterable<?> objects) {
+        return Shim.of(ServletShim::of, objects);
+    }
+
     //==================================================================================================================
     // Private Helper Methods
     //==================================================================================================================
 
-    private static <S extends Enum<S> & ServletShim> S of(Enum<?> enumeration) {
+    private static <S extends Enum<S>> S of(Enum<?> enumeration) {
         if (enumeration == null || enumeration instanceof ServletShim) {
             return S(enumeration);
         } else if (enumeration instanceof jakarta.servlet.DispatcherType) {
@@ -195,7 +190,7 @@ public interface ServletShim extends Shim {
         throw new UnsupportedOperationException("Unknown enumeration type: " + enumeration.getClass().getName());
     }
 
-    private static <S extends Annotation & ServletShim> S of(Annotation annotation) {
+    private static <S extends Annotation> S of(Annotation annotation) {
         if (annotation == null || annotation instanceof ServletShim) {
             return S(annotation);
         } else if (annotation instanceof jakarta.servlet.annotation.HandlesTypes) {
@@ -221,7 +216,7 @@ public interface ServletShim extends Shim {
         throw new UnsupportedOperationException("Unknown annotation type: " + annotation.annotationType().getName());
     }
 
-    private static <S extends EventListener & ServletShim> S of(EventListener listener) {
+    private static <S extends EventListener> S of(EventListener listener) {
         if (listener == null || listener instanceof ServletShim) {
             return S(listener);
         } else if (listener instanceof jakarta.servlet.AsyncListener) {
@@ -253,7 +248,7 @@ public interface ServletShim extends Shim {
         throw new UnsupportedOperationException("Unknown event listener type: " + listener.getClass().getName());
     }
 
-    private static <S extends EventObject & ServletShim> S of(EventObject event) {
+    private static <S extends EventObject> S of(EventObject event) {
         if (event == null || event instanceof ServletShim) {
             return S(event);
         } else if (event instanceof jakarta.servlet.http.HttpSessionBindingEvent) {

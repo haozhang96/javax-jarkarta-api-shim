@@ -6,6 +6,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.Principal;
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -23,7 +24,7 @@ interface Facades {
     // Annotations
     //==================================================================================================================
 
-    final class HandlesTypes extends Shim.Delegate.Annotation<jakarta.servlet.annotation.HandlesTypes> implements javax.servlet.annotation.HandlesTypes {
+    final class HandlesTypes extends Shim.Delegate.Annotation<jakarta.servlet.annotation.HandlesTypes> implements javax.servlet.annotation.HandlesTypes, ServletShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -42,7 +43,7 @@ interface Facades {
         }
     }
 
-    final class HttpConstraint extends Shim.Delegate.Annotation<jakarta.servlet.annotation.HttpConstraint> implements javax.servlet.annotation.HttpConstraint {
+    final class HttpConstraint extends Shim.Delegate.Annotation<jakarta.servlet.annotation.HttpConstraint> implements javax.servlet.annotation.HttpConstraint, ServletShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -71,7 +72,7 @@ interface Facades {
         }
     }
 
-    final class HttpMethodConstraint extends Shim.Delegate.Annotation<jakarta.servlet.annotation.HttpMethodConstraint> implements javax.servlet.annotation.HttpMethodConstraint {
+    final class HttpMethodConstraint extends Shim.Delegate.Annotation<jakarta.servlet.annotation.HttpMethodConstraint> implements javax.servlet.annotation.HttpMethodConstraint, ServletShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -105,7 +106,7 @@ interface Facades {
         }
     }
 
-    final class MultipartConfig extends Shim.Delegate.Annotation<jakarta.servlet.annotation.MultipartConfig> implements javax.servlet.annotation.MultipartConfig {
+    final class MultipartConfig extends Shim.Delegate.Annotation<jakarta.servlet.annotation.MultipartConfig> implements javax.servlet.annotation.MultipartConfig, ServletShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -139,7 +140,7 @@ interface Facades {
         }
     }
 
-    final class ServletSecurity extends Shim.Delegate.Annotation<jakarta.servlet.annotation.ServletSecurity> implements javax.servlet.annotation.ServletSecurity {
+    final class ServletSecurity extends Shim.Delegate.Annotation<jakarta.servlet.annotation.ServletSecurity> implements javax.servlet.annotation.ServletSecurity, ServletShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -166,7 +167,7 @@ interface Facades {
         }
     }
 
-    final class WebFilter extends Shim.Delegate.Annotation<jakarta.servlet.annotation.WebFilter> implements javax.servlet.annotation.WebFilter {
+    final class WebFilter extends Shim.Delegate.Annotation<jakarta.servlet.annotation.WebFilter> implements javax.servlet.annotation.WebFilter, ServletShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -240,7 +241,7 @@ interface Facades {
         }
     }
 
-    final class WebInitParam extends Shim.Delegate.Annotation<jakarta.servlet.annotation.WebInitParam> implements javax.servlet.annotation.WebInitParam {
+    final class WebInitParam extends Shim.Delegate.Annotation<jakarta.servlet.annotation.WebInitParam> implements javax.servlet.annotation.WebInitParam, ServletShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -269,7 +270,7 @@ interface Facades {
         }
     }
 
-    final class WebListener extends Shim.Delegate.Annotation<jakarta.servlet.annotation.WebListener> implements javax.servlet.annotation.WebListener {
+    final class WebListener extends Shim.Delegate.Annotation<jakarta.servlet.annotation.WebListener> implements javax.servlet.annotation.WebListener, ServletShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -288,7 +289,7 @@ interface Facades {
         }
     }
 
-    final class WebServlet extends Shim.Delegate.Annotation<jakarta.servlet.annotation.WebServlet> implements javax.servlet.annotation.WebServlet {
+    final class WebServlet extends Shim.Delegate.Annotation<jakarta.servlet.annotation.WebServlet> implements javax.servlet.annotation.WebServlet, ServletShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -3233,7 +3234,14 @@ interface Facades {
 
         @Override
         public Map getServletRegistrations() {
-            return ServletShim.of(delegate.getServletRegistrations());
+            return delegate
+                .getServletRegistrations()
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(
+                    Map.Entry::getKey,
+                    ((Function<Object, javax.servlet.ServletRegistration>) ServletShim::of).compose(Map.Entry::getValue)
+                ));
         }
 
         @Override
@@ -3272,7 +3280,14 @@ interface Facades {
 
         @Override
         public Map getFilterRegistrations() {
-            return ServletShim.of(delegate.getFilterRegistrations());
+            return delegate
+                .getFilterRegistrations()
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(
+                    Map.Entry::getKey,
+                    ((Function<Object, javax.servlet.FilterRegistration>) ServletShim::of).compose(Map.Entry::getValue)
+                ));
         }
 
         @Override
