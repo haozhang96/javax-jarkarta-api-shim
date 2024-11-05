@@ -157,7 +157,7 @@
             <artifactId>jakarta.servlet.jsp-api</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency><!-- Jakarta Transaction: https://jakarta.ee/specifications/transaction/ -->
+        <dependency><!-- Jakarta Transactions: https://jakarta.ee/specifications/transactions/ -->
             <groupId>jakarta.transaction</groupId>
             <artifactId>jakarta.transaction-api</artifactId>
             <optional>true</optional>

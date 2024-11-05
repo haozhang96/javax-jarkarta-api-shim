@@ -15,8 +15,8 @@ public abstract class Endpoint extends jakarta.websocket.Endpoint implements Web
         super.onClose(session, closeReason);
     }
 
-    public void onError(Session session, Throwable exception) {
-        super.onError(session, exception);
+    public void onError(Session session, Throwable cause) {
+        super.onError(session, cause);
     }
 
     //==================================================================================================================
@@ -34,7 +34,7 @@ public abstract class Endpoint extends jakarta.websocket.Endpoint implements Web
     }
 
     @Override
-    public void onError(jakarta.websocket.Session session, Throwable exception) {
-        onError(WebSocketShim.of(session), exception);
+    public void onError(jakarta.websocket.Session session, Throwable cause) {
+        onError(WebSocketShim.of(session), cause);
     }
 }

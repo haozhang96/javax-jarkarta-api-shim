@@ -105,11 +105,7 @@ public interface Shim {
         @SuppressWarnings("deprecation")
         protected final void finalize() throws Throwable {
             try {
-                MethodHandles
-                    .lookup()
-                    .findVirtual(Object.class, "finalize", MethodType.methodType(void.class))
-                    .bindTo(delegate)
-                    .invokeExact();
+                Object.class.getDeclaredMethod("finalize").invoke(delegate);
             } finally {
                 super.finalize();
             }

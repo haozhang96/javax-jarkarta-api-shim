@@ -1002,13 +1002,13 @@ interface Facades {
         }
 
         @Override
-        public void onError(javax.websocket.Session session, Throwable exception) {
-            delegate.onError(session, exception);
+        public void onError(javax.websocket.Session session, Throwable cause) {
+            delegate.onError(session, cause);
         }
 
         @Override
-        public void onError(jakarta.websocket.Session session, Throwable exception) {
-            delegate.onError(session, exception);
+        public void onError(jakarta.websocket.Session session, Throwable cause) {
+            delegate.onError(session, cause);
         }
     }
 

@@ -22,8 +22,8 @@ public class SendResult extends Shim.Delegate<jakarta.websocket.SendResult> impl
     /**
      * @see jakarta.websocket.SendResult#SendResult(Throwable)
      */
-    public SendResult(Throwable exception) {
-        this(new jakarta.websocket.SendResult(exception));
+    public SendResult(Throwable cause) {
+        this(new jakarta.websocket.SendResult(cause));
     }
 
     protected SendResult(jakarta.websocket.SendResult delegate) {
