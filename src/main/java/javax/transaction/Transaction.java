@@ -26,10 +26,10 @@ public interface Transaction extends jakarta.transaction.Transaction, Transactio
     void commit() throws RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException;
 
     @Override
-    boolean delistResource(XAResource xaRes, int flag) throws IllegalStateException, SystemException;
+    boolean delistResource(XAResource resource, int flag) throws IllegalStateException, SystemException;
 
     @Override
-    boolean enlistResource(XAResource xaRes) throws RollbackException, IllegalStateException, SystemException;
+    boolean enlistResource(XAResource resource) throws RollbackException, IllegalStateException, SystemException;
 
     @Override
     int getStatus() throws SystemException;
