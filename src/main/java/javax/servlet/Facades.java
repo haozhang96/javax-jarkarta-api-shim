@@ -1129,8 +1129,8 @@ interface Facades {
         }
 
         @Override
-        public void log(String message, Throwable throwable) {
-            delegate.log(message, throwable);
+        public void log(String message, Throwable cause) {
+            delegate.log(message, cause);
         }
 
         @Override
@@ -1437,8 +1437,8 @@ interface Facades {
         }
 
         @Override
-        public void log(String message, Throwable throwable) {
-            delegate.log(message, throwable);
+        public void log(String message, Throwable cause) {
+            delegate.log(message, cause);
         }
 
         @Override
@@ -2723,8 +2723,8 @@ interface Facades {
         }
 
         @Override
-        public void onError(Throwable throwable) {
-            delegate.onError(throwable);
+        public void onError(Throwable cause) {
+            delegate.onError(cause);
         }
     }
 
@@ -3139,8 +3139,8 @@ interface Facades {
         }
 
         @Override
-        public void log(String message, Throwable throwable) {
-            delegate.log(message, throwable);
+        public void log(String message, Throwable cause) {
+            delegate.log(message, cause);
         }
 
         @Override
@@ -4872,8 +4872,8 @@ interface Facades {
         }
 
         @Override
-        public void onError(Throwable throwable) {
-            delegate.onError(throwable);
+        public void onError(Throwable cause) {
+            delegate.onError(cause);
         }
     }
 }
