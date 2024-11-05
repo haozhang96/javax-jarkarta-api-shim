@@ -745,6 +745,126 @@ interface Facades {
         }
     }
 
+    final class TransactionManager extends Shim.Delegate<jakarta.transaction.TransactionManager> implements javax.transaction.TransactionManager {
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        TransactionManager(jakarta.transaction.TransactionManager delegate) {
+            super(delegate);
+        }
+
+        //==============================================================================================================
+        // Delegated Methods
+        //==============================================================================================================
+
+        @Override
+        public void resume(
+            javax.transaction.Transaction transaction
+        ) throws javax.transaction.InvalidTransactionException, javax.transaction.SystemException {
+            try {
+                delegate.resume(transaction);
+            } catch (jakarta.transaction.InvalidTransactionException exception) {
+                throw TransactionShim.<javax.transaction.InvalidTransactionException>of(exception);
+            } catch (jakarta.transaction.SystemException exception) {
+                throw TransactionShim.<javax.transaction.SystemException>of(exception);
+            }
+        }
+
+        @Override
+        public void resume(
+            jakarta.transaction.Transaction transaction
+        ) throws javax.transaction.InvalidTransactionException, javax.transaction.SystemException {
+            try {
+                delegate.resume(transaction);
+            } catch (jakarta.transaction.InvalidTransactionException exception) {
+                throw TransactionShim.<javax.transaction.InvalidTransactionException>of(exception);
+            } catch (jakarta.transaction.SystemException exception) {
+                throw TransactionShim.<javax.transaction.SystemException>of(exception);
+            }
+        }
+
+        @Override
+        public void begin() throws javax.transaction.NotSupportedException, javax.transaction.SystemException {
+            try {
+                delegate.begin();
+            } catch (jakarta.transaction.NotSupportedException exception) {
+                throw TransactionShim.<javax.transaction.NotSupportedException>of(exception);
+            } catch (jakarta.transaction.SystemException exception) {
+                throw TransactionShim.<javax.transaction.SystemException>of(exception);
+            }
+        }
+
+        @Override
+        public void commit() throws javax.transaction.RollbackException, javax.transaction.HeuristicMixedException, javax.transaction.HeuristicRollbackException, javax.transaction.SystemException {
+            try {
+                delegate.commit();
+            } catch (jakarta.transaction.RollbackException exception) {
+                throw TransactionShim.<javax.transaction.RollbackException>of(exception);
+            } catch (jakarta.transaction.HeuristicMixedException exception) {
+                throw TransactionShim.<javax.transaction.HeuristicMixedException>of(exception);
+            } catch (jakarta.transaction.HeuristicRollbackException exception) {
+                throw TransactionShim.<javax.transaction.HeuristicRollbackException>of(exception);
+            } catch (jakarta.transaction.SystemException exception) {
+                throw TransactionShim.<javax.transaction.SystemException>of(exception);
+            }
+        }
+
+        @Override
+        public int getStatus() throws javax.transaction.SystemException {
+            try {
+                return delegate.getStatus();
+            } catch (jakarta.transaction.SystemException exception) {
+                throw TransactionShim.<javax.transaction.SystemException>of(exception);
+            }
+        }
+
+        @Override
+        public javax.transaction.Transaction getTransaction() throws javax.transaction.SystemException {
+            try {
+                return TransactionShim.of(delegate.getTransaction());
+            } catch (jakarta.transaction.SystemException exception) {
+                throw TransactionShim.<javax.transaction.SystemException>of(exception);
+            }
+        }
+
+        @Override
+        public void rollback() throws javax.transaction.SystemException {
+            try {
+                delegate.rollback();
+            } catch (jakarta.transaction.SystemException exception) {
+                throw TransactionShim.<javax.transaction.SystemException>of(exception);
+            }
+        }
+
+        @Override
+        public void setRollbackOnly() throws javax.transaction.SystemException {
+            try {
+                delegate.setRollbackOnly();
+            } catch (jakarta.transaction.SystemException exception) {
+                throw TransactionShim.<javax.transaction.SystemException>of(exception);
+            }
+        }
+
+        @Override
+        public void setTransactionTimeout(int seconds) throws javax.transaction.SystemException {
+            try {
+                delegate.setTransactionTimeout(seconds);
+            } catch (jakarta.transaction.SystemException exception) {
+                throw TransactionShim.<javax.transaction.SystemException>of(exception);
+            }
+        }
+
+        @Override
+        public javax.transaction.Transaction suspend() throws javax.transaction.SystemException {
+            try {
+                return TransactionShim.of(delegate.suspend());
+            } catch (jakarta.transaction.SystemException exception) {
+                throw TransactionShim.<javax.transaction.SystemException>of(exception);
+            }
+        }
+    }
+
     final class TransactionRequiredException extends javax.transaction.TransactionRequiredException {
         private static final long serialVersionUID = -1898806419937446439L; // Use the ID from jakarta.transaction.
 
