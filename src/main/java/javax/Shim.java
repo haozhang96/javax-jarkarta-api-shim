@@ -2,7 +2,7 @@ package javax;
 
 import java.io.Serializable;
 import java.lang.invoke.MethodHandles;
-import java.lang.invoke.MethodType;
+import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Collection;
 import java.util.Objects;
@@ -65,6 +65,9 @@ public interface Shim {
      */
     @Deprecated(since = "jakarta")
     abstract class Delegate<T> implements Shim, Serializable, Cloneable {
+        private static final StackWalker STACK_WALKER = StackWalker.getInstance();
+        private static final Method FINALIZER = getFinalizer();
+
         protected final T delegate; // Conditionally serializable
 
         //==============================================================================================================
@@ -73,6 +76,7 @@ public interface Shim {
 
         protected Delegate(T delegate) {
             this.delegate = Objects.requireNonNull(delegate);
+            printEntryPoint();
         }
 
         //==============================================================================================================
@@ -97,15 +101,22 @@ public interface Shim {
 
         @Override
         @SuppressWarnings("unchecked")
-        protected final Delegate<T> clone() throws CloneNotSupportedException {
-            return getClass().cast(super.clone());
+        protected final Delegate<T> clone() {
+            try {
+                return getClass().cast(super.clone());
+            } catch (CloneNotSupportedException exception) {
+                // This should never happen.
+                throw new InternalError(exception);
+            }
         }
 
         @Override
         @SuppressWarnings("deprecation")
         protected final void finalize() throws Throwable {
             try {
-                Object.class.getDeclaredMethod("finalize").invoke(delegate);
+                if (FINALIZER != null) {
+                    FINALIZER.invoke(delegate);
+                }
             } finally {
                 super.finalize();
             }
@@ -135,6 +146,32 @@ public interface Shim {
             @Override
             public final Class<? extends java.lang.annotation.Annotation> annotationType() {
                 return delegate.annotationType();
+            }
+        }
+
+        //==============================================================================================================
+        // Private Helper Methods
+        //==============================================================================================================
+
+        private void printEntryPoint() {
+            STACK_WALKER.walk(stackFrames ->
+                stackFrames
+                    .dropWhile(stackFrame -> stackFrame.getClassName().startsWith("javax."))
+                    .findFirst()
+            ).ifPresent(stackFrame ->
+                System
+                    .getLogger(delegate.getClass().getName())
+                    .log(System.Logger.Level.INFO, stackFrame)
+            );
+        }
+
+        private static Method getFinalizer() {
+            try {
+                final var finalizer = Object.class.getDeclaredMethod("finalize");
+                return finalizer.trySetAccessible() ? finalizer : null;
+            } catch (NoSuchMethodException exception) {
+                // This should never happen.
+                throw new InternalError(exception);
             }
         }
     }

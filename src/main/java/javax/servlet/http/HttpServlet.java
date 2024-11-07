@@ -1,12 +1,10 @@
 package javax.servlet.http;
 
-import jakarta.ws.rs.HttpMethod;
-import jakarta.ws.rs.core.HttpHeaders;
-
 import javax.servlet.*;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -28,10 +26,10 @@ public abstract class HttpServlet extends GenericServlet {
     private static final long serialVersionUID = 8466325577512134784L; // Use the ID from jakarta.servlet.
     private static final String PACKAGE_NAME = jakarta.servlet.http.HttpServlet.class.getPackageName();
     private static final ResourceBundle MESSAGES  = ResourceBundle.getBundle(PACKAGE_NAME + ".LocalStrings");
-    private static final Set<String> BAD_REQUEST_PROTOCOLS = Set.of("HTTP/0.9", "HTTP/1.0");
-    private static final String CRLF = "\r\n";
+    private static final Collection<String> BAD_REQUEST_PROTOCOLS = Set.of("HTTP/0.9", "HTTP/1.0");
+    private static final String CR_LF = "\r\n";
 
-    private final Set<String> allowedMethods = getAllowedMethods();
+    private final String allowedMethods = getAllowedMethods();
 
     //==================================================================================================================
     // HttpServlet Implementation Methods
@@ -45,11 +43,11 @@ public abstract class HttpServlet extends GenericServlet {
         HttpServletResponse response
     ) throws ServletException, IOException {
         switch (request.getMethod()) {
-            case HttpMethod.GET: {
+            case HttpMethods.GET: {
                 final var lastModified = getLastModified(request);
                 if (lastModified == -1L) {
                     doGet(request, response);
-                } else if (request.getDateHeader(HttpHeaders.IF_MODIFIED_SINCE) < lastModified) {
+                } else if (request.getDateHeader(jakarta.ws.rs.core.HttpHeaders.IF_MODIFIED_SINCE) < lastModified) {
                     updateLastModified(request, response);
                     doGet(request, response);
                 } else {
@@ -58,13 +56,13 @@ public abstract class HttpServlet extends GenericServlet {
                 break;
             }
 
-            case HttpMethod.HEAD: updateLastModified(request, response); doHead(request, response); break;
-            case HttpMethod.POST: doPost(request, response); break;
-            case HttpMethod.PUT: doPut(request, response); break;
-            case HttpMethod.DELETE: doDelete(request, response); break;
-            case HttpMethod.OPTIONS: doOptions(request, response); break;
-            case "TRACE": doTrace(request, response); break;
-            default: response.sendError(HttpServletResponse.SC_NOT_IMPLEMENTED, unsupportedMethod(null, request.getMethod()));
+            case HttpMethods.HEAD: updateLastModified(request, response); doHead(request, response); break;
+            case HttpMethods.POST: doPost(request, response); break;
+            case HttpMethods.PUT: doPut(request, response); break;
+            case HttpMethods.DELETE: doDelete(request, response); break;
+            case HttpMethods.OPTIONS: doOptions(request, response); break;
+            case HttpMethods.TRACE: doTrace(request, response); break;
+            default: response.sendError(HttpServletResponse.SC_NOT_IMPLEMENTED, unsupported(null, request.getMethod()));
         }
     }
 
@@ -145,7 +143,7 @@ public abstract class HttpServlet extends GenericServlet {
         HttpServletRequest request,
         HttpServletResponse response
     ) throws ServletException, IOException {
-        response.setHeader(HttpHeaders.ALLOW, String.join(", ", allowedMethods));
+        response.setHeader(jakarta.ws.rs.core.HttpHeaders.ALLOW, allowedMethods);
     }
 
     /**
@@ -155,12 +153,21 @@ public abstract class HttpServlet extends GenericServlet {
         HttpServletRequest request,
         HttpServletResponse response
     ) throws ServletException, IOException {
-        var payload = new StringBuilder(String.format("TRACE %s %s", request.getRequestURI(), request.getProtocol()));
+        var payload =
+            new StringBuilder(HttpMethods.TRACE)
+                .append(' ')
+                .append(request.getRequestURI())
+                .append(' ')
+                .append(request.getProtocol());
 
         for (final var headerName : Collections.list(request.getHeaderNames())) {
-            payload.append(CRLF).append(headerName).append(": ").append(request.getHeader(headerName));
+            payload
+                .append(CR_LF)
+                .append(headerName)
+                .append(": ")
+                .append(request.getHeader(headerName));
         }
-        payload.append(CRLF);
+        payload.append(CR_LF);
 
         response.setContentType("message/http");
         response.setContentLength(payload.length());
@@ -179,15 +186,7 @@ public abstract class HttpServlet extends GenericServlet {
     //==================================================================================================================
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-    }
-
-    @Override
-    public void service(
-        ServletRequest request,
-        ServletResponse response
-    ) throws ServletException, IOException {
+    public void service(ServletRequest request, ServletResponse response) throws ServletException, IOException {
         if (!(request instanceof HttpServletRequest && response instanceof HttpServletResponse)) {
             throw new ServletException("non-HTTP request or response");
         }
@@ -196,7 +195,7 @@ public abstract class HttpServlet extends GenericServlet {
     }
 
     //==================================================================================================================
-    // Private Helper Methods
+    // Private Helpers
     //==================================================================================================================
 
     private void doUnsupported(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -204,35 +203,46 @@ public abstract class HttpServlet extends GenericServlet {
             BAD_REQUEST_PROTOCOLS.contains(request.getProtocol())
                 ? HttpServletResponse.SC_BAD_REQUEST
                 : HttpServletResponse.SC_METHOD_NOT_ALLOWED,
-            unsupportedMethod(request.getMethod())
+            unsupported(request.getMethod())
         );
     }
 
-    private String unsupportedMethod(String method, Object... arguments) {
+    private String unsupported(String method, Object... arguments) {
         final var key = String.format("http.method_%snot_implemented", method != null ? method.toLowerCase() + "_" : "");
         return MessageFormat.format(MESSAGES.getString(key), arguments);
     }
 
+    private String getAllowedMethods() {
+        return getDeclaredMethods(getClass())
+            .filter(method -> method.getName().startsWith("do"))
+            .map(method -> method.getName().substring(2).toUpperCase())
+            .flatMap(method -> {
+                switch (method) {
+                    case HttpMethods.GET: return Stream.of(method, HttpMethods.HEAD);
+                    case HttpMethods.HEAD:
+                    case HttpMethods.POST:
+                    case HttpMethods.PUT:
+                    case HttpMethods.DELETE:
+                    case HttpMethods.OPTIONS:
+                    case HttpMethods.TRACE: return Stream.of(method);
+                    default: return Stream.empty();
+                }
+            })
+            .distinct()
+            .sorted()
+            .collect(Collectors.joining(", "));
+    }
+
     private void updateLastModified(HttpServletRequest request, HttpServletResponse response) {
         final var lastModified = getLastModified(request);
-        if (!response.containsHeader(HttpHeaders.LAST_MODIFIED) && lastModified >= 0L) {
-            response.setDateHeader(HttpHeaders.LAST_MODIFIED, lastModified);
+        if (!response.containsHeader(jakarta.ws.rs.core.HttpHeaders.LAST_MODIFIED) && lastModified >= 0L) {
+            response.setDateHeader(jakarta.ws.rs.core.HttpHeaders.LAST_MODIFIED, lastModified);
         }
     }
 
-    private Set<String> getAllowedMethods() {
-        return getDeclaredMethods(getClass())
-            .filter(method -> method.getName().startsWith("do"))
-            .flatMap(dispatchMethod -> {
-                switch (dispatchMethod.getName()) {
-                    case "doGet": return Stream.of(HttpMethod.GET, HttpMethod.HEAD);
-                    case "doPost": return Stream.of(HttpMethod.POST);
-                    case "doPut": return Stream.of(HttpMethod.PUT);
-                    case "doDelete": return Stream.of(HttpMethod.DELETE);
-                    default: return Stream.of();
-                }
-            })
-            .collect(Collectors.toUnmodifiableSet());
+    private boolean isLegacyDoHead() {
+        return Boolean.parseBoolean(getServletConfig().getInitParameter(LEGACY_DO_HEAD))
+            || Boolean.parseBoolean(getServletConfig().getInitParameter(LEGACY_DO_HEAD.replace("jakarta", "javax")));
     }
 
     private Stream<Method> getDeclaredMethods(Class<?> clazz) {
@@ -241,8 +251,8 @@ public abstract class HttpServlet extends GenericServlet {
         return superClass == HttpServlet.class ? methods : Stream.concat(methods, getDeclaredMethods(superClass));
     }
 
-    private boolean isLegacyDoHead() {
-        return Boolean.parseBoolean(getServletConfig().getInitParameter(LEGACY_DO_HEAD))
-            || Boolean.parseBoolean(getServletConfig().getInitParameter(LEGACY_DO_HEAD.replace("jakarta", "javax")));
+    @SuppressWarnings("ClassExplicitlyAnnotation")
+    private interface HttpMethods extends jakarta.ws.rs.HttpMethod {
+        String TRACE = "TRACE";
     }
 }
