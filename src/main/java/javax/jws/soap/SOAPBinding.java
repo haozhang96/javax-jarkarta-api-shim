@@ -1,5 +1,6 @@
 package javax.jws.soap;
 
+import javax.jws.JWSShim;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -16,7 +17,7 @@ public @interface SOAPBinding {
      * @deprecated Use {@link jakarta.jws.soap.SOAPBinding.Style} instead.
      */
     @Deprecated(since = "jakarta.jws.soap.SOAPBinding.Style")
-    enum Style { DOCUMENT, RPC }
+    enum Style implements JWSShim { DOCUMENT, RPC }
 
     /**
      * @see jakarta.jws.soap.SOAPBinding#style()
@@ -27,7 +28,7 @@ public @interface SOAPBinding {
      * @deprecated Use {@link jakarta.jws.soap.SOAPBinding.Use} instead.
      */
     @Deprecated(since = "jakarta.jws.soap.SOAPBinding.Use")
-    enum Use { LITERAL, ENCODED }
+    enum Use implements JWSShim { LITERAL, ENCODED }
 
     /**
      * @see jakarta.jws.soap.SOAPBinding#use()
@@ -38,7 +39,7 @@ public @interface SOAPBinding {
      * @deprecated Use {@link jakarta.jws.soap.SOAPBinding.ParameterStyle} instead.
      */
     @Deprecated(since = "jakarta.jws.soap.SOAPBinding.ParameterStyle")
-    enum ParameterStyle { BARE, WRAPPED }
+    enum ParameterStyle implements JWSShim { BARE, WRAPPED }
 
     /**
      * @see jakarta.jws.soap.SOAPBinding#parameterStyle()
