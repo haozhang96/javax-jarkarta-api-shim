@@ -1,6 +1,5 @@
 package javax.annotation;
 
-import javax.Shim;
 import java.lang.annotation.*;
 
 /**
@@ -30,7 +29,7 @@ public @interface Resource {
      * @deprecated Use {@link jakarta.annotation.Resource.AuthenticationType} instead.
      */
     @Deprecated(since = "jakarta.annotation.Resource.AuthenticationType")
-    enum AuthenticationType implements Shim { CONTAINER, APPLICATION }
+    enum AuthenticationType implements AnnotationShim { CONTAINER, APPLICATION }
 
     /**
      * @see jakarta.annotation.Resource#authenticationType()
