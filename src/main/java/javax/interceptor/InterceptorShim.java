@@ -27,12 +27,12 @@ public interface InterceptorShim extends Shim {
             return S(new Facades.ExcludeDefaultInterceptors(S(object)));
         } else if (object instanceof jakarta.interceptor.Interceptor) {
             return S(new Facades.Interceptor(S(object)));
+        } else if (object instanceof jakarta.interceptor.Interceptor.Priority) {
+            return S(new Facades.Interceptor$Priority(S(object)));
         } else if (object instanceof jakarta.interceptor.InterceptorBinding) {
             return S(new Facades.InterceptorBinding(S(object)));
         } else if (object instanceof jakarta.interceptor.Interceptors) {
             return S(new Facades.Interceptors(S(object)));
-        } else if (object instanceof jakarta.interceptor.Interceptor.Priority) {
-            return S(new Facades.Interceptor$Priority(S(object)));
         } else if (object instanceof jakarta.interceptor.InvocationContext) {
             return S(new Facades.InvocationContext(S(object)));
         }
