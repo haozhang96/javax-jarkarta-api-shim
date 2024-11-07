@@ -1,7 +1,6 @@
 package javax.transaction;
 
 import javax.Shim;
-import java.lang.annotation.Annotation;
 import java.util.stream.Stream;
 
 /**
@@ -13,30 +12,23 @@ public interface TransactionShim extends Shim {
     // Factory Methods
     //==================================================================================================================
 
-    @SuppressWarnings("rawtypes")
     static <S> S of(Object object) {
-        //==============================================================================================================
-        // Specializations
-        //==============================================================================================================
-
         if (object == null || object instanceof TransactionShim) {
             return S(object);
         } else if (object instanceof Exception) {
             return S(of((Exception) object));
-        } else if (object instanceof Enum<?>) {
-            return S(of((Enum) object));
-        } else if (object instanceof Annotation) {
-            return S(of((Annotation) object));
-
-        //==============================================================================================================
-        // Core
-        //==============================================================================================================
-
-
-        //==============================================================================================================
-        // Others
-        //==============================================================================================================
-
+        } else if (object instanceof jakarta.transaction.Status) {
+            return S(new Facades.Status(S(object)));
+        } else if (object instanceof jakarta.transaction.Synchronization) {
+            return S(new Facades.Synchronization(S(object)));
+        } else if (object instanceof jakarta.transaction.Transaction) {
+            return S(new Facades.Transaction(S(object)));
+        } else if (object instanceof jakarta.transaction.TransactionManager) {
+            return S(new Facades.TransactionManager(S(object)));
+        } else if (object instanceof jakarta.transaction.TransactionSynchronizationRegistry) {
+            return S(new Facades.TransactionSynchronizationRegistry(S(object)));
+        } else if (object instanceof jakarta.transaction.UserTransaction) {
+            return S(new Facades.UserTransaction(S(object)));
         }
 
         throw new UnsupportedOperationException("Unknown type: " + object.getClass().getName());
@@ -45,6 +37,26 @@ public interface TransactionShim extends Shim {
     static <S extends Exception> S of(Exception exception) {
         if (exception == null || exception instanceof TransactionShim) {
             return S(exception);
+        } else if (exception instanceof jakarta.transaction.HeuristicCommitException) {
+            return S(new Facades.HeuristicCommitException(S(exception)));
+        } else if (exception instanceof jakarta.transaction.HeuristicMixedException) {
+            return S(new Facades.HeuristicMixedException(S(exception)));
+        } else if (exception instanceof jakarta.transaction.HeuristicRollbackException) {
+            return S(new Facades.HeuristicRollbackException(S(exception)));
+        } else if (exception instanceof jakarta.transaction.InvalidTransactionException) {
+            return S(new Facades.InvalidTransactionException(S(exception)));
+        } else if (exception instanceof jakarta.transaction.NotSupportedException) {
+            return S(new Facades.NotSupportedException(S(exception)));
+        } else if (exception instanceof jakarta.transaction.RollbackException) {
+            return S(new Facades.RollbackException(S(exception)));
+        } else if (exception instanceof jakarta.transaction.SystemException) {
+            return S(new Facades.SystemException(S(exception)));
+        } else if (exception instanceof jakarta.transaction.TransactionalException) {
+            return S(new Facades.TransactionalException(S(exception)));
+        } else if (exception instanceof jakarta.transaction.TransactionRequiredException) {
+            return S(new Facades.TransactionRequiredException(S(exception)));
+        } else if (exception instanceof jakarta.transaction.TransactionRolledbackException) {
+            return S(new Facades.TransactionRolledbackException(S(exception)));
         }
 
         throw new UnsupportedOperationException("Unknown exception type: " + exception.getClass().getName());
@@ -65,22 +77,6 @@ public interface TransactionShim extends Shim {
     //==================================================================================================================
     // Private Helper Methods
     //==================================================================================================================
-
-    private static <S extends Enum<S>> S of(Enum<?> enumeration) {
-        if (enumeration == null || enumeration instanceof TransactionShim) {
-            return S(enumeration);
-        }
-
-        throw new UnsupportedOperationException("Unknown enumeration type: " + enumeration.getClass().getName());
-    }
-
-    private static <S extends Annotation> S of(Annotation annotation) {
-        if (annotation == null || annotation instanceof TransactionShim) {
-            return S(annotation);
-        }
-
-        throw new UnsupportedOperationException("Unknown annotation type: " + annotation.annotationType().getName());
-    }
 
     @SuppressWarnings("unchecked")
     private static <S> S S(Object object) {

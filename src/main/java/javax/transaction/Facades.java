@@ -18,6 +18,35 @@ interface Facades {
     // Annotations
     //==================================================================================================================
 
+    final class Transactional extends Shim.Delegate.Annotation<jakarta.transaction.Transactional> implements javax.transaction.Transactional, TransactionShim {
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        Transactional(jakarta.transaction.Transactional delegate) {
+            super(delegate);
+        }
+
+        //==============================================================================================================
+        // Delegated Methods
+        //==============================================================================================================
+
+        @Override
+        public TxType value() {
+            return TransactionShim.of(delegate.value());
+        }
+
+        @Override
+        public Class<?>[] rollbackOn() {
+            return delegate.rollbackOn();
+        }
+
+        @Override
+        public Class<?>[] dontRollbackOn() {
+            return delegate.dontRollbackOn();
+        }
+    }
+
     //==================================================================================================================
     // Classes
     //==================================================================================================================
@@ -1008,6 +1037,136 @@ interface Facades {
         @Override
         public void setStackTrace(StackTraceElement[] stackTrace) {
             delegate.setStackTrace(stackTrace);
+        }
+    }
+
+    final class TransactionSynchronizationRegistry extends Shim.Delegate<jakarta.transaction.TransactionSynchronizationRegistry> implements javax.transaction.TransactionSynchronizationRegistry {
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        TransactionSynchronizationRegistry(jakarta.transaction.TransactionSynchronizationRegistry delegate) {
+            super(delegate);
+        }
+
+        //==============================================================================================================
+        // Delegated Methods
+        //==============================================================================================================
+
+        @Override
+        public Object getTransactionKey() {
+            return delegate.getTransactionKey();
+        }
+
+        @Override
+        public void putResource(Object key, Object value) {
+            delegate.putResource(key, value);
+        }
+
+        @Override
+        public Object getResource(Object key) {
+            return delegate.getResource(key);
+        }
+
+        @Override
+        public void registerInterposedSynchronization(javax.transaction.Synchronization synchronization) {
+            delegate.registerInterposedSynchronization(synchronization);
+        }
+
+        @Override
+        public void registerInterposedSynchronization(jakarta.transaction.Synchronization synchronization) {
+            delegate.registerInterposedSynchronization(synchronization);
+        }
+
+        @Override
+        public int getTransactionStatus() {
+            return delegate.getTransactionStatus();
+        }
+
+        @Override
+        public void setRollbackOnly() {
+            delegate.setRollbackOnly();
+        }
+
+        @Override
+        public boolean getRollbackOnly() {
+            return delegate.getRollbackOnly();
+        }
+    }
+
+    final class UserTransaction extends Shim.Delegate<jakarta.transaction.UserTransaction> implements javax.transaction.UserTransaction {
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        UserTransaction(jakarta.transaction.UserTransaction delegate) {
+            super(delegate);
+        }
+
+        //==============================================================================================================
+        // Delegated Methods
+        //==============================================================================================================
+
+        @Override
+        public void begin() throws javax.transaction.NotSupportedException, javax.transaction.SystemException {
+            try {
+                delegate.begin();
+            } catch (jakarta.transaction.NotSupportedException exception) {
+                throw TransactionShim.<javax.transaction.NotSupportedException>of(exception);
+            } catch (jakarta.transaction.SystemException exception) {
+                throw TransactionShim.<javax.transaction.SystemException>of(exception);
+            }
+        }
+
+        @Override
+        public void commit() throws javax.transaction.RollbackException, javax.transaction.HeuristicMixedException, javax.transaction.HeuristicRollbackException, javax.transaction.SystemException {
+            try {
+                delegate.commit();
+            } catch (jakarta.transaction.RollbackException exception) {
+                throw TransactionShim.<javax.transaction.RollbackException>of(exception);
+            } catch (jakarta.transaction.HeuristicMixedException exception) {
+                throw TransactionShim.<javax.transaction.HeuristicMixedException>of(exception);
+            } catch (jakarta.transaction.HeuristicRollbackException exception) {
+                throw TransactionShim.<javax.transaction.HeuristicRollbackException>of(exception);
+            } catch (jakarta.transaction.SystemException exception) {
+                throw TransactionShim.<javax.transaction.SystemException>of(exception);
+            }
+        }
+
+        @Override
+        public void rollback() throws javax.transaction.SystemException {
+            try {
+                delegate.rollback();
+            } catch (jakarta.transaction.SystemException exception) {
+                throw TransactionShim.<javax.transaction.SystemException>of(exception);
+            }
+        }
+
+        @Override
+        public void setRollbackOnly() throws javax.transaction.SystemException {
+            try {
+                delegate.setRollbackOnly();
+            } catch (jakarta.transaction.SystemException exception) {
+                throw TransactionShim.<javax.transaction.SystemException>of(exception);
+            }
+        }
+
+        @Override
+        public int getStatus() throws javax.transaction.SystemException {
+            try {
+                return delegate.getStatus();
+            } catch (jakarta.transaction.SystemException exception) {
+                throw TransactionShim.<javax.transaction.SystemException>of(exception);
+            }
+        }
+
+        @Override
+        public void setTransactionTimeout(int seconds) throws javax.transaction.SystemException {
+            try {
+                delegate.setTransactionTimeout(seconds);
+            } catch (jakarta.transaction.SystemException exception) {
+                throw TransactionShim.<javax.transaction.SystemException>of(exception);
+            }
         }
     }
 }
